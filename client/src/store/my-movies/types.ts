@@ -3,9 +3,9 @@ export const SET_FILTER = 'SET_FILTER';
 export const DELETE_MOVIE = 'DELETE_MOVIE';
 export const UNDO_DELETE = 'UNDO_DELETE';
 
-enum Tag {
-  TO_WATCH = 'TO_WATCH',
-  WATCHED = 'WATCHED',
+export enum Tag {
+  TO_WATCH = 0,
+  WATCHED = 1,
 }
 
 export interface MyMovie {
@@ -21,18 +21,23 @@ export interface MyMoviesState {
   myMovies: MyMovie[]
 };
 
-export interface SetTagAction {
+interface SetTagAction {
   type: typeof SET_TAG
-  payload: Tag
+  movie: MyMovie 
+  tag: Tag
 };
 
-export interface SetFilterAction {
+interface SetFilterAction {
   type: typeof SET_FILTER
-  payload: string
+  filter: string
 };
 
-export interface DeleteMovieAction {
+interface DeleteMovieAction {
   type: typeof DELETE_MOVIE
+  movie: MyMovie
 };
 
-//export interface UndoDeleteAction to be implemented
+//interface UndoDeleteAction to be implemented
+
+export type MyMoviesActionTypes = 
+  SetTagAction | SetFilterAction | DeleteMovieAction;
