@@ -1,5 +1,4 @@
-import { SET_TAG, SET_FILTER, DELETE_MOVIE, UNDO_DELETE, Tag, MyMoviesState,    
-  MyMoviesActionTypes } from './types';
+import { SET_TAG, SET_FILTER, CREATE_TAG, DELETE_MOVIE, ERROR, UNDO_DELETE, Tag, MyMoviesState, MyMoviesActionTypes } from './types';
 
   
 export const testState: MyMoviesState = {
@@ -58,6 +57,14 @@ export const myMoviesReducer = (
         },
         myMovies: state.myMovies
       };
+    case CREATE_TAG:
+      return {
+        filter: {
+          appliedFilter: state.filter.appliedFilter,
+          filterSet: [...state.filter.filterSet, action.tag]
+        },
+        myMovies: state.myMovies
+      };
     case DELETE_MOVIE:
       return {
         filter: state.filter,
@@ -65,6 +72,9 @@ export const myMoviesReducer = (
           return movie.movie_id !== action.movie.movie_id;
         })
       };
+    case ERROR:
+      // Do something different?
+      return state;
     default:
       return state;
   }

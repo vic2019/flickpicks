@@ -1,5 +1,5 @@
 import { myMoviesReducer } from './reducers';
-import { Tag, DELETE_MOVIE, SET_TAG, SET_FILTER } from './types';
+import { Tag, SET_TAG, SET_FILTER, CREATE_TAG, DELETE_MOVIE, ERROR } from './types';
 import { testState } from './reducers';
 
 const { filter, myMovies } = testState;
@@ -61,6 +61,22 @@ describe('myMoviesReducer', () => {
     expect(myMoviesReducer(testState, action)).toEqual(expectedState);
   });
 
+  it('handels CREATE_TAG', () => {
+    const action ={
+      type: CREATE_TAG,
+      tag: 'sci-fi'
+    };
+    const expectedState = {
+      filter: {
+        appliedFilter: filter.appliedFilter,
+        filterSet: [...filter.filterSet, action.tag]
+      },
+      myMovies
+    };
+
+    expect(myMoviesReducer(testState, action)).toEqual(expectedState);
+  });
+
   it('handles DELETE_MOVIE', () => {
     const action = {
       type: DELETE_MOVIE,
@@ -70,6 +86,16 @@ describe('myMoviesReducer', () => {
       filter,
       myMovies: myMovies.slice(1, myMovies.length)
     };
+
+    expect(myMoviesReducer(testState, action)).toEqual(expectedState);
+  });
+
+  it('handels ERROR', () => {
+    const action ={
+      type: ERROR,
+      msg: ''
+    };
+    const expectedState = testState;
 
     expect(myMoviesReducer(testState, action)).toEqual(expectedState);
   });

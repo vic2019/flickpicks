@@ -1,7 +1,10 @@
 export const SET_TAG = 'SET_TAG';
 export const SET_FILTER = 'SET_FILTER';
+export const CREATE_TAG = 'CREATE_TAG';
+export const DELETE_TAG = 'DELETE_TAG';
 export const DELETE_MOVIE = 'DELETE_MOVIE';
 export const UNDO_DELETE = 'UNDO_DELETE';
+export const ERROR = 'ERROR';
 
 export enum Tag {
   TO_WATCH = 0,
@@ -36,12 +39,22 @@ interface SetFilterAction {
   filter: (Tag | string)[]
 };
 
+interface ModifyTagAction {
+  type: typeof CREATE_TAG
+  tag: string
+}
+
 interface DeleteMovieAction {
   type: typeof DELETE_MOVIE
   movie: MyMovie
 };
 
+interface ErrorAction {
+  type: typeof ERROR
+  msg: string | number
+}
+
 //interface UndoDeleteAction to be implemented
 
 export type MyMoviesActionTypes = 
-  SetTagAction | SetFilterAction | DeleteMovieAction;
+  SetTagAction | SetFilterAction | ModifyTagAction | DeleteMovieAction | ErrorAction;
