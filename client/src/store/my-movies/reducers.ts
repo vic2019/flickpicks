@@ -1,8 +1,12 @@
-import { SET_TAG, SET_FILTER, DELETE_MOVIE, UNDO_DELETE, Tag, MyMovie, 
-  MyMoviesState, MyMoviesActionTypes } from './types';
+import { SET_TAG, SET_FILTER, DELETE_MOVIE, UNDO_DELETE, Tag, MyMoviesState,    
+  MyMoviesActionTypes } from './types';
 
   
 export const testState: MyMoviesState = {
+  filter: {
+    appliedFilter: [Tag.TO_WATCH, Tag.WATCHED],
+    filterSet: [Tag.TO_WATCH, Tag.WATCHED, 'comedy']
+  },
   myMovies: [
     {
       movie_id: '0',
@@ -33,8 +37,30 @@ export const myMoviesReducer = (
   state = testState, action: MyMoviesActionTypes
 ): MyMoviesState => {
   switch (action.type) {
+    case SET_TAG:
+      return {
+        filter: state.filter,
+        myMovies: state.myMovies.map(movie => {
+          if (movie.movie_id !== action.movie.movie_id) return movie;
+          
+          const { movie_id, tMDb_id, title, image, dateAdded } = action.movie;return { 
+            tag: action.tag, 
+            movie_id, tMDb_id, title, image, dateAdded 
+          };
+        })
+      };
+    case SET_FILTER: 
+      return {
+        filter: {
+          appliedFilter: action.filter[0] === 'all'? 
+            state.filter.filterSet: action.filter,
+          filterSet: state.filter.filterSet
+        },
+        myMovies: state.myMovies
+      };
     case DELETE_MOVIE:
       return {
+        filter: state.filter,
         myMovies: state.myMovies.filter(movie => {
           return movie.movie_id !== action.movie.movie_id;
         })

@@ -18,6 +18,10 @@ export interface MyMovie {
 }
 
 export interface MyMoviesState {
+  filter: {   // What is the type of Set in typescript?
+    appliedFilter: (Tag | string)[]
+    filterSet: (Tag | string)[]
+  }
   myMovies: MyMovie[]
 };
 
@@ -29,7 +33,7 @@ interface SetTagAction {
 
 interface SetFilterAction {
   type: typeof SET_FILTER
-  filter: string
+  filter: (Tag | string)[]
 };
 
 interface DeleteMovieAction {
