@@ -2,7 +2,7 @@ import { SET_TAG, SET_FILTER, DELETE_MOVIE, UNDO_DELETE, Tag, MyMovie,
   MyMoviesState, MyMoviesActionTypes } from './types';
 
   
-const initialTestState: MyMoviesState = {
+export const testState: MyMoviesState = {
   myMovies: [
     {
       movie_id: '0',
@@ -30,7 +30,7 @@ const initialTestState: MyMoviesState = {
 };
 
 export const myMoviesReducer = (
-  state = initialTestState, action: MyMoviesActionTypes
+  state = testState, action: MyMoviesActionTypes
 ): MyMoviesState => {
   switch (action.type) {
     case DELETE_MOVIE:
