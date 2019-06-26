@@ -15,6 +15,11 @@ export enum Tag {
   WATCHED = 1,
 }
 
+export interface Filter {
+  appliedFilter: (Tag | string)[]
+  filterSet: (Tag | string)[]
+}
+
 export interface MyMovie {
   id: string
   tMDb_id: string
@@ -25,15 +30,12 @@ export interface MyMovie {
   dateAdded: string
 }
 
-interface MyMovies {
+export interface MyMovies {
   [key: string]: MyMovie
 }
 
 export interface MyMoviesState {
-  filter: {   // Note to self: What's the type of Set in typescript?
-    appliedFilter: (Tag | string)[]
-    filterSet: (Tag | string)[]
-  }
+  filter: Filter
   myMovies: MyMovies
 };
 

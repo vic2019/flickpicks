@@ -1,4 +1,4 @@
-import { myMoviesReducer } from './reducers';
+import { myMoviesReducer, filterReducer } from './reducers';
 import { testState } from './reducers';
 import {
   Tag,
@@ -16,62 +16,79 @@ import {
 
 const { filter, myMovies } = testState;
 
+
 describe('myMoviesReducer', () => {
   it('returns the initial state', () => {
-    expect(myMoviesReducer(testState, {})).toEqual(testState);
+    expect(myMoviesReducer(undefined, {})).toEqual(myMovies);
   })
 
   it('handels SET_TAGS', () => {
-    const action ={
+    const movie = testState.myMovies.abc0;
+    const action = {
       type: SET_TAGS,
-      movie: testState.myMovies.abc0,
+      movie,
       tag: Tag.WATCHED,
       customTags: ['comedy']
     };
-    const { id, tMDb_id, title, image, dateAdded } = action.movie;
-    const expectedState = {
-      filter,
-      myMovies: Object.assign({}, myMovies, {
-        abc0: {
-          tag: action.tag,
-          customTags: action.customTags,
-          id, tMDb_id, title, image, dateAdded
-        }
-      })
-    };
+    const { id, tMDb_id, title, image, dateAdded } = movie;
+    const expectedState = Object.assign({}, myMovies, {
+      abc0: {
+        tag: action.tag,
+        customTags: action.customTags,
+        id, tMDb_id, title, image, dateAdded
+      }
+    });
 
-    expect(myMoviesReducer(testState, action)).toEqual(expectedState);
+    expect(myMoviesReducer(myMovies, action)).toEqual(expectedState);
   });
-  
+
+  it('handles DELETE_MOVIE', () => {
+    const action = {
+      type: DELETE_MOVIE,
+      movie: myMovies.abc0
+    };
+    const expectedState = Object.assign({}, myMovies);
+    delete expectedState[action.movie.id];
+
+    expect(myMoviesReducer(myMovies, action)).toEqual(expectedState);
+  });
+
+  it('handels ERROR_INVALID_TAG', () => {
+    const action ={
+      type: ERROR_INVALID_TAG,
+      msg: ''
+    };
+    const expectedState = myMovies;
+    
+    expect(myMoviesReducer(myMovies, action)).toEqual(expectedState);
+  });
+});
+
+
+describe('filterReducer', () => {
   it('handels SET_FILTER', () => {
     const action ={
       type: SET_FILTER,
       filter: [Tag.TO_WATCH, 'comedy']
     };
     const expectedState = {
-      filter: {
-        appliedFilter: action.filter,
-        filterSet: filter.filterSet
-      },
-      myMovies
+      appliedFilter: action.filter,
+      filterSet: filter.filterSet
     };
 
-    expect(myMoviesReducer(testState, action)).toEqual(expectedState);
+    expect(filterReducer(filter, action)).toEqual(expectedState);
   });
-  
+
   it('handels SET_FILTER_TO_ALL', () => {
     const action ={
       type: SET_FILTER_TO_ALL
     };
     const expectedState = {
-      filter: {
-        appliedFilter: filter.filterSet,
-        filterSet: filter.filterSet
-      },
-      myMovies
+      appliedFilter: filter.filterSet,
+      filterSet: filter.filterSet
     };
 
-    expect(myMoviesReducer(testState, action)).toEqual(expectedState);
+    expect(filterReducer(filter, action)).toEqual(expectedState);
   });
 
   it('handels CREATE_TAG', () => {
@@ -80,54 +97,34 @@ describe('myMoviesReducer', () => {
       tag: 'sci-fi'
     };
     const expectedState = {
-      filter: {
-        appliedFilter: filter.appliedFilter,
-        filterSet: [...filter.filterSet, action.tag]
-      },
-      myMovies
+      appliedFilter: filter.appliedFilter,
+      filterSet: [...filter.filterSet, action.tag]
     };
 
-    expect(myMoviesReducer(testState, action)).toEqual(expectedState);
+    expect(filterReducer(filter, action)).toEqual(expectedState);
   });
-  
+
+  it('handels ERROR_INVALID_TAG', () => {
+    const tag = 'comedy';
+    const action ={
+      type: ERROR_INVALID_TAG,
+      msg: `The tag "${tag}" already exists.`
+    };
+    const expectedState = filter;
+
+    expect(filterReducer(filter, action)).toEqual(expectedState);
+  });
+
   it('handels DELETE_TAG', () => {
     const action ={
       type: DELETE_TAG,
       tag: 'comedy'
     };
     const expectedState = {
-      filter: {
-        appliedFilter: filter.appliedFilter,
-        filterSet: [Tag.TO_WATCH, Tag.WATCHED]
-      },
-      myMovies
+      appliedFilter: filter.appliedFilter,
+      filterSet: [Tag.TO_WATCH, Tag.WATCHED]
     };
 
-    expect(myMoviesReducer(testState, action)).toEqual(expectedState);
-  });
-
-  it('handles DELETE_MOVIE', () => {
-    const action = {
-      type: DELETE_MOVIE,
-      movie: testState.myMovies.abc0
-    };
-    const updatedMyMovies = Object.assign({}, myMovies);
-    delete updatedMyMovies[action.movie.id];
-    const expectedState = {
-      filter,
-      myMovies: updatedMyMovies
-    };
-
-    expect(myMoviesReducer(testState, action)).toEqual(expectedState);
-  });
-
-  it('handels ERROR_INVALID_TAG', () => {
-    const action ={
-      type: ERROR_INVALID_TAG,
-      msg: ''
-    };
-    const expectedState = testState;
-
-    expect(myMoviesReducer(testState, action)).toEqual(expectedState);
+    expect(filterReducer(filter, action)).toEqual(expectedState);
   });
 });

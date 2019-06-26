@@ -1,19 +1,22 @@
 import {
   Tag,
   MyMovie,
+  MyMovies,
   MyMoviesState,
+  Filter,
   MyMoviesActionTypes,
   SET_TAGS,
   CREATE_TAG, 
   DELETE_TAG, 
-  ERROR_INVALID_TAG,
   SET_FILTER,
   SET_FILTER_TO_ALL,
   DELETE_MOVIE,
+  ERROR_INVALID_TAG,
   UNDO_DELETE,
   ERROR_UNDO_DELETE,
   ERROR_NETWORK
 } from './types';
+import { bindActionCreators } from 'redux';
 
   
 export const testState: MyMoviesState = {
@@ -54,62 +57,53 @@ export const testState: MyMoviesState = {
 
 
 export const myMoviesReducer = (
-  state = testState, action: MyMoviesActionTypes
-): MyMoviesState => {
+  state = testState.myMovies, action: MyMoviesActionTypes
+): MyMovies => {
   switch (action.type) {
     case SET_TAGS:
       const updatedMovie = Object.assign({}, action.movie, {
         tag: action.tag,
         customTags: action.customTags
       });
-      return {
-        filter: state.filter,
-        myMovies: Object.assign({}, state.myMovies, {
-          [action.movie.id]: updatedMovie
-        })
-      };
-    case SET_FILTER: 
-      return {
-        filter: {
-          appliedFilter: action.filter,
-          filterSet: state.filter.filterSet
-        },
-        myMovies: state.myMovies
-      };
-    case SET_FILTER_TO_ALL: 
-      return {
-        filter: {
-          appliedFilter: state.filter.filterSet,
-          filterSet: state.filter.filterSet
-        },
-        myMovies: state.myMovies
-      };
-    case CREATE_TAG:
-      return {
-        filter: {
-          appliedFilter: state.filter.appliedFilter,
-          filterSet: [...state.filter.filterSet, action.tag]
-        },
-        myMovies: state.myMovies
-      };
-    case DELETE_TAG:
-      const { appliedFilter, filterSet } = state.filter;
-      return {
-        filter: {
-          appliedFilter: appliedFilter,
-          filterSet: filterSet.filter(tag => tag !== action.tag)
-        },
-        myMovies: state.myMovies
-      };
+      return Object.assign({}, state, {
+        [action.movie.id]: updatedMovie
+      });
     case DELETE_MOVIE:
-      const updatedMyMovies = Object.assign({}, state.myMovies);
-      delete updatedMyMovies[action.movie.id];
+      const newState = Object.assign({}, state);
+      delete newState[action.movie.id];
+      return newState;
+    case ERROR_INVALID_TAG:
+      console.log(action.msg); //to be implemented
+      return state;
+    default:
+      return state;
+  }
+};
+
+
+export const filterReducer = (
+  state = testState.filter, action: MyMoviesActionTypes
+): Filter => {
+  switch(action.type) {
+    case SET_FILTER: 
+      return Object.assign({}, state, {
+        appliedFilter: action.filter
+      });
+    case SET_FILTER_TO_ALL: 
+      return Object.assign({}, state, {
+        appliedFilter: state.filterSet
+      });
+    case CREATE_TAG:
+      return Object.assign({}, state, {
+        filterSet: [...state.filterSet, action.tag]
+      });
+    case DELETE_TAG:
       return {
-        filter: state.filter,
-        myMovies: updatedMyMovies
+        appliedFilter: state.appliedFilter,
+        filterSet: state.filterSet.filter(tag => tag !== action.tag)
       };
     case ERROR_INVALID_TAG:
-      console.log(action.msg);
+      console.log(action.msg); //to be implemented
       return state;
     default:
       return state;

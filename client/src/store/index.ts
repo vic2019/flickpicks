@@ -1,9 +1,10 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 
-import { myMoviesReducer } from './my-movies/reducers';
+import { filterReducer, myMoviesReducer } from './my-movies/reducers';
 
-const rootReducer = combineReducers({
+export const rootReducer = combineReducers({
+  filter: filterReducer,
   myMovies: myMoviesReducer
 });
 
