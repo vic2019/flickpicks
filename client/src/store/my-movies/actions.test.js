@@ -22,7 +22,7 @@ const mockStore = configureMockStore(middlewares);
 
 describe('setTags', () => {
   it('creates SET_TAG after making http call', () => {
-    const movie = testState.myMovies[0];
+    const movie = testState.myMovies.abc0;
     const tag = Tag.WATCHED;
     const customTags = ['comedy'];
     const expectedAction = {
@@ -41,7 +41,7 @@ describe('setTags', () => {
 
 describe('setTags', () => {
   it('creates ERROR_INVALID_TAG when selecting an invalid custom tag', () => {
-    const movie = testState.myMovies[0];
+    const movie = testState.myMovies.abc0;
     const tag = Tag.WATCHED;
     const customTags = [''];
     const expectedAction = {
@@ -125,12 +125,12 @@ describe('deleteTag', () => {
 
 describe('deleteMovie', () => {
   it('creates DELETE_MOVIE after making http call', () => {
-    const movie = testState.myMovies[0];
+    const movie = testState.myMovies.abc0;
     const expectedAction = {
       type: DELETE_MOVIE,
       movie
     };
-    const store = mockStore({ myMovies: [] });
+    const store = mockStore(testState);
 
     return store.dispatch(actions.deleteMovie(movie)).then(() => {
       expect(store.getActions()[0]).toEqual(expectedAction);

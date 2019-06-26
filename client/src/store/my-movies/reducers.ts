@@ -21,25 +21,27 @@ export const testState: MyMoviesState = {
     appliedFilter: [Tag.TO_WATCH, Tag.WATCHED],
     filterSet: [Tag.TO_WATCH, Tag.WATCHED, 'comedy']
   },
-  myMovies: [
-    {
-      movie_id: '0',
+  myMovies: {
+    abc0: {
+      id: 'abc0',
       tMDb_id: 'a0',
       title: 'Wizard of Oz',
       image: 'wizardofoz',
       tag: Tag.TO_WATCH,
       customTags: [],
       dateAdded: '2019-06-20'
-    }, {
-      movie_id: '1',
+    }, 
+    abc1: {
+      id: 'abc1',
       tMDb_id: 'a1',
       title: 'Star Wars',
       image: 'starwars',
       tag: Tag.WATCHED,
       customTags: ['comedy'],
       dateAdded: '2019-06-21'
-    }, {
-      movie_id: '2',
+    }, 
+    abc2: {
+      id: 'abc2',
       tMDb_id: 'a2',
       title: 'October Sky',
       image: 'octobersky',
@@ -47,7 +49,7 @@ export const testState: MyMoviesState = {
       customTags: ['comedy'],
       dateAdded: '2019-06-22'
     }
-  ]
+  }
 };
 
 
@@ -56,18 +58,14 @@ export const myMoviesReducer = (
 ): MyMoviesState => {
   switch (action.type) {
     case SET_TAGS:
+      const updatedMovie = Object.assign({}, action.movie, {
+        tag: action.tag,
+        customTags: action.customTags
+      });
       return {
         filter: state.filter,
-        myMovies: state.myMovies.map(movie => {
-          if (movie.movie_id !== action.movie.movie_id) return movie;
-          
-          const { movie_id, tMDb_id, title, image, dateAdded } = action.movie;
-          
-          return { 
-            tag: action.tag,
-            customTags: action.customTags,
-            movie_id, tMDb_id, title, image, dateAdded 
-          };
+        myMovies: Object.assign({}, state.myMovies, {
+          [action.movie.id]: updatedMovie
         })
       };
     case SET_FILTER: 
@@ -104,11 +102,11 @@ export const myMoviesReducer = (
         myMovies: state.myMovies
       };
     case DELETE_MOVIE:
+      const updatedMyMovies = Object.assign({}, state.myMovies);
+      delete updatedMyMovies[action.movie.id];
       return {
         filter: state.filter,
-        myMovies: state.myMovies.filter(movie => {
-          return movie.movie_id !== action.movie.movie_id;
-        })
+        myMovies: updatedMyMovies
       };
     case ERROR_INVALID_TAG:
       console.log(action.msg);

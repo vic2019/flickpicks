@@ -24,20 +24,20 @@ describe('myMoviesReducer', () => {
   it('handels SET_TAGS', () => {
     const action ={
       type: SET_TAGS,
-      movie: testState.myMovies[0],
+      movie: testState.myMovies.abc0,
       tag: Tag.WATCHED,
       customTags: ['comedy']
     };
-    const { movie_id, tMDb_id, title, image, dateAdded } = action.movie;
+    const { id, tMDb_id, title, image, dateAdded } = action.movie;
     const expectedState = {
       filter,
-      myMovies: [{
-        tag: action.tag,
-        customTags: action.customTags,
-        movie_id, tMDb_id, title, image, dateAdded
-      },
-      ...myMovies.slice(1, myMovies.length)
-      ]
+      myMovies: Object.assign({}, myMovies, {
+        abc0: {
+          tag: action.tag,
+          customTags: action.customTags,
+          id, tMDb_id, title, image, dateAdded
+        }
+      })
     };
 
     expect(myMoviesReducer(testState, action)).toEqual(expectedState);
@@ -109,11 +109,13 @@ describe('myMoviesReducer', () => {
   it('handles DELETE_MOVIE', () => {
     const action = {
       type: DELETE_MOVIE,
-      movie: testState.myMovies[0]
+      movie: testState.myMovies.abc0
     };
+    const updatedMyMovies = Object.assign({}, myMovies);
+    delete updatedMyMovies[action.movie.id];
     const expectedState = {
       filter,
-      myMovies: myMovies.slice(1, myMovies.length)
+      myMovies: updatedMyMovies
     };
 
     expect(myMoviesReducer(testState, action)).toEqual(expectedState);
