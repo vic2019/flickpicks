@@ -1,6 +1,18 @@
 import { myMoviesReducer } from './reducers';
-import { Tag, SET_TAG, SET_FILTER, CREATE_TAG, DELETE_MOVIE, ERROR } from './types';
 import { testState } from './reducers';
+import {
+  Tag,
+  SET_TAGS,
+  CREATE_TAG, 
+  DELETE_TAG, 
+  ERROR_INVALID_TAG,
+  SET_FILTER, 
+  DELETE_MOVIE,
+  UNDO_DELETE,
+  ERROR_UNDO_DELETE,
+  ERROR_NETWORK,
+  SET_FILTER_TO_ALL
+} from './types';
 
 const { filter, myMovies } = testState;
 
@@ -9,17 +21,19 @@ describe('myMoviesReducer', () => {
     expect(myMoviesReducer(testState, {})).toEqual(testState);
   })
 
-  it('handels SET_TAG', () => {
+  it('handels SET_TAGS', () => {
     const action ={
-      type: SET_TAG,
+      type: SET_TAGS,
       movie: testState.myMovies[0],
-      tag: Tag.WATCHED
+      tag: Tag.WATCHED,
+      customTags: ['comedy']
     };
     const { movie_id, tMDb_id, title, image, dateAdded } = action.movie;
     const expectedState = {
       filter,
       myMovies: [{
         tag: action.tag,
+        customTags: action.customTags,
         movie_id, tMDb_id, title, image, dateAdded
       },
       ...myMovies.slice(1, myMovies.length)
@@ -45,10 +59,9 @@ describe('myMoviesReducer', () => {
     expect(myMoviesReducer(testState, action)).toEqual(expectedState);
   });
   
-  it('handels SET_FILTER when filter is "all"', () => {
+  it('handels SET_FILTER_TO_ALL', () => {
     const action ={
-      type: SET_FILTER,
-      filter: ['all']
+      type: SET_FILTER_TO_ALL
     };
     const expectedState = {
       filter: {
@@ -76,6 +89,22 @@ describe('myMoviesReducer', () => {
 
     expect(myMoviesReducer(testState, action)).toEqual(expectedState);
   });
+  
+  it('handels DELETE_TAG', () => {
+    const action ={
+      type: DELETE_TAG,
+      tag: 'comedy'
+    };
+    const expectedState = {
+      filter: {
+        appliedFilter: filter.appliedFilter,
+        filterSet: [Tag.TO_WATCH, Tag.WATCHED]
+      },
+      myMovies
+    };
+
+    expect(myMoviesReducer(testState, action)).toEqual(expectedState);
+  });
 
   it('handles DELETE_MOVIE', () => {
     const action = {
@@ -90,9 +119,9 @@ describe('myMoviesReducer', () => {
     expect(myMoviesReducer(testState, action)).toEqual(expectedState);
   });
 
-  it('handels ERROR', () => {
+  it('handels ERROR_INVALID_TAG', () => {
     const action ={
-      type: ERROR,
+      type: ERROR_INVALID_TAG,
       msg: ''
     };
     const expectedState = testState;
