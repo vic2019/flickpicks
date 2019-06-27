@@ -1,8 +1,8 @@
 import {
   Tag,
-  MyMovie,
+  Movie,
+  MovieSet,
   MyMovies,
-  MyMoviesState,
   Filter,
   MyMoviesActionTypes,
   SET_TAGS,
@@ -16,15 +16,15 @@ import {
   ERROR_UNDO_DELETE,
   ERROR_NETWORK
 } from './types';
-import { bindActionCreators } from 'redux';
 
-  
-export const testState: MyMoviesState = {
+
+export const testState: MyMovies = {
   filter: {
-    appliedFilter: [Tag.TO_WATCH, Tag.WATCHED],
+    appliedFilter: [Tag.TO_WATCH],
     filterSet: [Tag.TO_WATCH, Tag.WATCHED, 'comedy']
   },
-  myMovies: {
+  movieSet: {
+    order: ['abc0', 'abc1', 'abc2'],
     abc0: {
       id: 'abc0',
       tMDb_id: 'a0',
@@ -56,9 +56,9 @@ export const testState: MyMoviesState = {
 };
 
 
-export const myMoviesReducer = (
-  state = testState.myMovies, action: MyMoviesActionTypes
-): MyMovies => {
+export const movieSetReducer = (
+  state = testState.movieSet, action: MyMoviesActionTypes
+): MovieSet => {
   switch (action.type) {
     case SET_TAGS:
       const updatedMovie = Object.assign({}, action.movie, {
@@ -69,8 +69,10 @@ export const myMoviesReducer = (
         [action.movie.id]: updatedMovie
       });
     case DELETE_MOVIE:
-      const newState = Object.assign({}, state);
-      delete newState[action.movie.id];
+      const newState = Object.assign({}, state, {
+        order: state.order.filter(id => id !== action.movie.id)
+      });
+      delete newState[action.movie.id];      
       return newState;
     case ERROR_INVALID_TAG:
       console.log(action.msg); //to be implemented
@@ -89,7 +91,7 @@ export const filterReducer = (
       return Object.assign({}, state, {
         appliedFilter: action.filter
       });
-    case SET_FILTER_TO_ALL: 
+    case SET_FILTER_TO_ALL:
       return Object.assign({}, state, {
         appliedFilter: state.filterSet
       });
@@ -100,7 +102,7 @@ export const filterReducer = (
     case DELETE_TAG:
       return {
         appliedFilter: state.appliedFilter,
-        filterSet: state.filterSet.filter(tag => tag !== action.tag)
+        filterSet: state.filterSet.filter(tag => tag !== action.tag),
       };
     case ERROR_INVALID_TAG:
       console.log(action.msg); //to be implemented

@@ -1,12 +1,11 @@
 export const SET_TAGS = 'SET_TAG';
 export const CREATE_TAG = 'CREATE_TAG';
 export const DELETE_TAG = 'DELETE_TAG';
-export const ERROR_INVALID_TAG = 'ERROR_INVALID_TAG';
-
 export const SET_FILTER = 'SET_FILTER';
 export const SET_FILTER_TO_ALL = 'SET_FILTER_TO_ALL';
 export const DELETE_MOVIE = 'DELETE_MOVIE';
 export const UNDO_DELETE = 'UNDO_DELETE';
+export const ERROR_INVALID_TAG = 'ERROR_INVALID_TAG';
 export const ERROR_UNDO_DELETE = 'ERROR_UNDO_DELETE';
 export const ERROR_NETWORK = 'ERROR_NETWORK';
 
@@ -20,7 +19,7 @@ export interface Filter {
   filterSet: (Tag | string)[]
 }
 
-export interface MyMovie {
+export interface Movie {
   id: string
   tMDb_id: string
   title: string
@@ -30,18 +29,19 @@ export interface MyMovie {
   dateAdded: string
 }
 
-export interface MyMovies {
-  [key: string]: MyMovie
+export interface MovieSet {
+  order: string[]
+  [key: string]: any
 }
 
-export interface MyMoviesState {
+export interface MyMovies {
   filter: Filter
-  myMovies: MyMovies
-};
+  movieSet: MovieSet
+}
 
 interface SetTagsAction {
   type: typeof SET_TAGS
-  movie: MyMovie 
+  movie: Movie 
   tag: Tag
   customTags: string[]
 };
@@ -62,7 +62,7 @@ interface SetFilterToAllAction {
 
 interface DeleteMovieAction {
   type: typeof DELETE_MOVIE
-  movie: MyMovie
+  movie: Movie
 };
 
 interface UndoDeleteAction {

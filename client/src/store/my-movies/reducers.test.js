@@ -1,4 +1,4 @@
-import { myMoviesReducer, filterReducer } from './reducers';
+import { movieSetReducer, filterReducer } from './reducers';
 import { testState } from './reducers';
 import {
   Tag,
@@ -14,16 +14,16 @@ import {
   SET_FILTER_TO_ALL
 } from './types';
 
-const { filter, myMovies } = testState;
+const { filter, movieSet } = testState;
 
 
-describe('myMoviesReducer', () => {
+describe('movieSetReducer', () => {
   it('returns the initial state', () => {
-    expect(myMoviesReducer(undefined, {})).toEqual(myMovies);
+    expect(movieSetReducer(undefined, {})).toEqual(movieSet);
   })
 
   it('handels SET_TAGS', () => {
-    const movie = testState.myMovies.abc0;
+    const movie = testState.movieSet.abc0;
     const action = {
       type: SET_TAGS,
       movie,
@@ -31,7 +31,7 @@ describe('myMoviesReducer', () => {
       customTags: ['comedy']
     };
     const { id, tMDb_id, title, image, dateAdded } = movie;
-    const expectedState = Object.assign({}, myMovies, {
+    const expectedState = Object.assign({}, movieSet, {
       abc0: {
         tag: action.tag,
         customTags: action.customTags,
@@ -39,18 +39,19 @@ describe('myMoviesReducer', () => {
       }
     });
 
-    expect(myMoviesReducer(myMovies, action)).toEqual(expectedState);
+    expect(movieSetReducer(movieSet, action)).toEqual(expectedState);
   });
 
   it('handles DELETE_MOVIE', () => {
     const action = {
       type: DELETE_MOVIE,
-      movie: myMovies.abc0
+      movie: movieSet.abc0
     };
-    const expectedState = Object.assign({}, myMovies);
+    const expectedState = Object.assign({}, movieSet);
     delete expectedState[action.movie.id];
+    expectedState.order = ['abc1', 'abc2'];
 
-    expect(myMoviesReducer(myMovies, action)).toEqual(expectedState);
+    expect(movieSetReducer(movieSet, action)).toEqual(expectedState);
   });
 
   it('handels ERROR_INVALID_TAG', () => {
@@ -58,9 +59,9 @@ describe('myMoviesReducer', () => {
       type: ERROR_INVALID_TAG,
       msg: ''
     };
-    const expectedState = myMovies;
-    
-    expect(myMoviesReducer(myMovies, action)).toEqual(expectedState);
+    const expectedState = movieSet;
+
+    expect(movieSetReducer(movieSet, action)).toEqual(expectedState);
   });
 });
 

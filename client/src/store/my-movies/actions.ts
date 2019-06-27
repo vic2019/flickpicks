@@ -3,9 +3,9 @@ import axios from 'axios';
 
 import {
   Tag,
-  MyMovie,
+  Movie,
   Filter,
-  MyMovies,
+  MovieSet,
   MyMoviesActionTypes,
   SET_TAGS,
   CREATE_TAG, 
@@ -21,8 +21,8 @@ import {
 
 
 export const setTags = (
-  movie: MyMovie, tag: Tag, customTags: string[]
-): ThunkAction<void, MyMovies, null, MyMoviesActionTypes> => async (
+  movie: Movie, tag: Tag, customTags: string[]
+): ThunkAction<void, MovieSet, null, MyMoviesActionTypes> => async (
   dispatch
 ) => {
   
@@ -46,7 +46,7 @@ export const setTags = (
   //   }
   // }
 
-  await axios.get('https://redux.js.org/')
+  await new Promise(resolve => resolve())
     .then(_ => void dispatch({
       type: SET_TAGS,
       movie,
@@ -72,7 +72,7 @@ export const createTag = (
     }    
   }
   
-  await axios.get('https://redux.js.org/')
+  await new Promise(resolve => resolve())
   .then(_ => void dispatch({
     type: CREATE_TAG,
     tag
@@ -86,7 +86,7 @@ export const deleteTag = (
 ): ThunkAction<void, Filter, null, MyMoviesActionTypes> => async (
   dispatch
 ) => {
-  await axios.get('https://redux.js.org/')
+  await new Promise(resolve => resolve())
   .then(_ => void dispatch({
     type: DELETE_TAG,
     tag
@@ -113,11 +113,11 @@ export const setFilterToAll = (): MyMoviesActionTypes => {
 
 
 export const deleteMovie = (
-  movie: MyMovie
-): ThunkAction<void, MyMovies, null, MyMoviesActionTypes> => async (
+  movie: Movie
+): ThunkAction<void, MovieSet, null, MyMoviesActionTypes> => async (
   dispatch
 ) => {
-  await axios.get('https://redux.js.org/')
+  await new Promise(resolve => resolve())
     .then(_ => void dispatch({
       type: DELETE_MOVIE,
       movie

@@ -17,14 +17,14 @@ import {
   SET_FILTER_TO_ALL
 } from './types';
 
-const { filter, myMovies } = testState;
+const { filter, movieSet } = testState;
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 
 describe('setTags', () => {
   it('creates SET_TAG after making http call', () => {
-    const movie = myMovies.abc0;
+    const movie = movieSet.abc0;
     const tag = Tag.WATCHED;
     const customTags = ['comedy'];
     const expectedAction = {
@@ -33,7 +33,7 @@ describe('setTags', () => {
       tag,
       customTags
     }
-    const store = mockStore(myMovies);
+    const store = mockStore(movieSet);
 
     return store.dispatch(actions.setTags(movie, tag, customTags)).then(() => {
       expect(store.getActions()[0]).toEqual(expectedAction);
@@ -110,12 +110,12 @@ describe('deleteTag', () => {
 
 describe('deleteMovie', () => {
   it('creates DELETE_MOVIE after making http call', () => {
-    const movie = testState.myMovies.abc0;
+    const movie = testState.movieSet.abc0;
     const expectedAction = {
       type: DELETE_MOVIE,
       movie
     };
-    const store = mockStore(myMovies);
+    const store = mockStore(movieSet);
 
     return store.dispatch(actions.deleteMovie(movie)).then(() => {
       expect(store.getActions()[0]).toEqual(expectedAction);
