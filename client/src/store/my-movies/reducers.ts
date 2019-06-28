@@ -1,6 +1,5 @@
 import {
   Tag,
-  Movie,
   MovieSet,
   MyMovies,
   Filter,
@@ -12,9 +11,9 @@ import {
   SET_FILTER_TO_ALL,
   DELETE_MOVIE,
   ERROR_INVALID_TAG,
-  UNDO_DELETE,
-  ERROR_UNDO_DELETE,
-  ERROR_NETWORK
+  // UNDO_DELETE,
+  // ERROR_UNDO_DELETE,
+  // ERROR_NETWORK
 } from './types';
 
 
