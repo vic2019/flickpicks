@@ -5,38 +5,35 @@ import { connect } from 'react-redux';
 import { AppState } from '../store';
 
 import { setTags, createTag, deleteMovie } from '../store/my-movies/actions';
-import { MovieSet, Filter } from '../store/my-movies/types';
+import { ById, ByTag } from '../store/my-movies/types';
 
 interface Props {
-  appliedFilter: Filter['appliedFilter'];
-  filterSet: Filter['filterSet'];
-  movieSet: MovieSet;
-  setTags: any;
-  createTag: any; 
-  deleteMovie: any; 
+  byId: ById
+  byTag: ByTag
+  setTags: any
+  createTag: any
+  deleteMovie: any
 }
 
 const MovieList = ({
-  appliedFilter,
-  filterSet,
-  movieSet,
+  byId,
+  byTag,
   setTags, 
   createTag, 
   deleteMovie 
 }: Props)  => {
   return (
     <div className='MovieList'>
-      {movieSet.order.map(id => (
-        <MovieItem key={id} {...movieSet[id]} />
+      {Object.values(byId).map(movie => (
+        <MovieItem key={movie.id} {...movie} />
       ))}
     </div>
   );
 }
 
 const mapStateToProps = (state: AppState) => ({
-  appliedFilter: state.filter.appliedFilter,
-  filterSet: state.filter.filterSet,
-  movieSet: state.movieSet
+  byId: state.myMovies.byId,
+  byTag: state.myMovies.byTag
 });
 
 export default connect(

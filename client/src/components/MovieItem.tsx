@@ -7,8 +7,6 @@ const MovieItem = ({
   tMDb_id,
   title,
   image,
-  tag,  
-  customTags,
   dateAdded,
 }: Movie)  => {
   return (

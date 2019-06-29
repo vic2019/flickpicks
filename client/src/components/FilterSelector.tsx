@@ -5,34 +5,31 @@ import { AppState } from '../store';
 
 import { setFilter, setFilterToAll, deleteTag } 
   from '../store/my-movies/actions'
-import { Filter } from '../store/my-movies/types';
+import { ByTag } from '../store/my-movies/types';
 
 interface Props {
-  appliedFilter: Filter['appliedFilter'];
-  filterSet: Filter['filterSet']
-  setFilter: any;
-  setFilterToAll: any;
-  deleteTag: any;
+  byTag: ByTag
+  setFilter: any
+  setFilterToAll: any
+  deleteTag: any
 }
 
 const FilterSelector = ({
-  appliedFilter,
-  filterSet,
+  byTag,
   setFilter, 
   setFilterToAll,
   deleteTag 
 }: Props)  => {
   return (
     <div className='FilterSelector'>
-      {filterSet}
+      {Object.keys(byTag)}
       <br/>
     </div>
   );
 }
 
 const mapStateToProps = (state: AppState) => ({
-  appliedFilter: state.filter.appliedFilter,
-  filterSet: state.filter.filterSet
+  byTag: state.myMovies.byTag
 });
 
 export default connect(
