@@ -6,6 +6,7 @@ import { testState } from './reducers';
 
 import {
   Tag,
+  Movie,
   SET_TAGS,
   CREATE_TAG, 
   DELETE_TAG, 
@@ -26,10 +27,10 @@ const mockStore = configureMockStore(middlewares);
 
 describe('setTags', () => {
   it('creates SET_TAG after making http call', () => {
-    const movie = myMovies.id0;
+    const movie: Movie = myMovies.byId.id0;
     const tagSetter = { 
       [Tag.TO_WATCH]: false, 
-      [Tag.WATCH]: true,
+      [Tag.WATCHED]: true,
       classic: false,
       'rom com': true
     }
@@ -50,7 +51,7 @@ describe('setFilter', () => {
   it('creates SET_FILTER', () => {
     const filters = { 
       [Tag.TO_WATCH]: false, 
-      [Tag.WATCH]: true,
+      [Tag.WATCHED]: true,
       classic: false,
       'rom com': true
     }
@@ -120,7 +121,7 @@ describe('deleteTag', () => {
 
 describe('deleteMovie', () => {
   it('creates DELETE_MOVIE after making http call', () => {
-    const movie = testState.myMovies.id0;
+    const movie = testState.myMovies.byId.id0;
     const expectedAction = {
       type: DELETE_MOVIE,
       movie

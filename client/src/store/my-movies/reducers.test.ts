@@ -18,7 +18,7 @@ const { myMovies } = testState;
 
 describe('rootReducer', () => {
   it('returns the initial state', () => {
-    expect(rootReducer(undefined, {})).toEqual(testState);
+    expect(rootReducer(undefined, { type: undefined })).toEqual(testState);
   })
 
   it('handels SET_TAGS', () => {
@@ -45,7 +45,7 @@ describe('rootReducer', () => {
       })
     };
     
-    expect(rootReducer(myMovies, action)).toEqual(expectedState);
+    expect(rootReducer(testState, action)).toEqual(expectedState);
   });
   
   it('handles DELETE_MOVIE', () => {
@@ -76,7 +76,6 @@ describe('rootReducer', () => {
       })
     }
 
-    console.log(expectedState);
     expect(rootReducer(testState, action)).toEqual(expectedState);
   });
   
