@@ -1,8 +1,9 @@
 import {
   Tag,
-  MovieSet,
+  Movie,
+  ByTag,
+  ById,
   MyMovies,
-  Filter,
   MyMoviesActionTypes,
   SET_TAGS,
   CREATE_TAG, 
@@ -17,96 +18,116 @@ import {
 } from './types';
 
 
-export const testState: MyMovies = {
-  filter: {
-    appliedFilter: [Tag.TO_WATCH],
-    filterSet: [Tag.TO_WATCH, Tag.WATCHED, 'comedy']
-  },
-  movieSet: {
-    order: ['abc0', 'abc1', 'abc2'],
-    abc0: {
-      id: 'abc0',
-      tMDb_id: 'a0',
-      title: 'Wizard of Oz',
-      image: 'wizardofoz',
-      tag: Tag.TO_WATCH,
-      customTags: [],
-      dateAdded: '2019-06-20'
-    }, 
-    abc1: {
-      id: 'abc1',
-      tMDb_id: 'a1',
-      title: 'Star Wars',
-      image: 'starwars',
-      tag: Tag.WATCHED,
-      customTags: ['comedy'],
-      dateAdded: '2019-06-21'
-    }, 
-    abc2: {
-      id: 'abc2',
-      tMDb_id: 'a2',
-      title: 'October Sky',
-      image: 'octobersky',
-      tag: Tag.TO_WATCH,
-      customTags: ['comedy'],
-      dateAdded: '2019-06-22'
+export const testState = {
+  myMovies: {
+    byId: {
+      id0: {
+        id: 'id0',
+        tMDb_id: '630',
+        title: 'The Wizard of Oz',
+        image: '/mkFyFkF5KXVcb8Hf8Dj0KZuew2u.jpg',
+        dateAdded: '2019-06-20'
+      }, 
+      id1: {
+        id: 'id1',
+        tMDb_id: '105',
+        title: 'Back to the Future',
+        image: '/pTpxQB1N0waaSc3OSn0e9oc8kx9.jpg',
+        dateAdded: '2019-06-21'
+      }, 
+      id2: {
+        id: 'id2',
+        tMDb_id: '13466',
+        title: 'October Sky',
+        image: '/oeFdjM0P3DMIKOloApLAn96GHiM.jpg',
+        dateAdded: '2019-06-22'
+      }
+    },
+    byTag: {
+    [Tag.TO_WATCH]: { 'id1': true, 'id2': true },
+    [Tag.WATCHED]: { 'id0': true },
+    classic: { 'id0': true, 'id1': true },
+    'rom com': {}
+    },
+    allIds: ['id0', 'id2', 'id1'],
+    filters: {
+      [Tag.TO_WATCH]: true,
+      [Tag.WATCHED]: false,
+      classic: false,
+      'rom com': false
     }
   }
-};
+}
+
+let state = testState;
 
 
-export const movieSetReducer = (
-  state = testState.movieSet, action: MyMoviesActionTypes
-): MovieSet => {
+export const byTagReducer = (
+  byTag: ByTag = state.myMovies.byTag, action: MyMoviesActionTypes
+): ByTag => {
   switch (action.type) {
     case SET_TAGS:
-      const updatedMovie = Object.assign({}, action.movie, {
-        tag: action.tag,
-        customTags: action.customTags
+      const newByTagsArray = Object.keys(action.tagSetter).map(key => {
+        if (byTag[key] === undefined) return {};
+        return {
+          [key]: Object.assign({}, byTag[key], {
+            [action.movie.id]: action.tagSetter[key]
+          })
+        };
       });
-      return Object.assign({}, state, {
-        [action.movie.id]: updatedMovie
-      });
-    case DELETE_MOVIE:
-      const newState = Object.assign({}, state, {
-        order: state.order.filter(id => id !== action.movie.id)
-      });
-      delete newState[action.movie.id];      
-      return newState;
-    case ERROR_INVALID_TAG:
-      console.log(action.msg); //to be implemented
-      return state;
-    default:
-      return state;
-  }
-};
-
-
-export const filterReducer = (
-  state = testState.filter, action: MyMoviesActionTypes
-): Filter => {
-  switch(action.type) {
-    case SET_FILTER: 
-      return Object.assign({}, state, {
-        appliedFilter: action.filter
-      });
-    case SET_FILTER_TO_ALL:
-      return Object.assign({}, state, {
-        appliedFilter: state.filterSet
-      });
+      return Object.assign({}, ...newByTagsArray);
     case CREATE_TAG:
-      return Object.assign({}, state, {
-        filterSet: [...state.filterSet, action.tag]
+      return Object.assign({}, byTag, {
+        [action.tag]: {}
       });
     case DELETE_TAG:
-      return {
-        appliedFilter: state.appliedFilter,
-        filterSet: state.filterSet.filter(tag => tag !== action.tag),
-      };
-    case ERROR_INVALID_TAG:
-      console.log(action.msg); //to be implemented
-      return state;
+      const newByTag = Object.assign({}, byTag);
+      delete newByTag[action.tag];
+      return newByTag;
     default:
-      return state;
+      return byTag;
   }
 };
+
+
+export const myMoviesReducer = (
+  myMovies: MyMovies = state.myMovies, action: MyMoviesActionTypes
+): MyMovies => {
+  switch (action.type) {
+    case SET_TAGS:
+    case CREATE_TAG:
+    case DELETE_TAG:
+      return Object.assign({}, myMovies, {
+        byTag: byTagReducer(myMovies.byTag, action)
+      });
+    case DELETE_MOVIE:
+      const newById = Object.assign({}, myMovies.byId);
+      delete newById[action.movie.id];  
+      const newAllIds = myMovies.allIds.filter(id => {
+        return id !== action.movie.id
+      });    
+      return Object.assign({}, myMovies, {
+        byId: newById,
+        allIds: newAllIds
+      });
+    case SET_FILTER: 
+      return Object.assign({}, myMovies, {
+        filters: action.filters
+      });
+    case SET_FILTER_TO_ALL:
+      const tagSetter = Object.keys(myMovies.byTag).map(key => {
+        return {
+          [key]: true
+        };
+      });
+      return Object.assign({}, myMovies, {
+        filters: Object.assign({}, ...tagSetter)
+      }); 
+    case ERROR_INVALID_TAG:
+      console.log(action.msg); //to be implemented
+      return myMovies;
+    default:
+      return myMovies;
+  }
+};
+

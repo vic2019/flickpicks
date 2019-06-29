@@ -3,6 +3,7 @@ import thunk from 'redux-thunk';
 
 import * as actions from './actions';
 import { testState } from './reducers';
+
 import {
   Tag,
   SET_TAGS,
@@ -11,31 +12,35 @@ import {
   ERROR_INVALID_TAG,
   SET_FILTER, 
   DELETE_MOVIE,
-  UNDO_DELETE,
-  ERROR_UNDO_DELETE,
-  ERROR_NETWORK,
+  // UNDO_DELETE,
+  // ERROR_UNDO_DELETE,
+  // ERROR_NETWORK,
   SET_FILTER_TO_ALL
 } from './types';
 
-const { filter, movieSet } = testState;
+
+const myMovies = testState.myMovies;
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 
 describe('setTags', () => {
   it('creates SET_TAG after making http call', () => {
-    const movie = movieSet.abc0;
-    const tag = Tag.WATCHED;
-    const customTags = ['comedy'];
+    const movie = myMovies.id0;
+    const tagSetter = { 
+      [Tag.TO_WATCH]: false, 
+      [Tag.WATCH]: true,
+      classic: false,
+      'rom com': true
+    }
     const expectedAction = {
       type: SET_TAGS,
       movie,
-      tag,
-      customTags
+      tagSetter
     }
-    const store = mockStore(movieSet);
+    const store = mockStore(myMovies);
 
-    return store.dispatch(actions.setTags(movie, tag, customTags)).then(() => {
+    return store.dispatch(actions.setTags(movie, tagSetter)).then(() => {
       expect(store.getActions()[0]).toEqual(expectedAction);
     });
   });
@@ -43,13 +48,18 @@ describe('setTags', () => {
 
 describe('setFilter', () => {
   it('creates SET_FILTER', () => {
-    const filter = [Tag.TO_WATCH, 'comedy'];
+    const filters = { 
+      [Tag.TO_WATCH]: false, 
+      [Tag.WATCH]: true,
+      classic: false,
+      'rom com': true
+    }
     const expectedAction = {
       type: SET_FILTER,
-      filter
+      filters
     }
     
-    expect(actions.setFilter(filter)).toEqual(expectedAction);
+    expect(actions.setFilter(filters)).toEqual(expectedAction);
   });
 });
 
@@ -70,7 +80,7 @@ describe('createTag', () => {
       type: CREATE_TAG,
       tag
     }
-    const store = mockStore(filter);
+    const store = mockStore(myMovies);
 
     return store.dispatch(actions.createTag(tag)).then(() => {
       expect(store.getActions()[0]).toEqual(expectedAction);
@@ -80,12 +90,12 @@ describe('createTag', () => {
 
 describe('createTag', () => {
   it('creates ERROR when tryign to create a duplicate tag', () => {
-    const tag = 'comedy';
+    const tag = 'classic';
     const expectedAction = {
       type: ERROR_INVALID_TAG,
-      msg: 'The tag "comedy" already exists.'
+      msg: 'The tag "classic" already exists.'
     }
-    const store = mockStore(filter);
+    const store = mockStore(testState.myMovies);
 
     return store.dispatch(actions.createTag(tag)).then(() => {
       expect(store.getActions()[0]).toEqual(expectedAction);
@@ -100,7 +110,7 @@ describe('deleteTag', () => {
       type: DELETE_TAG,
       tag
     }
-    const store = mockStore(filter);
+    const store = mockStore(myMovies);
 
     return store.dispatch(actions.deleteTag(tag)).then(() => {
       expect(store.getActions()[0]).toEqual(expectedAction);
@@ -110,12 +120,12 @@ describe('deleteTag', () => {
 
 describe('deleteMovie', () => {
   it('creates DELETE_MOVIE after making http call', () => {
-    const movie = testState.movieSet.abc0;
+    const movie = testState.myMovies.id0;
     const expectedAction = {
       type: DELETE_MOVIE,
       movie
     };
-    const store = mockStore(movieSet);
+    const store = mockStore(myMovies);
 
     return store.dispatch(actions.deleteMovie(movie)).then(() => {
       expect(store.getActions()[0]).toEqual(expectedAction);

@@ -123,7 +123,7 @@ describe('filterReducer', () => {
     };
     const expectedState = {
       appliedFilter: filter.appliedFilter,
-      filterSet: [Tag.TO_WATCH, Tag.WATCHED]
+      filterSet: [Tag.TO_WATCH, Tag.WATCHED, 'drama', 'fantasy']
     };
 
     expect(filterReducer(filter, action)).toEqual(expectedState);

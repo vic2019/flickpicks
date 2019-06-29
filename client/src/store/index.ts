@@ -1,11 +1,10 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 
-import { filterReducer, movieSetReducer } from './my-movies/reducers';
+import { myMoviesReducer } from './my-movies/reducers';
 
 export const rootReducer = combineReducers({
-  filter: filterReducer,
-  movieSet: movieSetReducer
+  myMovies: myMoviesReducer
 });
 
 export type AppState = ReturnType<typeof rootReducer>;

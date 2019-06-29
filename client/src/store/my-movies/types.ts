@@ -9,41 +9,47 @@ export const ERROR_INVALID_TAG = 'ERROR_INVALID_TAG';
 export const ERROR_UNDO_DELETE = 'ERROR_UNDO_DELETE';
 export const ERROR_NETWORK = 'ERROR_NETWORK';
 
+
+export interface Movie {
+  id: string
+  tMDb_id: string | number
+  title: string
+  image: string
+  dateAdded: string
+}
+
 export enum Tag {
   TO_WATCH = 0,
   WATCHED = 1,
 }
 
-export interface Filter {
-  appliedFilter: (Tag | string)[]
-  filterSet: (Tag | string)[]
+export interface TagSetter {
+  [Tag.TO_WATCH]: boolean
+  [Tag.WATCHED]: boolean
+  [key: string]: boolean
 }
 
-export interface Movie {
-  id: string
-  tMDb_id: string
-  title: string
-  image: string
-  tag: Tag
-  customTags: string[]
-  dateAdded: string
+export interface ByTag {
+  [Tag.TO_WATCH]: { [key: string]: boolean }
+  [Tag.WATCHED]: { [key: string]: boolean }
+  [key: string]: { [key: string]: boolean }
 }
 
-export interface MovieSet {
-  order: string[]
-  [key: string]: any
+export interface ById {
+  [key: string]: Movie
 }
 
 export interface MyMovies {
-  filter: Filter
-  movieSet: MovieSet
+  byId: ById
+  byTag: ByTag
+  allIds: string[]
+  filters: TagSetter
 }
 
 interface SetTagsAction {
   type: typeof SET_TAGS
   movie: Movie 
-  tag: Tag
-  customTags: string[]
+  tagSetter: TagSetter
 };
 
 interface ModifyTagAction {
@@ -53,7 +59,7 @@ interface ModifyTagAction {
 
 interface SetFilterAction {
   type: typeof SET_FILTER
-  filter: (Tag | string)[]
+  filters: TagSetter
 };
 
 interface SetFilterToAllAction {

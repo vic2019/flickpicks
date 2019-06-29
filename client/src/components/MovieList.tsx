@@ -27,7 +27,7 @@ const MovieList = ({
   return (
     <div className='MovieList'>
       {movieSet.order.map(id => (
-        <MovieItem {...movieSet[id]} />
+        <MovieItem key={id} {...movieSet[id]} />
       ))}
     </div>
   );

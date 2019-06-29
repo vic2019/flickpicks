@@ -2,10 +2,10 @@ import { ThunkAction } from 'redux-thunk';
 // import axios from 'axios';
 
 import {
-  Tag,
   Movie,
-  Filter,
-  MovieSet,
+  TagSetter,
+  ByTag,
+  MyMovies,
   MyMoviesActionTypes,
   SET_TAGS,
   CREATE_TAG, 
@@ -21,50 +21,28 @@ import {
 
 
 export const setTags = (
-  movie: Movie, tag: Tag, customTags: string[]
-): ThunkAction<void, MovieSet, null, MyMoviesActionTypes> => async (
+  movie: Movie, tagSetter: TagSetter
+): ThunkAction<void, null, null, MyMoviesActionTypes> => async (
   dispatch
 ) => {
-  
-  // TO BE DELETED
-  //
-  // const { filterSet } = getState().filter;
-  // for (let tag of customTags) {
-  //   let isTagInvalid: boolean = true;
-  //   for (let filter of filterSet) {
-  //     if (tag === filter) {
-  //       isTagInvalid = false;
-  //       break;
-  //     }
-  //   }
-
-  //   if (isTagInvalid) {
-  //     return void dispatch({
-  //       type: ERROR_INVALID_TAG,
-  //       msg: 'One of the tags selected is invalid. Please refresh the page and try again.'
-  //     });
-  //   }
-  // }
-
   await new Promise(resolve => resolve())
     .then(_ => void dispatch({
       type: SET_TAGS,
       movie,
-      tag,
-      customTags
+      tagSetter
     }))
     .catch();
 }
 
-
 export const createTag = (
   tag: string
-): ThunkAction<void, Filter, null, MyMoviesActionTypes> => async (
+): ThunkAction<void, MyMovies, null, MyMoviesActionTypes> => async (
   dispatch, getState
 ) => {
-  const { filterSet } = getState();
-  for (let filter of filterSet) {
-    if (tag === filter) {
+  const { byTag } = getState();
+  console.log(getState());
+  for (let key of Object.keys(byTag)) {
+    if (tag === key) {
       return void dispatch({
         type: ERROR_INVALID_TAG,
         msg: `The tag "${tag}" already exists.`
@@ -80,10 +58,9 @@ export const createTag = (
   .catch();
 };
 
-
 export const deleteTag = (
   tag: string
-): ThunkAction<void, Filter, null, MyMoviesActionTypes> => async (
+): ThunkAction<void, null, null, MyMoviesActionTypes> => async (
   dispatch
 ) => {
   await new Promise(resolve => resolve())
@@ -94,16 +71,14 @@ export const deleteTag = (
   .catch();
 };
 
-
 export const setFilter = (
-  filter: (Tag | string)[]
+  filters: TagSetter
 ): MyMoviesActionTypes => {
   return {
     type: SET_FILTER,
-    filter
+    filters
   };
 }
-
 
 export const setFilterToAll = (): MyMoviesActionTypes => {
   return {
@@ -111,10 +86,9 @@ export const setFilterToAll = (): MyMoviesActionTypes => {
   };
 }
 
-
 export const deleteMovie = (
   movie: Movie
-): ThunkAction<void, MovieSet, null, MyMoviesActionTypes> => async (
+): ThunkAction<void, null, null, MyMoviesActionTypes> => async (
   dispatch
 ) => {
   await new Promise(resolve => resolve())
@@ -124,5 +98,3 @@ export const deleteMovie = (
     }))
     .catch();
 };
-
-
