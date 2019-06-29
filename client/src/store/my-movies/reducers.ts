@@ -50,7 +50,7 @@ export const testState = {
       classic: { 'id0': true, 'id1': true, 'id2': false },
       'rom com': { 'id0': false, 'id1': false, 'id2': false }
     },
-    allIds: ['id0', 'id2', 'id1'],
+    allIds: ['id0', 'id1', 'id2'],
     filters: {
       [Tag.TO_WATCH]: true,
       [Tag.WATCHED]: false,

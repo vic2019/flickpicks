@@ -1,6 +1,25 @@
+$movie-item-margin: 6px;
+$movie-item-thumb-height: 120px;
+$movie-item-text-padding: 8px;
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.MovieItem {
+  display: flex;
+  flex-flow: row wrap;
+  margin: $movie-item-margin;
+
+  img {
+    height: $movie-item-thumb-height;
+  }
+
+  .text-container {
+    line-height: 50%;
+    padding: $movie-item-text-padding;
+  }
 }

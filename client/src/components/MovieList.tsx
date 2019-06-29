@@ -10,6 +10,7 @@ import { ById, ByTag } from '../store/my-movies/types';
 interface Props {
   byId: ById
   byTag: ByTag
+  allIds: string[]
   setTags: any
   createTag: any
   deleteMovie: any
@@ -18,14 +19,15 @@ interface Props {
 const MovieList = ({
   byId,
   byTag,
+  allIds,
   setTags, 
   createTag, 
   deleteMovie 
 }: Props)  => {
   return (
     <div className='MovieList'>
-      {Object.values(byId).map(movie => (
-        <MovieItem key={movie.id} {...movie} />
+      {allIds.map(id => (
+        <MovieItem key={id} movie={byId[id]} />
       ))}
     </div>
   );
@@ -33,7 +35,8 @@ const MovieList = ({
 
 const mapStateToProps = (state: AppState) => ({
   byId: state.myMovies.byId,
-  byTag: state.myMovies.byTag
+  byTag: state.myMovies.byTag,
+  allIds: state.myMovies.allIds
 });
 
 export default connect(

@@ -19,8 +19,8 @@ export interface Movie {
 }
 
 export enum Tag {
-  TO_WATCH = 0,
-  WATCHED = 1,
+  TO_WATCH = 'To-Watch',
+  WATCHED = 'Watched',
 }
 
 export interface TagSetter {
