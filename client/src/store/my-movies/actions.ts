@@ -40,7 +40,6 @@ export const createTag = (
   dispatch, getState
 ) => {
   const { byTag } = getState();
-  console.log(getState());
   for (let key of Object.keys(byTag)) {
     if (tag === key) {
       return void dispatch({

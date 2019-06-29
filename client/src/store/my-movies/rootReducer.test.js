@@ -8,13 +8,13 @@ import {
   ERROR_INVALID_TAG,
   SET_FILTER, 
   DELETE_MOVIE,
-  UNDO_DELETE,
-  ERROR_UNDO_DELETE,
-  ERROR_NETWORK,
+  // UNDO_DELETE,
+  // ERROR_UNDO_DELETE,
+  // ERROR_NETWORK,
   SET_FILTER_TO_ALL
 } from './types';
 
-const { filter, movieSet } = testState;
+const { myMovies } = testState;
 
 describe('rootReducer', () => {
   it('returns the initial state', () => {
@@ -22,56 +22,78 @@ describe('rootReducer', () => {
   })
 
   it('handels SET_TAGS', () => {
-    const movie = movieSet.abc0;
-    const { id, tMDb_id, title, image, dateAdded } = movie;
+    const movie = myMovies.byId.id0;
+    const tagSetter = { 
+      [Tag.TO_WATCH]: false, 
+      [Tag.WATCHED]: true,
+      classic: false,
+      'rom com': true
+    }
     const action = {
       type: SET_TAGS,
       movie,
-      tag: Tag.WATCHED,
-      customTags: ['comedy']
+      tagSetter
     }
     const expectedState = {
-      filter,
-      movieSet: Object.assign({}, movieSet, {
-        abc0: {
-          tag: Tag.WATCHED,
-          customTags: ['comedy'],
-          id, tMDb_id, title, image, dateAdded
+      myMovies: Object.assign({}, myMovies, {
+        byTag: {
+          [Tag.TO_WATCH]: { 'id0': false, 'id1': true, 'id2': true },
+          [Tag.WATCHED]: { 'id0': true, 'id1': false, 'id2': false },
+          classic: { 'id0': false, 'id1': true, 'id2': false },
+          'rom com': { 'id0': true, 'id1': false, 'id2': false }
         }
       })
     };
     
-    expect(rootReducer(testState, action)).toEqual(expectedState);
+    expect(rootReducer(myMovies, action)).toEqual(expectedState);
   });
   
   it('handles DELETE_MOVIE', () => {
     const action = {
       type: DELETE_MOVIE,
-      movie: testState.movieSet.abc0
+      movie: myMovies.byId.id0
     };
-    const expectedState = {
-      filter,
-      movieSet: Object.assign({}, movieSet, {
-        order: ['abc1', 'abc2']
-      }),
+    const newById = {
+      id1: {
+        id: 'id1',
+        tMDb_id: '105',
+        title: 'Back to the Future',
+        image: '/pTpxQB1N0waaSc3OSn0e9oc8kx9.jpg',
+        dateAdded: '2019-06-21'
+      }, 
+      id2: {
+        id: 'id2',
+        tMDb_id: '13466',
+        title: 'October Sky',
+        image: '/oeFdjM0P3DMIKOloApLAn96GHiM.jpg',
+        dateAdded: '2019-06-22'
+      }
     }
-    delete expectedState.movieSet.abc0; 
-    // ^Note to self: Object.assign only copies at one level deep. If the value of a property on the source is an object, that object will NOT be deep-copied.
+    const expectedState = {
+      myMovies: Object.assign({}, myMovies, { 
+        byId: newById,
+        allIds: ['id2', 'id1'], 
+      })
+    }
+
     console.log(expectedState);
     expect(rootReducer(testState, action)).toEqual(expectedState);
   });
   
   it('handels SET_FILTER', () => {
-    const action ={
+    const action = {
       type: SET_FILTER,
-      filter: [Tag.TO_WATCH, 'comedy']
-    };
+      filters: {
+        [Tag.TO_WATCH]: false,
+        [Tag.WATCHED]: false,
+        classic: true,
+        'rom com': true
+      }
+    }
     const expectedState = {
-      filter: {
-        appliedFilter: [Tag.TO_WATCH, 'comedy'],
-        filterSet: filter.filterSet
-      },
-      movieSet
+      myMovies: Object.assign({}, myMovies, {
+        filters: action.filters
+      })
     };
 
     expect(rootReducer(testState, action)).toEqual(expectedState);
@@ -81,12 +103,16 @@ describe('rootReducer', () => {
     const action ={
       type: SET_FILTER_TO_ALL
     };
+    const filters = {
+      [Tag.TO_WATCH]: true,
+      [Tag.WATCHED]: true,
+      classic: true,
+      'rom com': true
+    };
     const expectedState = {
-      filter: {
-        appliedFilter: filter.filterSet,
-        filterSet: filter.filterSet
-      },
-      movieSet
+      myMovies: Object.assign({}, myMovies, {
+        filters
+      })
     };
 
     expect(rootReducer(testState, action)).toEqual(expectedState);
@@ -98,11 +124,15 @@ describe('rootReducer', () => {
       tag: 'sci-fi'
     };
     const expectedState = {
-      filter: {
-        appliedFilter: filter.appliedFilter,
-        filterSet: [...filter.filterSet, action.tag]
-      },
-      movieSet
+      myMovies: Object.assign({}, myMovies, { 
+        byTag: {
+          [Tag.TO_WATCH]: { 'id0': false, 'id1': true, 'id2': true },
+          [Tag.WATCHED]: { 'id0': true, 'id1': false, 'id2': false },
+          classic: { 'id0': true, 'id1': true, 'id2': false },
+          'rom com': { 'id0': false, 'id1': false, 'id2': false },
+          'sci-fi': {}
+        }
+      })
     }
 
     expect(rootReducer(testState, action)).toEqual(expectedState);
@@ -111,15 +141,17 @@ describe('rootReducer', () => {
   it('handels DELETE_TAG', () => {
     const action ={
       type: DELETE_TAG,
-      tag: 'comedy'
+      tag: 'rom com'
     };
     const expectedState = {
-      filter: {
-        appliedFilter: filter.appliedFilter,
-        filterSet: [Tag.TO_WATCH, Tag.WATCHED, 'drama', 'fantasy']
-      },
-      movieSet
-    };
+      myMovies: Object.assign({}, myMovies, { 
+        byTag: {
+          [Tag.TO_WATCH]: { 'id0': false, 'id1': true, 'id2': true },
+          [Tag.WATCHED]: { 'id0': true, 'id1': false, 'id2': false },
+          classic: { 'id0': true, 'id1': true, 'id2': false }
+        }
+      })
+    }
 
     expect(rootReducer(testState, action)).toEqual(expectedState);
   });

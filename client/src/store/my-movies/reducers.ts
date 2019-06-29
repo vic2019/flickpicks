@@ -1,8 +1,9 @@
+// This test has not been updated. 
+// Use /store/my-movies/rootReducer.test.js instead.
+
 import {
   Tag,
-  Movie,
   ByTag,
-  ById,
   MyMovies,
   MyMoviesActionTypes,
   SET_TAGS,
@@ -44,10 +45,10 @@ export const testState = {
       }
     },
     byTag: {
-    [Tag.TO_WATCH]: { 'id1': true, 'id2': true },
-    [Tag.WATCHED]: { 'id0': true },
-    classic: { 'id0': true, 'id1': true },
-    'rom com': {}
+      [Tag.TO_WATCH]: { 'id0': false, 'id1': true, 'id2': true },
+      [Tag.WATCHED]: { 'id0': true, 'id1': false, 'id2': false },
+      classic: { 'id0': true, 'id1': true, 'id2': false },
+      'rom com': { 'id0': false, 'id1': false, 'id2': false }
     },
     allIds: ['id0', 'id2', 'id1'],
     filters: {
@@ -67,7 +68,7 @@ export const byTagReducer = (
 ): ByTag => {
   switch (action.type) {
     case SET_TAGS:
-      const newByTagsArray = Object.keys(action.tagSetter).map(key => {
+      const newByTagArray = Object.keys(action.tagSetter).map(key => {
         if (byTag[key] === undefined) return {};
         return {
           [key]: Object.assign({}, byTag[key], {
@@ -75,7 +76,7 @@ export const byTagReducer = (
           })
         };
       });
-      return Object.assign({}, ...newByTagsArray);
+      return Object.assign({}, ...newByTagArray);
     case CREATE_TAG:
       return Object.assign({}, byTag, {
         [action.tag]: {}
