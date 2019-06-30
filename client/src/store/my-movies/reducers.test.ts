@@ -1,7 +1,6 @@
 import { rootReducer } from '../index';
 import { testState } from './reducers';
 import {
-  Tag,
   SET_TAGS,
   CREATE_TAG, 
   DELETE_TAG, 
@@ -24,8 +23,8 @@ describe('rootReducer', () => {
   it('handels SET_TAGS', () => {
     const movie = myMovies.byId.id0;
     const tagSetter = { 
-      [Tag.TO_WATCH]: false, 
-      [Tag.WATCHED]: true,
+      'To-Watch': false, 
+      'Watched': true,
       classic: false,
       'rom com': true
     }
@@ -37,8 +36,8 @@ describe('rootReducer', () => {
     const expectedState = {
       myMovies: Object.assign({}, myMovies, {
         byTag: {
-          [Tag.TO_WATCH]: { 'id0': false, 'id1': true, 'id2': true },
-          [Tag.WATCHED]: { 'id0': true, 'id1': false, 'id2': false },
+          'To-Watch': { 'id0': false, 'id1': true, 'id2': true },
+          'Watched': { 'id0': true, 'id1': false, 'id2': false },
           classic: { 'id0': false, 'id1': true, 'id2': false },
           'rom com': { 'id0': true, 'id1': false, 'id2': false }
         }
@@ -49,30 +48,20 @@ describe('rootReducer', () => {
   });
   
   it('handles DELETE_MOVIE', () => {
+    const { byId, allIds } = myMovies;
     const action = {
       type: DELETE_MOVIE,
       movie: myMovies.byId.id0
     };
-    const newById = {
-      id1: {
-        id: 'id1',
-        tMDb_id: '105',
-        title: 'Back to the Future',
-        image: '/pTpxQB1N0waaSc3OSn0e9oc8kx9.jpg',
-        dateAdded: '2019-06-21'
-      }, 
-      id2: {
-        id: 'id2',
-        tMDb_id: '13466',
-        title: 'October Sky',
-        image: '/oeFdjM0P3DMIKOloApLAn96GHiM.jpg',
-        dateAdded: '2019-06-22'
-      }
-    }
+    const newById = Object.assign({}, byId);
+    delete newById.id0;
+    
+    const newAllIds = allIds.slice(1, allIds.length);
+
     const expectedState = {
       myMovies: Object.assign({}, myMovies, { 
         byId: newById,
-        allIds: ['id2', 'id1'], 
+        allIds: newAllIds
       })
     }
 
@@ -83,8 +72,8 @@ describe('rootReducer', () => {
     const action = {
       type: SET_FILTER,
       filters: {
-        [Tag.TO_WATCH]: false,
-        [Tag.WATCHED]: false,
+        'To-Watch': false,
+        'Watched': false,
         classic: true,
         'rom com': true
       }
@@ -103,8 +92,8 @@ describe('rootReducer', () => {
       type: SET_FILTER_TO_ALL
     };
     const filters = {
-      [Tag.TO_WATCH]: true,
-      [Tag.WATCHED]: true,
+      'To-Watch': true,
+      'Watched': true,
       classic: true,
       'rom com': true
     };
@@ -125,8 +114,8 @@ describe('rootReducer', () => {
     const expectedState = {
       myMovies: Object.assign({}, myMovies, { 
         byTag: {
-          [Tag.TO_WATCH]: { 'id0': false, 'id1': true, 'id2': true },
-          [Tag.WATCHED]: { 'id0': true, 'id1': false, 'id2': false },
+          'To-Watch': { 'id0': false, 'id1': true, 'id2': true },
+          'Watched': { 'id0': true, 'id1': false, 'id2': false },
           classic: { 'id0': true, 'id1': true, 'id2': false },
           'rom com': { 'id0': false, 'id1': false, 'id2': false },
           'sci-fi': {}
@@ -145,8 +134,8 @@ describe('rootReducer', () => {
     const expectedState = {
       myMovies: Object.assign({}, myMovies, { 
         byTag: {
-          [Tag.TO_WATCH]: { 'id0': false, 'id1': true, 'id2': true },
-          [Tag.WATCHED]: { 'id0': true, 'id1': false, 'id2': false },
+          'To-Watch': { 'id0': false, 'id1': true, 'id2': true },
+          'Watched': { 'id0': true, 'id1': false, 'id2': false },
           classic: { 'id0': true, 'id1': true, 'id2': false }
         }
       })

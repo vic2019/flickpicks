@@ -5,7 +5,6 @@ import * as actions from './actions';
 import { testState } from './reducers';
 
 import {
-  Tag,
   Movie,
   SET_TAGS,
   CREATE_TAG, 
@@ -29,8 +28,8 @@ describe('setTags', () => {
   it('creates SET_TAG after making http call', () => {
     const movie: Movie = myMovies.byId.id0;
     const tagSetter = { 
-      [Tag.TO_WATCH]: false, 
-      [Tag.WATCHED]: true,
+      'To-Watch': false, 
+      'Watched': true,
       classic: false,
       'rom com': true
     }
@@ -50,8 +49,8 @@ describe('setTags', () => {
 describe('setFilter', () => {
   it('creates SET_FILTER', () => {
     const filters = { 
-      [Tag.TO_WATCH]: false, 
-      [Tag.WATCHED]: true,
+      'To-Watch': false, 
+      'Watched': true,
       classic: false,
       'rom com': true
     }

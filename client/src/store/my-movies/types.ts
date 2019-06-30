@@ -18,20 +18,11 @@ export interface Movie {
   dateAdded: string
 }
 
-export enum Tag {
-  TO_WATCH = 'To-Watch',
-  WATCHED = 'Watched',
-}
-
 export interface TagSetter {
-  [Tag.TO_WATCH]: boolean
-  [Tag.WATCHED]: boolean
   [key: string]: boolean
 }
 
 export interface ByTag {
-  [Tag.TO_WATCH]: { [key: string]: boolean }
-  [Tag.WATCHED]: { [key: string]: boolean }
   [key: string]: { [key: string]: boolean }
 }
 

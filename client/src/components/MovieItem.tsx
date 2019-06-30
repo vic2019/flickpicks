@@ -1,5 +1,6 @@
 import React from 'react';
 import TagSelector from './TagSelector';
+import Divider from './Divider';
 
 import { Movie } from '../store/my-movies/types';
 
@@ -17,17 +18,20 @@ const MovieItem = ({ movie }: Props)  => {
   } = movie;
 
   return (
-    <div className='MovieItem'>
-      <img
-        src={`https://image.tmdb.org/t/p/w500${image}`}
-        alt='movie poster'
-      />
-      <div className='text-container'>
-        <p>{title}</p>
-        <p>{`Date Added: ${dateAdded}`}</p>
-        <TagSelector movie={movie}/> 
+    <>
+      <div className='MovieItem'>
+        <img
+          src={`https://image.tmdb.org/t/p/w500${image}`}
+          alt='movie poster'
+        />
+        <div className='text-container'>
+          <p className='title'>{title}</p>
+          <p>{`Date Added: ${dateAdded}`}</p>
+          <TagSelector movie={movie}/> 
+        </div>
       </div>
-    </div>
+      <Divider />
+    </>
   );
 }
 

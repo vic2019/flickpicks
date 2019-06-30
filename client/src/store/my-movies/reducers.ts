@@ -1,8 +1,4 @@
-// This test has not been updated. 
-// Use /store/my-movies/rootReducer.test.js instead.
-
 import {
-  Tag,
   ByTag,
   MyMovies,
   MyMoviesActionTypes,
@@ -42,18 +38,54 @@ export const testState = {
         title: 'October Sky',
         image: '/oeFdjM0P3DMIKOloApLAn96GHiM.jpg',
         dateAdded: '2019-06-22'
-      }
+      },
+      id3: {
+        id: 'id3',
+        tMDb_id: '13466',
+        title: 'October Sky',
+        image: '/oeFdjM0P3DMIKOloApLAn96GHiM.jpg',
+        dateAdded: '2019-06-22'
+      },
+      id4: {
+        id: 'id4',
+        tMDb_id: '13466',
+        title: 'October Sky',
+        image: '/oeFdjM0P3DMIKOloApLAn96GHiM.jpg',
+        dateAdded: '2019-06-22'
+      },
+      id5: {
+        id: 'id5',
+        tMDb_id: '13466',
+        title: 'October Sky',
+        image: '/oeFdjM0P3DMIKOloApLAn96GHiM.jpg',
+        dateAdded: '2019-06-22'
+      },
+      id6: {
+        id: 'id6',
+        tMDb_id: '13466',
+        title: 'October Sky',
+        image: '/oeFdjM0P3DMIKOloApLAn96GHiM.jpg',
+        dateAdded: '2019-06-22'
+      },
+      id7: {
+        id: 'id7',
+        tMDb_id: '13466',
+        title: 'October Sky',
+        image: '/oeFdjM0P3DMIKOloApLAn96GHiM.jpg',
+        dateAdded: '2019-06-22'
+      },
+
     },
     byTag: {
-      [Tag.TO_WATCH]: { 'id0': false, 'id1': true, 'id2': true },
-      [Tag.WATCHED]: { 'id0': true, 'id1': false, 'id2': false },
+      'To-Watch': { 'id0': false, 'id1': true, 'id2': true },
+      'Watched': { 'id0': true, 'id1': false, 'id2': false },
       classic: { 'id0': true, 'id1': true, 'id2': false },
       'rom com': { 'id0': false, 'id1': false, 'id2': false }
     },
-    allIds: ['id0', 'id1', 'id2'],
+    allIds: ['id0', 'id1', 'id2', 'id3', 'id4', 'id5', 'id6', 'id7'],
     filters: {
-      [Tag.TO_WATCH]: true,
-      [Tag.WATCHED]: false,
+      'To-Watch': true,
+      'Watched': false,
       classic: false,
       'rom com': false
     }
