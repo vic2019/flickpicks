@@ -1,6 +1,6 @@
-import React, { memo, useState } from 'react';
-import Button from '@material-ui/core/Button';
-import Drawer from '@material-ui/core/Drawer';
+import React, { useState } from 'react';
+import { Button, Checkbox, Drawer, Divider, List, ListItem, 
+  ListItemIcon, ListItemText } from '@material-ui/core';
 
 import { connect } from 'react-redux';
 import { AppState } from '../store';
@@ -9,35 +9,41 @@ import { setTags } from '../store/my-movies/actions';
 import { Movie, ByTag } from '../store/my-movies/types'
 
 
-export enum Side {
-  Top = 'top',
-  Bottom = 'bottom'
-}
-
 interface Props {
-  byTag: ByTag
   setTags: any
-  side: Side
-  id?: Movie['id']
+  byTag: ByTag
+  movie: Movie
 }
 
-const TagSelector = memo(({
-  byTag,
+const TagSelector = ({
   setTags,
-  side,
-  id
+  byTag,
+  movie
 }: Props) => {
-  const [ visible, set ] = useState(false);
+  const initialState = Object.assign({}, ...Object.keys(byTag).map(tag => ({
+    [tag]: Boolean(byTag[tag][movie.id])
+  })));
+  const [checks, setChecks] = useState(initialState);
+  const [ visible, setVisible ] = useState(false);
+
+  const toggleDrawer = (isVisible: boolean) => () => void setVisible(isVisible);
+
+  const toggleCheckbox = (tagName: string) => () => {
+    setChecks(Object.assign({}, checks, { [tagName]: !checks[tagName] }));
+  };
 
   const options = Object.keys(byTag).map(tagName => (
-    <div >
-      <input type='checkbox' value={tagName} />
-      {tagName}
-    </div>  
+    <ListItem button onClick={toggleCheckbox(tagName)}>
+      <ListItemIcon>
+        <Checkbox
+          checked={checks[tagName]}
+          disableRipple
+        />
+      </ListItemIcon>
+      <ListItemText primary={tagName} />
+    </ListItem> 
   ));
 
-  const toggle = (isVisible: boolean) => () => void set(isVisible);
-  
   return(
     <div className='TagSelector'>
       <Button 
@@ -45,25 +51,28 @@ const TagSelector = memo(({
         size='small'
         color='primary'
         variant='outlined'
-        onClick={toggle(true)}
+        onClick={toggleDrawer(true)}
       >
         Edit Tags
       </Button>
       <Drawer 
         className='tag-selector-dropdown' 
-        anchor={side} 
+        anchor='bottom'
         open={visible} 
-        onClose={toggle(false)}
+        onClose={toggleDrawer(false)}
       >
-        {options}
-        <Button className='tag-selector-save-button'> Save {id} </Button>
+        <List>
+          {options}
+        </List>
+        <Divider />
+        <Button size='large' className='tag-selector-save-button'>Save</Button>
       </Drawer>
     </div>
   )
-});
+};
 
 const mapStateToProps = (state: AppState) => ({
-  byTag: state.myMovies.byTag,
+  byTag: state.myMovies.byTag
 });
 
 export default connect(

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import TagSelector, { Side } from './TagSelector';
+import TagSelector from './TagSelector';
 import Divider from './Divider';
 
 import { Movie } from '../store/my-movies/types';
@@ -30,7 +30,7 @@ const MovieItem = ({ movie }: Props)  => {
         <div>
           <div className='movie-item-title'>{title}</div>
           <div>{`Date Added: ${dateAdded}`}</div>
-          <TagSelector side={Side.Bottom} id={movie.id}/> 
+          <TagSelector movie={movie}/> 
         </div>
       </div>
       <Divider />
