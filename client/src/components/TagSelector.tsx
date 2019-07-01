@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
-import { Button, Checkbox, Drawer, Divider, List, ListItem, 
+import React, { useState, useEffect } from 'react';
+import { Button, ButtonGroup, Checkbox, Drawer, Divider, List, ListItem, 
   ListItemIcon, ListItemText } from '@material-ui/core';
 
 import { connect } from 'react-redux';
 import { AppState } from '../store';
 
 import { setTags } from '../store/my-movies/actions';
-import { Movie, ByTag } from '../store/my-movies/types'
+import { Movie, ByTag, TagSetter } from '../store/my-movies/types'
 
 
 interface Props {
@@ -20,16 +20,29 @@ const TagSelector = ({
   byTag,
   movie
 }: Props) => {
-  const initialState = Object.assign({}, ...Object.keys(byTag).map(tag => ({
-    [tag]: Boolean(byTag[tag][movie.id])
-  })));
-  const [checks, setChecks] = useState(initialState);
-  const [ visible, setVisible ] = useState(false);
+  const initializeChecks = () => {
+    return Object.assign({}, ...Object.keys(byTag).map(tag => ({
+      [tag]: Boolean(byTag[tag][movie.id])
+    })));   
+  };
 
-  const toggleDrawer = (isVisible: boolean) => () => void setVisible(isVisible);
-
+  const [checks, setChecks] = useState(initializeChecks());
+  const [ isVisible, setVisible ] = useState(false);
+  
+  const toggleDrawer = (toOpen: boolean) => () => void setVisible(toOpen);
+  
   const toggleCheckbox = (tagName: string) => () => {
-    setChecks(Object.assign({}, checks, { [tagName]: !checks[tagName] }));
+    setChecks(Object.assign({}, checks, { [tagName]: !checks[tagName]}));
+  }
+      
+  const save = async () => {
+    try {
+      await setTags(movie, checks);
+    } catch(err) {
+      alert(err);
+    }
+
+    toggleDrawer(false)();
   };
 
   const options = Object.keys(byTag).map(tagName => (
@@ -43,7 +56,13 @@ const TagSelector = ({
       <ListItemText primary={tagName} />
     </ListItem> 
   ));
+  
+  useEffect(() => {
+    if (isVisible) return;
 
+    setChecks(initializeChecks());
+  }, [isVisible]);
+  
   return(
     <div className='TagSelector'>
       <Button 
@@ -58,14 +77,15 @@ const TagSelector = ({
       <Drawer 
         className='tag-selector-dropdown' 
         anchor='bottom'
-        open={visible} 
+        open={isVisible} 
         onClose={toggleDrawer(false)}
       >
-        <List>
-          {options}
-        </List>
-        <Divider />
-        <Button size='large' className='tag-selector-save-button'>Save</Button>
+        {options}
+        {/* <Divider /> */}
+        <ButtonGroup fullWidth size='large' variant='outlined'>
+          <Button onClick={toggleDrawer(false)}>Cancel</Button> 
+          <Button onClick={save}>Save</Button>
+        </ButtonGroup>
       </Drawer>
     </div>
   )

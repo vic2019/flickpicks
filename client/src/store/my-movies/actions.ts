@@ -21,12 +21,12 @@ import {
 
 
 export const setTags = (
-  movie: Movie, tagSetter: TagSetter
-): ThunkAction<void, null, null, MyMoviesActionTypes> => async (
+  movie: Movie, tagSetter: TagSetter 
+): ThunkAction<void, null, null, MyMoviesActionTypes> => (
   dispatch
 ) => {
-  await new Promise(resolve => resolve())
-    .then(_ => void dispatch({
+  new Promise(resolve => resolve())
+    .then(() => void dispatch({
       type: SET_TAGS,
       movie,
       tagSetter
@@ -36,7 +36,7 @@ export const setTags = (
 
 export const createTag = (
   tag: string
-): ThunkAction<void, MyMovies, null, MyMoviesActionTypes> => async (
+): ThunkAction<void, MyMovies, null, MyMoviesActionTypes> => (
   dispatch, getState
 ) => {
   const { byTag } = getState();
@@ -49,25 +49,25 @@ export const createTag = (
     }    
   }
   
-  await new Promise(resolve => resolve())
-  .then(_ => void dispatch({
-    type: CREATE_TAG,
-    tag
-  }))
-  .catch();
+  new Promise(resolve => resolve())
+    .then(() => void dispatch({
+      type: CREATE_TAG,
+      tag
+    }))
+    .catch();
 };
 
 export const deleteTag = (
   tag: string
-): ThunkAction<void, null, null, MyMoviesActionTypes> => async (
+): ThunkAction<void, null, null, MyMoviesActionTypes> => (
   dispatch
 ) => {
-  await new Promise(resolve => resolve())
-  .then(_ => void dispatch({
-    type: DELETE_TAG,
-    tag
-  }))
-  .catch();
+  new Promise(resolve => resolve())
+    .then(_ => void dispatch({
+      type: DELETE_TAG,
+      tag
+    }))
+    .catch();
 };
 
 export const setFilter = (
@@ -87,10 +87,10 @@ export const setFilterToAll = (): MyMoviesActionTypes => {
 
 export const deleteMovie = (
   movie: Movie
-): ThunkAction<void, null, null, MyMoviesActionTypes> => async (
+): ThunkAction<void, null, null, MyMoviesActionTypes> => (
   dispatch
 ) => {
-  await new Promise(resolve => resolve())
+  new Promise(resolve => resolve())
     .then(_ => void dispatch({
       type: DELETE_MOVIE,
       movie
