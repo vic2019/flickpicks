@@ -1,4 +1,6 @@
 import React, { memo, useState } from 'react';
+import Button from '@material-ui/core/Button';
+import Drawer from '@material-ui/core/Drawer';
 
 import { connect } from 'react-redux';
 import { AppState } from '../store';
@@ -6,18 +8,27 @@ import { AppState } from '../store';
 import { setTags } from '../store/my-movies/actions';
 import { Movie, ByTag } from '../store/my-movies/types'
 
+
+export enum Side {
+  Top = 'top',
+  Bottom = 'bottom'
+}
+
 interface Props {
-  movie: Movie
   byTag: ByTag
   setTags: any
+  side: Side
+  id?: Movie['id']
 }
 
 const TagSelector = memo(({
-  movie,
   byTag,
-  setTags
+  setTags,
+  side,
+  id
 }: Props) => {
   const [ visible, set ] = useState(false);
+
   const options = Object.keys(byTag).map(tagName => (
     <div >
       <input type='checkbox' value={tagName} />
@@ -25,23 +36,28 @@ const TagSelector = memo(({
     </div>  
   ));
 
-  const onClick = () => {
-    set(!visible);
-  };
+  const toggle = (isVisible: boolean) => () => void set(isVisible);
   
-
   return(
     <div className='TagSelector'>
-      <p 
-        className='tag-selector-button'
-        onClick={onClick}
-      >Add Tags</p>
-      {visible?
-        <div className='tag-selector-dropdown'>
-          {options}
-          <div className='tag-selector-save-button'> Save </div>
-        </div>: null
-      }
+      <Button 
+        className='tag-selector-toggle'
+        size='small'
+        color='primary'
+        variant='outlined'
+        onClick={toggle(true)}
+      >
+        Edit Tags
+      </Button>
+      <Drawer 
+        className='tag-selector-dropdown' 
+        anchor={side} 
+        open={visible} 
+        onClose={toggle(false)}
+      >
+        {options}
+        <Button className='tag-selector-save-button'> Save {id} </Button>
+      </Drawer>
     </div>
   )
 });

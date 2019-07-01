@@ -1,8 +1,10 @@
 import React from 'react';
-import TagSelector from './TagSelector';
+
+import TagSelector, { Side } from './TagSelector';
 import Divider from './Divider';
 
 import { Movie } from '../store/my-movies/types';
+
 
 interface Props {
   movie: Movie
@@ -21,13 +23,14 @@ const MovieItem = ({ movie }: Props)  => {
     <>
       <div className='MovieItem'>
         <img
+          className='movie-item-thumb'
           src={`https://image.tmdb.org/t/p/w500${image}`}
           alt='movie poster'
         />
-        <div className='text-container'>
-          <p className='title'>{title}</p>
-          <p>{`Date Added: ${dateAdded}`}</p>
-          <TagSelector movie={movie}/> 
+        <div>
+          <div className='movie-item-title'>{title}</div>
+          <div>{`Date Added: ${dateAdded}`}</div>
+          <TagSelector side={Side.Bottom} id={movie.id}/> 
         </div>
       </div>
       <Divider />

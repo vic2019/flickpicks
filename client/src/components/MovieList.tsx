@@ -1,4 +1,5 @@
 import React from 'react';
+
 import MovieItem from './MovieItem';
 
 import { connect } from 'react-redux';
@@ -25,7 +26,7 @@ const MovieList = ({
   deleteMovie 
 }: Props)  => {
   return (
-    <div className='MovieList'>
+    <div>
       {allIds.map(id => (
         <MovieItem key={id} movie={byId[id]} />
       ))}
