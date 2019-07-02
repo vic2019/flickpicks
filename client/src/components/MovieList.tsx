@@ -5,29 +5,37 @@ import MovieItem from './MovieItem';
 import { connect } from 'react-redux';
 import { AppState } from '../store';
 
-import { setTags, createTag, deleteMovie } from '../store/my-movies/actions';
-import { ById, ByTag } from '../store/my-movies/types';
+import { ById, ByTag, Filters } from '../store/my-movies/types';
 
 interface Props {
   byId: ById
   byTag: ByTag
   allIds: string[]
-  setTags: any
-  createTag: any
-  deleteMovie: any
+  filters: Filters
+  showAll: boolean
 }
 
 const MovieList = ({
   byId,
   byTag,
   allIds,
-  setTags, 
-  createTag, 
-  deleteMovie 
+  filters,
+  showAll
 }: Props)  => {
   return (
     <div>
-      {allIds.map(id => (
+      {showAll?
+      allIds.map(id => (
+        <MovieItem key={id} movie={byId[id]} />
+      )):
+      allIds.filter(id => {
+        for (let tag of Object.keys(filters)) {
+          if (!filters[tag]) continue;
+          if (byTag[tag][id]) return true;
+        }
+
+        return false
+      }).map(id => (
         <MovieItem key={id} movie={byId[id]} />
       ))}
     </div>
@@ -37,10 +45,11 @@ const MovieList = ({
 const mapStateToProps = (state: AppState) => ({
   byId: state.myMovies.byId,
   byTag: state.myMovies.byTag,
-  allIds: state.myMovies.allIds
+  allIds: state.myMovies.allIds,
+  filters: state.myMovies.filters,
+  showAll: state.myMovies.showAll
 });
 
 export default connect(
   mapStateToProps,
-  { setTags, createTag, deleteMovie }
 )(MovieList);

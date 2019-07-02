@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Zoom } from '@material-ui/core';
+import { Fade } from '@material-ui/core';
 
 import TagSelector from './TagSelector';
 import DeleteMovie from './DeleteMovie';
@@ -26,7 +26,7 @@ const MovieItem = ({ movie }: Props)  => {
   // const deleteMovie
 
   return (
-    <Zoom in={isVisible} timeout={{ enter: 0, exit: 200 }}>
+    <Fade in={isVisible} timeout={{ enter: 0, exit: 175 }}>
       <div className='MovieItem'>
         <img
           className='movie-item-thumb'
@@ -37,11 +37,11 @@ const MovieItem = ({ movie }: Props)  => {
           <div className='movie-item-title'>{title}</div>
           <div>{`Date Added: ${dateAdded}`}</div>
           <TagSelector movie={movie} />
-          <DeleteMovie movie={movie} zoomOut={setVisible}/>
+          <DeleteMovie movie={movie} transitionOut={setVisible}/>
         </div>
         <Divider />
       </div>
-    </Zoom>
+    </Fade>
   );
 }
 

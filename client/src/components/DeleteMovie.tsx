@@ -10,13 +10,13 @@ import { Movie } from '../store/my-movies/types';
 interface Props {
   movie: Movie
   deleteMovie: any
-  zoomOut: any
+  transitionOut: any
 }
 
-const DeleteMovie = ({ movie, deleteMovie, zoomOut }: Props) => {
+const DeleteMovie = ({ movie, deleteMovie, transitionOut }: Props) => {
   const deleteMovieItem = () => {
-    zoomOut(false);
-    setTimeout(() => void deleteMovie(movie), 400); 
+    transitionOut(false);
+    setTimeout(() => void deleteMovie(movie), 225); 
   };
 
   return (

@@ -44,18 +44,6 @@ const TagSelector = ({
 
     toggleDrawer(false)();
   };
-
-  // Does it make a different whether options is an array or function?
-  const options = () => Object.keys(byTag).map(tag => (
-    <ListItem button onClick={toggleCheckbox(tag)}>
-      <ListItemIcon>
-        <Checkbox
-          checked={checks[tag]}
-        />
-      </ListItemIcon>
-      <ListItemText primary={tag} />
-    </ListItem> 
-  ));
   
   useEffect(() => {
     if (!isOpen) return;
@@ -81,11 +69,20 @@ const TagSelector = ({
         onClose={toggleDrawer(false)}
         PaperProps={{
           style: {
-            maxHeight: '87vh',
+            maxHeight: '90vh',
           }
         }}
       >
-        {options()}
+        {Object.keys(byTag).map(tag => (
+          <ListItem button onClick={toggleCheckbox(tag)}>
+            <ListItemIcon>
+              <Checkbox
+                checked={checks[tag]}
+              />
+            </ListItemIcon>
+            <ListItemText primary={tag} />
+          </ListItem> 
+        ))}
         <ButtonGroup fullWidth size='large' variant='outlined'>
           <Button onClick={toggleDrawer(false)}>Cancel</Button>
           <Button onClick={save}>Save</Button>

@@ -22,6 +22,10 @@ export interface TagSetter {
   [key: string]: boolean
 }
 
+export interface Filters {
+  [key: string]: boolean
+}
+
 export interface ByTag {
   [key: string]: {
     [key: string]: boolean 
@@ -36,7 +40,8 @@ export interface MyMovies {
   byId: ById
   byTag: ByTag
   allIds: string[]
-  filters: TagSetter
+  filters: Filters
+  showAll: boolean
 }
 
 interface SetTagsAction {

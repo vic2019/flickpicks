@@ -81,23 +81,27 @@ export const testState = {
       'Watched': { 'id0': true, 'id1': false, 'id2': false },
       classic: { 'id0': true, 'id1': true, 'id2': false },
       'rom com': { 'id0': false, 'id1': false, 'id2': false },
-      // 'a': {},
-      // 'b': {},
-      // 'c': {},
-      // 'd': {},
-      // 'e': {},
-      // 'f': {},
-      // 'g': {},
-      // 'h': {},
-      // 'i': {},
+      'a': {},
+      'b': {},
+      'c': {},
+      'd': {},
+      'e': {},
+      'f': {}
     },
     allIds: ['id0', 'id1', 'id2', 'id3', 'id4', 'id5', 'id6', 'id7'],
     filters: {
       'To-Watch': true,
       'Watched': false,
       classic: false,
-      'rom com': false
-    }
+      'rom com': false,
+      'a': false,
+      'b': false,
+      'c': false,
+      'd': false,
+      'e': false,
+      'f': false,
+    },
+    showAll: true
   }
 }
 
@@ -154,17 +158,13 @@ export const myMoviesReducer = (
       });
     case SET_FILTER:
       return Object.assign({}, myMovies, {
-        filters: action.filters
+        filters: Object.assign({}, action.filters),
+        showAll: false
       });
     case SET_FILTER_TO_ALL:
-      const tagSetter = Object.keys(myMovies.byTag).map(key => {
-        return {
-          [key]: true
-        };
-      });
       return Object.assign({}, myMovies, {
-        filters: Object.assign({}, ...tagSetter)
-      }); 
+        showAll: true
+      });
     case ERROR_INVALID_TAG:
       console.log(action.msg); //to be implemented
       return myMovies;

@@ -31,9 +31,9 @@ const FilterSelector = ({
     setChecks(Object.assign({}, checks, { [tag]: !checks[tag]}));
   };
 
-  const selectAll = () => {
+  const modifyAll = (toSelect: boolean) => () => {
     setChecks(Object.assign({}, ...Object.keys(filters).map(tag => ({ 
-      [tag]: true
+      [tag]: toSelect
     }))));
   }
 
@@ -51,6 +51,8 @@ const FilterSelector = ({
   return (
     <div>
       <Button onClick={toggleDrawer(true)}>Filters</Button>
+      /
+      <Button onClick={setFilterToAll}>Show All</Button>
       <Drawer 
         className='filter-selector-dropdown' 
         anchor='top'
@@ -58,7 +60,7 @@ const FilterSelector = ({
         onClose={toggleDrawer(false)}
         PaperProps={{
           style: {
-            maxHeight: '87vh',
+            maxHeight: '90vh',
           }
         }}
       >
@@ -74,13 +76,19 @@ const FilterSelector = ({
             </ListItemIcon>
           <ListItemText primary={tag} />
           </ListItem>
-        ))}               
+        ))}            
         <Button 
           fullWidth 
           size='large' 
           variant='outlined' 
-          onClick={selectAll}
+          onClick={modifyAll(true)}
         >Select All</Button>
+        <Button 
+          fullWidth 
+          size='large' 
+          variant='outlined' 
+          onClick={modifyAll(false)}
+        >Unselect All</Button>
         <ButtonGroup fullWidth size='large' variant='contained' color='primary'>
           <Button onClick={toggleDrawer(false)}>Cancel</Button>
           <Button onClick={applyFilters}>Apply</Button>
