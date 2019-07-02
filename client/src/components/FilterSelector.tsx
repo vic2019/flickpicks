@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Button, ButtonGroup, Checkbox, Drawer, ListItem, ListItemIcon, 
-  ListItemText, Typography } from '@material-ui/core';
+import { Button, ButtonGroup, Checkbox, Drawer, ListItem, ListItemIcon,
+  ListItemText, Typography, ListItemSecondaryAction, IconButton } 
+  from '@material-ui/core';
+import DeleteIcon from '@material-ui/icons/Delete';
 
 import { connect } from 'react-redux';
 import { AppState } from '../store';
@@ -19,7 +21,6 @@ interface Props {
 const FilterSelector = ({
   filters,
   setFilter, 
-  setFilterToAll,
   deleteTag 
 }: Props)  => {
   const [checks, setChecks] = useState(filters);
@@ -42,6 +43,8 @@ const FilterSelector = ({
     toggleDrawer(false)();
   }
 
+  const wrappedDeleteTag = (tag: string) => () => void deleteTag(tag);
+
   useEffect(() => {
     if (!isOpen) return;
 
@@ -49,10 +52,8 @@ const FilterSelector = ({
   }, [isOpen]); // Should byTag be in the array?
 
   return (
-    <div>
+    <>
       <Button onClick={toggleDrawer(true)}>Filters</Button>
-      /
-      <Button onClick={setFilterToAll}>Show All</Button>
       <Drawer 
         className='filter-selector-dropdown' 
         anchor='top'
@@ -70,6 +71,15 @@ const FilterSelector = ({
               <Checkbox checked={checks[tag]} />
             </ListItemIcon>
           <ListItemText primary={tag} />
+          <ListItemSecondaryAction>
+            <IconButton 
+              edge='end' 
+              aria-label='Delete'
+              onClick={wrappedDeleteTag(tag)}
+            >
+              <DeleteIcon />
+            </IconButton>
+          </ListItemSecondaryAction>
           </ListItem>
         ))}            
         <Button 
@@ -89,7 +99,7 @@ const FilterSelector = ({
           <Button onClick={applyFilters}>Apply</Button>
         </ButtonGroup>
       </Drawer>
-    </div>
+    </>
   );
 }
 

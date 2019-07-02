@@ -27,9 +27,7 @@ export interface Filters {
 }
 
 export interface ByTag {
-  [key: string]: {
-    [key: string]: boolean 
-  }
+  [key: string]: TagSetter
 }
 
 export interface ById {

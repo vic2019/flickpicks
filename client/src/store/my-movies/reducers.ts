@@ -1,4 +1,5 @@
 import {
+  Filters,
   ByTag,
   MyMovies,
   MyMoviesActionTypes,
@@ -108,9 +109,17 @@ export const testState = {
 let state = testState;
 
 
-export const byTagReducer = (
-  byTag: ByTag = state.myMovies.byTag, action: MyMoviesActionTypes
-): ByTag => {
+interface TagReducerState {
+  byTag: ByTag
+  filters: Filters
+}
+
+export const tagReducer = (
+  state: TagReducerState, 
+  action: MyMoviesActionTypes
+) => {
+  const { byTag, filters} = state;
+
   switch (action.type) {
     case SET_TAGS:
       const newByTagArray = Object.keys(action.tagSetter).map(key => {
@@ -121,17 +130,26 @@ export const byTagReducer = (
           })
         };
       });
-      return Object.assign({}, ...newByTagArray);
+      return {
+        byTag: Object.assign({}, ...newByTagArray),
+        filters
+      };
     case CREATE_TAG:
-      return Object.assign({}, byTag, {
-        [action.tag]: {}
-      });
+      return {
+        byTag: Object.assign({}, byTag, { [action.tag]: {} }),
+        filters: Object.assign({}, filters, { [action.tag]: false })
+      };
     case DELETE_TAG:
       const newByTag = Object.assign({}, byTag);
       delete newByTag[action.tag];
-      return newByTag;
+      const newFilters = Object.assign({}, filters);
+      delete newFilters[action.tag];
+      return {
+        byTag: newByTag,
+        filters: newFilters
+      };
     default:
-      return byTag;
+      return { byTag, filters };
   }
 };
 
@@ -143,9 +161,13 @@ export const myMoviesReducer = (
     case SET_TAGS:
     case CREATE_TAG:
     case DELETE_TAG:
-      return Object.assign({}, myMovies, {
-        byTag: byTagReducer(myMovies.byTag, action)
-      });
+      return Object.assign({}, myMovies, tagReducer(
+        {
+          byTag: myMovies.byTag,
+          filters: myMovies.filters
+        }, 
+        action
+      ));
     case DELETE_MOVIE:
       const newById = Object.assign({}, myMovies.byId);
       delete newById[action.movie.id];  
