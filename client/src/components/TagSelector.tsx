@@ -27,13 +27,13 @@ const TagSelector = ({
   };
 
   const [checks, setChecks] = useState(initializeChecks());
-  const [ isVisible, setVisible ] = useState(false);
+  const [ isOpen, setOpen ] = useState(false);
   
-  const toggleDrawer = (toOpen: boolean) => () => void setVisible(toOpen);
+  const toggleDrawer = (toOpen: boolean) => () => void setOpen(toOpen);
   
   const toggleCheckbox = (tag: string) => () => {
     setChecks(Object.assign({}, checks, { [tag]: !checks[tag]}));
-  }
+  };
       
   const save = async () => {
     try {
@@ -58,10 +58,10 @@ const TagSelector = ({
   ));
   
   useEffect(() => {
-    if (!isVisible) return;
+    if (!isOpen) return;
 
     setChecks(initializeChecks());
-  }, [isVisible]); // Should byTag be in the array?
+  }, [isOpen]); // Should byTag be in the array?
   
   return(
     <span className='TagSelector'>
@@ -77,7 +77,7 @@ const TagSelector = ({
       <Drawer 
         className='tag-selector-dropdown' 
         anchor='bottom'
-        open={isVisible} 
+        open={isOpen} 
         onClose={toggleDrawer(false)}
         PaperProps={{
           style: {
