@@ -1,6 +1,7 @@
 import React from 'react';
 
 import TagSelector from './TagSelector';
+import DeleteMovie from './DeleteMovie';
 import Divider from './Divider';
 
 import { Movie } from '../store/my-movies/types';
@@ -19,6 +20,8 @@ const MovieItem = ({ movie }: Props)  => {
     dateAdded
   } = movie;
 
+  // const deleteMovie
+
   return (
     <>
       <div className='MovieItem'>
@@ -30,7 +33,8 @@ const MovieItem = ({ movie }: Props)  => {
         <div>
           <div className='movie-item-title'>{title}</div>
           <div>{`Date Added: ${dateAdded}`}</div>
-          <TagSelector movie={movie}/> 
+          <TagSelector movie={movie} />
+          <DeleteMovie movie={movie} />
         </div>
       </div>
       <Divider />

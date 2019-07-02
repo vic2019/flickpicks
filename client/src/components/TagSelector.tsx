@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Button, ButtonGroup, Checkbox, Drawer, Divider, List, ListItem, 
-  ListItemIcon, ListItemText } from '@material-ui/core';
+import { Button, ButtonGroup, Checkbox, Drawer, ListItem, ListItemIcon, 
+  ListItemText } from '@material-ui/core';
 
 import { connect } from 'react-redux';
 import { AppState } from '../store';
 
 import { setTags } from '../store/my-movies/actions';
-import { Movie, ByTag, TagSetter } from '../store/my-movies/types'
+import { Movie, ByTag } from '../store/my-movies/types';
 
 
 interface Props {
@@ -31,8 +31,8 @@ const TagSelector = ({
   
   const toggleDrawer = (toOpen: boolean) => () => void setVisible(toOpen);
   
-  const toggleCheckbox = (tagName: string) => () => {
-    setChecks(Object.assign({}, checks, { [tagName]: !checks[tagName]}));
+  const toggleCheckbox = (tag: string) => () => {
+    setChecks(Object.assign({}, checks, { [tag]: !checks[tag]}));
   }
       
   const save = async () => {
@@ -45,26 +45,26 @@ const TagSelector = ({
     toggleDrawer(false)();
   };
 
-  const options = Object.keys(byTag).map(tagName => (
-    <ListItem button onClick={toggleCheckbox(tagName)}>
+  // Does it make a different whether options is an array or function?
+  const options = () => Object.keys(byTag).map(tag => (
+    <ListItem button onClick={toggleCheckbox(tag)}>
       <ListItemIcon>
         <Checkbox
-          checked={checks[tagName]}
-          disableRipple
+          checked={checks[tag]}
         />
       </ListItemIcon>
-      <ListItemText primary={tagName} />
+      <ListItemText primary={tag} />
     </ListItem> 
   ));
   
   useEffect(() => {
-    if (isVisible) return;
+    if (!isVisible) return;
 
     setChecks(initializeChecks());
-  }, [isVisible]);
+  }, [isVisible]); // Should byTag be in the array?
   
   return(
-    <div className='TagSelector'>
+    <span className='TagSelector'>
       <Button 
         className='tag-selector-toggle'
         size='small'
@@ -79,15 +79,19 @@ const TagSelector = ({
         anchor='bottom'
         open={isVisible} 
         onClose={toggleDrawer(false)}
+        PaperProps={{
+          style: {
+            maxHeight: '87vh',
+          }
+        }}
       >
-        {options}
-        {/* <Divider /> */}
+        {options()}
         <ButtonGroup fullWidth size='large' variant='outlined'>
-          <Button onClick={toggleDrawer(false)}>Cancel</Button> 
+          <Button onClick={toggleDrawer(false)}>Cancel</Button>
           <Button onClick={save}>Save</Button>
         </ButtonGroup>
       </Drawer>
-    </div>
+    </span>
   )
 };
 
