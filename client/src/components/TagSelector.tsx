@@ -67,11 +67,6 @@ const TagSelector = ({
         anchor='bottom'
         open={isOpen} 
         onClose={toggleDrawer(false)}
-        PaperProps={{
-          style: {
-            maxHeight: '90vh',
-          }
-        }}
       >
         {Object.keys(byTag).map(tag => (
           <ListItem button onClick={toggleCheckbox(tag)}>

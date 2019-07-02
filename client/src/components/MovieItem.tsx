@@ -26,7 +26,7 @@ const MovieItem = ({ movie }: Props)  => {
   // const deleteMovie
 
   return (
-    <Fade in={isVisible} timeout={{ enter: 0, exit: 175 }}>
+    <Fade in={isVisible} timeout={{ enter: 0, exit: 180 }}>
       <div className='MovieItem'>
         <img
           className='movie-item-thumb'

@@ -58,11 +58,6 @@ const FilterSelector = ({
         anchor='top'
         open={isOpen} 
         onClose={toggleDrawer(false)}
-        PaperProps={{
-          style: {
-            maxHeight: '90vh',
-          }
-        }}
       >
         <ListItem>
           <ListItemText primary={
