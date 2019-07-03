@@ -1,6 +1,21 @@
 $movie-item-thumb-height: 120px;
 $movie-item-thumb-padding: 15px;
 
+.my-movies-controls {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: flex-start;
+  align-items: center;
+  
+  .my-movies-filter-controls {
+    margin-left: $movie-item-thumb-padding - 8px;
+  }
+  
+  .create-custom-tag-textfield {
+    margin-left: $movie-item-thumb-padding;
+  }
+}
+
 
 .MovieItem {
   display: flex;

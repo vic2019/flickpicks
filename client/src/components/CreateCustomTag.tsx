@@ -1,89 +1,80 @@
-import React, { useState, useEffect } from 'react';
-import { Button, ButtonGroup, Checkbox, Drawer, ListItem, ListItemIcon, 
-  ListItemText } from '@material-ui/core';
+import React, { useState } from 'react';
+import { Input, Snackbar, SnackbarContent } from '@material-ui/core';
+import Error from '@material-ui/icons/Error';
 
 import { connect } from 'react-redux';
 import { AppState } from '../store';
 
-import { setTags } from '../store/my-movies/actions';
-import { Movie, ByTag } from '../store/my-movies/types';
+import { createTag } from '../store/my-movies/actions';
+import { ByTag } from '../store/my-movies/types';
 
 
 interface Props {
-  setTags: any
+  createTag: any
   byTag: ByTag
-  movie: Movie
 }
 
 const CreateCustomTag = ({
-  setTags,
-  byTag,
-  movie
+  createTag,
+  byTag
 }: Props) => {
-  const initializeChecks = () => {
-    return Object.assign({}, ...Object.keys(byTag).map(tag => ({
-      [tag]: Boolean(byTag[tag][movie.id])
-    })));   
+  const [textField, setTextField] = useState('');
+  const [duplicateError, setDuplicateError] = useState(false);
+
+  const closeDuplicateError = () => setDuplicateError(false);
+
+  const handleChange = (e: any) => {
+    setTextField(e.target.value);
   };
 
-  const [checks, setChecks] = useState(initializeChecks());
-  const [ isOpen, setOpen ] = useState(false);
-  
-  const toggleDrawer = (toOpen: boolean) => () => void setOpen(toOpen);
-  
-  const toggleCheckbox = (tag: string) => () => {
-    setChecks(Object.assign({}, checks, { [tag]: !checks[tag]}));
-  };
-      
-  const save = async () => {
-    try {
-      await setTags(movie, checks);
-    } catch(err) {
-      alert(err);
+  const submit = async (e: any) => {
+    e.preventDefault();
+    const newTag = textField;
+
+    for (let tag of Object.keys(byTag)) {
+      if (tag === newTag) {
+        setDuplicateError(true);
+        return;
+      }    
     }
 
-    toggleDrawer(false)();
-  };
-  
-  useEffect(() => {
-    if (!isOpen) return;
-
-    setChecks(initializeChecks());
-  }, [isOpen]); // Should byTag be in the array?
+    await createTag(newTag);
+    setTextField('');
+  }
   
   return(
-    <span className='TagSelector'>
-      <Button 
-        className='tag-selector-toggle'
-        size='small'
-        color='primary'
-        variant='outlined'
-        onClick={toggleDrawer(true)}
+    <>
+      <form 
+        className='create-custom-tag-textfield'
+        onSubmit={submit}
       >
-        Edit Tags
-      </Button>
-      <Drawer 
-        className='tag-selector-dropdown' 
-        anchor='bottom'
-        open={isOpen} 
-        onClose={toggleDrawer(false)}
+        <Input
+          placeholder="Add a custom tag"
+          margin='none'
+          disableUnderline
+          value={textField}
+          onChange={handleChange}
+        />
+      </form>
+      <Snackbar
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'left',
+        }}
+        open={duplicateError}
+        autoHideDuration={2200}
+        onClose={closeDuplicateError}
       >
-        {Object.keys(byTag).map(tag => (
-          <ListItem button onClick={toggleCheckbox(tag)}>
-            <ListItemIcon>
-              <Checkbox
-                checked={checks[tag]}
-              />
-            </ListItemIcon>
-            <ListItemText primary={tag} />
-          </ListItem> 
-        ))}
-        <ButtonGroup fullWidth size='large' variant='outlined'>
-          <Button onClick={toggleDrawer(false)}>Cancel</Button>
-          <Button onClick={save}>Save</Button>
-        </ButtonGroup>
-      </Drawer>
-    </span>
+        <SnackbarContent
+          message={
+            <span style={{ display: 'flex', alignItems: 'center' }}>
+              <Error />
+              <span>{`Error: The tag "${textField}" already exists.`}</span>
+            </span>
+          }
+        />
+      </Snackbar>
+    </>
   )
 };
 
@@ -93,5 +84,5 @@ const mapStateToProps = (state: AppState) => ({
 
 export default connect(
   mapStateToProps,
-  { setTags }
+  { createTag }
 )(CreateCustomTag);

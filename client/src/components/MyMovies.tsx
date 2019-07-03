@@ -10,11 +10,16 @@ import LoadButton from './LoadButton';
 const MyMovies = () => {
   return (
     <>
-      <FilterSelector />
-      /
-      <ShowAll />
-      /
-      {/* <CreateCustomTag /> */}
+      <div className='my-movies-controls'>
+        <span className='my-movies-filter-controls'>
+          <FilterSelector />
+          /
+          <ShowAll />
+          /
+        </span>
+        <CreateCustomTag />
+      </div>
+      <br />
       <MovieList />
       <LoadButton />
     </>

@@ -46,10 +46,10 @@ const FilterSelector = ({
   const wrappedDeleteTag = (tag: string) => () => void deleteTag(tag);
 
   useEffect(() => {
-    if (!isOpen) return;
+    if (!isOpen) return; 
 
     setChecks(filters);
-  }, [isOpen]); // Should byTag be in the array?
+  }, [isOpen]);
 
   return (
     <>

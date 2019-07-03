@@ -6,6 +6,7 @@ import {
   TagSetter,
   ByTag,
   MyMovies,
+  AppState,
   MyMoviesActionTypes,
   SET_TAGS,
   CREATE_TAG, 
@@ -36,10 +37,10 @@ export const setTags = (
 
 export const createTag = (
   tag: string
-): ThunkAction<void, MyMovies, null, MyMoviesActionTypes> => (
+): ThunkAction<void, AppState, null, MyMoviesActionTypes> => (
   dispatch, getState
 ) => {
-  const { byTag } = getState();
+  const { byTag } = getState().myMovies;
   for (let key of Object.keys(byTag)) {
     if (tag === key) {
       return void dispatch({

@@ -10,6 +10,10 @@ export const ERROR_UNDO_DELETE = 'ERROR_UNDO_DELETE';
 export const ERROR_NETWORK = 'ERROR_NETWORK';
 
 
+export interface AppState {
+  myMovies: MyMovies
+}
+
 export interface Movie {
   id: string
   tMDb_id: string | number

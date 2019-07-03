@@ -179,8 +179,10 @@ export const myMoviesReducer = (
         allIds: newAllIds
       });
     case SET_FILTER:
+      const newFilters = Object.assign({}, ...Object.keys(myMovies.filters)
+        .map(tag => ({ [tag]: action.filters[tag] })));
       return Object.assign({}, myMovies, {
-        filters: Object.assign({}, action.filters),
+        filters: newFilters,
         showAll: false
       });
     case SET_FILTER_TO_ALL:
