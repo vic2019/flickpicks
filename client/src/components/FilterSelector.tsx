@@ -7,48 +7,56 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import { connect } from 'react-redux';
 import { AppState } from '../store';
 
-import { setFilter, setFilterToAll, deleteTag } 
+import { setFilters, deleteTag } 
   from '../store/my-movies/actions'
-import { TagSetter } from '../store/my-movies/types';
+import { Set, ByTag } from '../store/my-movies/types';
+import { booleanLiteral } from '@babel/types';
 
 interface Props {
-  filters: TagSetter
-  setFilter: any
-  setFilterToAll: any
+  byTag: ByTag
+  filters: Set
+  setFilters: any
   deleteTag: any
 }
 
 const FilterSelector = ({
+  byTag,
   filters,
-  setFilter, 
+  setFilters,
   deleteTag 
 }: Props)  => {
-  const [checks, setChecks] = useState(filters);
+  const initChecks = () => Object.assign({}, ...Object.keys(byTag).map(tag => {
+    return { 
+      [tag]: Boolean(filters[tag]) 
+    };
+  }));
+
+  const [checks, setChecks] = useState(initChecks());
   const [isOpen, setOpen] = useState(false);
 
-  const toggleDrawer = (isOpen: boolean) => () => void setOpen(isOpen);
+  const toggleDrawer = (isOpen: boolean) => () => setOpen(isOpen);
 
   const toggleCheckbox = (tag: string) => () => {
-    setChecks(Object.assign({}, checks, { [tag]: !checks[tag]}));
+    setChecks(Object.assign({}, checks, { [tag]: !checks[tag] }));
   };
 
-  const modifyAll = (toSelect: boolean) => () => {
-    setChecks(Object.assign({}, ...Object.keys(filters).map(tag => ({ 
-      [tag]: toSelect
+  const modifyAll = (isChecked: boolean) => () => {
+    setChecks(Object.assign({}, ...Object.keys(checks).map(tag => ({ 
+      [tag]: isChecked
     }))));
   }
 
   const applyFilters = () => {
-    setFilter(checks);
+    setFilters(checks);
     toggleDrawer(false)();
   }
 
-  const wrappedDeleteTag = (tag: string) => () => void deleteTag(tag);
+  const wrappedDeleteTag = (tag: string) => () => deleteTag(tag);
 
   useEffect(() => {
     if (!isOpen) return; 
 
-    setChecks(filters);
+    setChecks(initChecks());
   }, [isOpen]);
 
   return (
@@ -65,21 +73,21 @@ const FilterSelector = ({
             <Typography align='left' variant='h6'>Show me only...</Typography>
           }/>
         </ListItem>
-        {Object.keys(filters).map(tag => (
+        {Object.keys(byTag).map(tag => (
           <ListItem button onClick={toggleCheckbox(tag)}>
             <ListItemIcon>
               <Checkbox checked={checks[tag]} />
             </ListItemIcon>
-          <ListItemText primary={tag} />
-          <ListItemSecondaryAction>
-            <IconButton 
-              edge='end' 
-              aria-label='Delete'
-              onClick={wrappedDeleteTag(tag)}
-            >
-              <DeleteIcon />
-            </IconButton>
-          </ListItemSecondaryAction>
+            <ListItemText primary={tag} />
+            <ListItemSecondaryAction>
+              <IconButton 
+                edge='end' 
+                aria-label='Delete'
+                onClick={wrappedDeleteTag(tag)}
+              >
+                <DeleteIcon />
+              </IconButton>
+            </ListItemSecondaryAction>
           </ListItem>
         ))}            
         <Button 
@@ -104,10 +112,11 @@ const FilterSelector = ({
 }
 
 const mapStateToProps = (state: AppState) => ({
+  byTag: state.myMovies.byTag,
   filters: state.myMovies.filters
 });
 
 export default connect(
   mapStateToProps,
-  { setFilter, setFilterToAll, deleteTag }
+  { setFilters, deleteTag }
 )(FilterSelector);

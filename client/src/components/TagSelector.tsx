@@ -49,7 +49,7 @@ const TagSelector = ({
     if (!isOpen) return;
 
     setChecks(initializeChecks());
-  }, [isOpen]); // Should byTag be in the array?
+  }, [isOpen]);
   
   return(
     <span className='TagSelector'>
@@ -71,9 +71,7 @@ const TagSelector = ({
         {Object.keys(byTag).map(tag => (
           <ListItem button onClick={toggleCheckbox(tag)}>
             <ListItemIcon>
-              <Checkbox
-                checked={checks[tag]}
-              />
+              <Checkbox checked={checks[tag]} />
             </ListItemIcon>
             <ListItemText primary={tag} />
           </ListItem> 

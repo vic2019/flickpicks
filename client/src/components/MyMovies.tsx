@@ -1,8 +1,8 @@
 import React from 'react';
 
 import FilterSelector from './FilterSelector';
-import ShowAll from './ShowAll';
-import CreateCustomTag from './CreateCustomTag';
+import ShowAllButton from './ShowAllButton';
+import CustomTagInput from './CustomTagInput';
 import MovieList from './MovieList';
 import LoadButton from './LoadButton';
 
@@ -14,10 +14,10 @@ const MyMovies = () => {
         <span className='my-movies-filter-controls'>
           <FilterSelector />
           /
-          <ShowAll />
+          <ShowAllButton />
           /
         </span>
-        <CreateCustomTag />
+        <CustomTagInput />
       </div>
       <br />
       <MovieList />

@@ -1,18 +1,17 @@
 import {
-  Filters,
+  Set,
   ByTag,
   MyMovies,
   MyMoviesActionTypes,
   SET_TAGS,
   CREATE_TAG, 
   DELETE_TAG, 
-  SET_FILTER,
-  SET_FILTER_TO_ALL,
+  SET_FILTERS,
+  SHOW_ALL,
   DELETE_MOVIE,
-  ERROR_INVALID_TAG,
+  ById,
   // UNDO_DELETE,
-  // ERROR_UNDO_DELETE,
-  // ERROR_NETWORK
+  // ERROR
 } from './types';
 
 
@@ -42,158 +41,175 @@ export const testState = {
       },
       id3: {
         id: 'id3',
-        tMDb_id: '13466',
-        title: 'October Sky',
-        image: '/oeFdjM0P3DMIKOloApLAn96GHiM.jpg',
-        dateAdded: '2019-06-22'
+        tMDb_id: '429617',
+        title: 'Spider-Man: Far from Home',
+        image: '/2cAc4qH9Uh2NtSujJ90fIAMrw7T.jpg',
+        dateAdded: '2019-06-23'
       },
       id4: {
         id: 'id4',
-        tMDb_id: '13466',
-        title: 'October Sky',
-        image: '/oeFdjM0P3DMIKOloApLAn96GHiM.jpg',
-        dateAdded: '2019-06-22'
+        tMDb_id: '301528',
+        title: 'Toy Story 4',
+        image: '/w9kR8qbmQ01HwnvK4alvnQ2ca0L.jpg',
+        dateAdded: '2019-06-23'
       },
       id5: {
         id: 'id5',
-        tMDb_id: '13466',
-        title: 'October Sky',
-        image: '/oeFdjM0P3DMIKOloApLAn96GHiM.jpg',
-        dateAdded: '2019-06-22'
+        tMDb_id: '486131',
+        title: 'Shaft',
+        image: '/kfZqwGuvEBAysAbCsa0QLKoSYR.jpg',
+        dateAdded: '2019-06-23'
       },
       id6: {
         id: 'id6',
-        tMDb_id: '13466',
-        title: 'October Sky',
-        image: '/oeFdjM0P3DMIKOloApLAn96GHiM.jpg',
-        dateAdded: '2019-06-22'
+        tMDb_id: '320288',
+        title: 'Dark Phoenix',
+        image: '/kZv92eTc0Gg3mKxqjjDAM73z9cy.jpg',
+        dateAdded: '2019-06-24'
       },
       id7: {
         id: 'id7',
-        tMDb_id: '13466',
-        title: 'October Sky',
-        image: '/oeFdjM0P3DMIKOloApLAn96GHiM.jpg',
-        dateAdded: '2019-06-22'
+        tMDb_id: '566555',
+        title: 'Detective Conan: The Fist of Blue Sapphire',
+        image: '/86Y6qM8zTn3PFVfCm9J98Ph7JEB.jpg',
+        dateAdded: '2019-06-25'
       },
-
+      id8: {
+        id: 'id8',
+        tMDb_id: '299537',
+        title: 'Captain Marvel',
+        image: '/AtsgWhDnHTq68L0lLsUrCnM7TjG.jpg',
+        dateAdded: '2019-07-01'
+      },
+      id9: {
+        id: 'id9',
+        tMDb_id: '420817',
+        title: 'Aladdin',
+        image: '/3iYQTLGoy7QnjcUYRJy4YrAgGvp.jpg',
+        dateAdded: '2019-07-02'
+      }
     },
     byTag: {
-      'To-Watch': { 'id0': false, 'id1': true, 'id2': true },
-      'Watched': { 'id0': true, 'id1': false, 'id2': false },
-      classic: { 'id0': true, 'id1': true, 'id2': false },
-      'rom com': { 'id0': false, 'id1': false, 'id2': false },
-      'a': {},
-      'b': {},
-      'c': {},
-      'd': {},
-      'e': {},
-      'f': {}
+      'To-Watch': { 'id3': true, 'id5': true, 'id7': true, 'id9': true },
+      'Watched': { 'id0': true, 'id1': true, 'id2': true, 'id6': true },
+      'classic': { 'id0': true, 'id1': true },
+      'Superhero': { 'id3': true, 'id6': true, 'id8': true },
+      'Fantasy': { 'id0': true, 'id9': true },
+      'Animated': { 'id4': true, 'id7': true },
+      '???': { 'id2': true }
     },
-    allIds: ['id0', 'id1', 'id2', 'id3', 'id4', 'id5', 'id6', 'id7'],
-    filters: {
-      'To-Watch': true,
-      'Watched': false,
-      classic: false,
-      'rom com': false,
-      'a': false,
-      'b': false,
-      'c': false,
-      'd': false,
-      'e': false,
-      'f': false,
-    },
-    showAll: true
+    allIds: [
+      'id0', 'id1', 'id2', 'id3', 'id4', 'id5', 'id6', 'id7', 'id8', 'id9'
+    ],
+    filters: { 'To-Watch': true, 'Superhero': true },
+    showAll: false
   }
 }
+
 
 let state = testState;
 
 
-interface TagReducerState {
-  byTag: ByTag
-  filters: Filters
-}
-
-export const tagReducer = (
-  state: TagReducerState, 
+const byIdReducer = (
+  byId: ById,
   action: MyMoviesActionTypes
-) => {
-  const { byTag, filters} = state;
-
-  switch (action.type) {
-    case SET_TAGS:
-      const newByTagArray = Object.keys(action.tagSetter).map(key => {
-        if (byTag[key] === undefined) return {};
-        return {
-          [key]: Object.assign({}, byTag[key], {
-            [action.movie.id]: action.tagSetter[key]
-          })
-        };
-      });
-      return {
-        byTag: Object.assign({}, ...newByTagArray),
-        filters
-      };
-    case CREATE_TAG:
-      return {
-        byTag: Object.assign({}, byTag, { [action.tag]: {} }),
-        filters: Object.assign({}, filters, { [action.tag]: false })
-      };
-    case DELETE_TAG:
-      const newByTag = Object.assign({}, byTag);
-      delete newByTag[action.tag];
-      const newFilters = Object.assign({}, filters);
-      delete newFilters[action.tag];
-      return {
-        byTag: newByTag,
-        filters: newFilters
-      };
+): ById => {
+  switch(action.type) {
+    case DELETE_MOVIE:
+      const newById = Object.assign({}, byId);
+      delete newById[action.movie.id];
+      return newById;
     default:
-      return { byTag, filters };
+      return  byId;
   }
 };
 
+const byTagReducer = (
+  byTag: ByTag,
+  action: MyMoviesActionTypes
+): ByTag => {
+  switch(action.type) {
+    case SET_TAGS:
+      const tagArray_setTags: ByTag[] = Object.keys(byTag).map(tag => {
+        const newSet: Set = Object.assign({}, byTag[tag], { 
+          [action.movie.id]: true
+        });
+        if (!action.tags[tag]) delete newSet[action.movie.id];          
+        return { [tag]: newSet };
+      });    
+      return Object.assign({}, ...tagArray_setTags);
+    case CREATE_TAG:
+      return Object.assign({}, byTag, { [action.tag]: {} });
+    case DELETE_TAG:
+      const newByTag: ByTag = Object.assign({}, byTag);
+      delete newByTag[action.tag];
+      return newByTag;
+    case DELETE_MOVIE:
+      const tagArray_deleteMovie: ByTag[] = Object.keys(byTag).map(tag => {
+        const newSet: Set = Object.assign({}, byTag[tag]);
+        delete newSet[action.movie.id];
+        return { [tag]: newSet };
+      });
+      return Object.assign({}, ...tagArray_deleteMovie);    
+    default:
+      return byTag;
+  }
+}
 
 export const myMoviesReducer = (
-  myMovies: MyMovies = state.myMovies, action: MyMoviesActionTypes
+  { byId, byTag, allIds, filters, showAll }: MyMovies = state.myMovies,
+  action: MyMoviesActionTypes
 ): MyMovies => {
   switch (action.type) {
     case SET_TAGS:
+      return {
+        byId: byIdReducer(byId, action),
+        byTag: byTagReducer(byTag, action),
+        allIds,
+        filters,
+        showAll
+      };
     case CREATE_TAG:
+      return {
+        byId: byIdReducer(byId, action),
+        byTag: byTagReducer(byTag, action),
+        allIds,
+        filters,
+        showAll
+      };
     case DELETE_TAG:
-      return Object.assign({}, myMovies, tagReducer(
-        {
-          byTag: myMovies.byTag,
-          filters: myMovies.filters
-        }, 
-        action
-      ));
+      return {
+        byId: byIdReducer(byId, action),
+        byTag: byTagReducer(byTag, action),
+        allIds,
+        filters,
+        showAll
+      };
     case DELETE_MOVIE:
-      const newById = Object.assign({}, myMovies.byId);
-      delete newById[action.movie.id];  
-      const newAllIds = myMovies.allIds.filter(id => {
-        return id !== action.movie.id
-      });    
-      return Object.assign({}, myMovies, {
-        byId: newById,
-        allIds: newAllIds
-      });
-    case SET_FILTER:
-      const newFilters = Object.assign({}, ...Object.keys(myMovies.filters)
-        .map(tag => ({ [tag]: action.filters[tag] })));
-      return Object.assign({}, myMovies, {
-        filters: newFilters,
+      return {
+        byId: byIdReducer(byId, action),
+        byTag: byTagReducer(byTag, action),
+        allIds: allIds.filter(id => id !== action.movie.id),
+        filters,
+        showAll
+      };  
+    case SET_FILTERS:
+      return {
+        byId: byIdReducer(byId, action),
+        byTag: byTagReducer(byTag, action),
+        allIds,
+        filters: action.filters,
         showAll: false
-      });
-    case SET_FILTER_TO_ALL:
-      return Object.assign({}, myMovies, {
+      };
+    case SHOW_ALL:
+      return {
+        byId: byIdReducer(byId, action),
+        byTag: byTagReducer(byTag, action),
+        allIds,
+        filters,
         showAll: true
-      });
-    case ERROR_INVALID_TAG:
-      console.log(action.msg); //to be implemented
-      return myMovies;
+      };
     default:
-      return myMovies;
+      return { byId, byTag, allIds, filters, showAll };
   }
 };
-

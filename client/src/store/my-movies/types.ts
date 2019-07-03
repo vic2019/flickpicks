@@ -1,13 +1,11 @@
 export const SET_TAGS = 'SET_TAG';
 export const CREATE_TAG = 'CREATE_TAG';
 export const DELETE_TAG = 'DELETE_TAG';
-export const SET_FILTER = 'SET_FILTER';
-export const SET_FILTER_TO_ALL = 'SET_FILTER_TO_ALL';
+export const SET_FILTERS = 'SET_FILTERs';
+export const SHOW_ALL = 'SHOW_ALL';
 export const DELETE_MOVIE = 'DELETE_MOVIE';
 export const UNDO_DELETE = 'UNDO_DELETE';
-export const ERROR_INVALID_TAG = 'ERROR_INVALID_TAG';
-export const ERROR_UNDO_DELETE = 'ERROR_UNDO_DELETE';
-export const ERROR_NETWORK = 'ERROR_NETWORK';
+export const ERROR = 'ERROR';
 
 
 export interface AppState {
@@ -16,40 +14,36 @@ export interface AppState {
 
 export interface Movie {
   id: string
-  tMDb_id: string | number
+  tMDb_id: string
   title: string
   image: string
   dateAdded: string
 }
 
-export interface TagSetter {
+export interface Set {
   [key: string]: boolean
-}
-
-export interface Filters {
-  [key: string]: boolean
-}
-
-export interface ByTag {
-  [key: string]: TagSetter
 }
 
 export interface ById {
   [key: string]: Movie
 }
 
+export interface ByTag {
+  [key: string]: Set
+}
+
 export interface MyMovies {
   byId: ById
   byTag: ByTag
   allIds: string[]
-  filters: Filters
+  filters: Set
   showAll: boolean
 }
 
 interface SetTagsAction {
   type: typeof SET_TAGS
   movie: Movie 
-  tagSetter: TagSetter
+  tags: Set
 };
 
 interface ModifyTagAction {
@@ -57,13 +51,13 @@ interface ModifyTagAction {
   tag: string
 }
 
-interface SetFilterAction {
-  type: typeof SET_FILTER
-  filters: TagSetter
+interface SetFiltersAction {
+  type: typeof SET_FILTERS
+  filters: Set
 };
 
-interface SetFilterToAllAction {
-  type: typeof SET_FILTER_TO_ALL
+interface ShowAllAction {
+  type: typeof SHOW_ALL
 };
 
 interface DeleteMovieAction {
@@ -76,9 +70,9 @@ interface UndoDeleteAction {
 }
 
 interface ErrorAction {
-  type: typeof ERROR_INVALID_TAG | typeof ERROR_UNDO_DELETE | typeof ERROR_NETWORK
+  type: typeof ERROR
   msg: string | number
 }
 
 export type MyMoviesActionTypes = 
-  SetTagsAction | ModifyTagAction | SetFilterAction | SetFilterToAllAction | DeleteMovieAction | UndoDeleteAction | ErrorAction;
+  SetTagsAction | ModifyTagAction | SetFiltersAction | ShowAllAction | DeleteMovieAction | UndoDeleteAction | ErrorAction;

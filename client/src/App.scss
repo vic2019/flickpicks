@@ -1,6 +1,7 @@
 $movie-item-thumb-height: 120px;
 $movie-item-thumb-padding: 15px;
 
+
 .my-movies-controls {
   display: flex;
   flex-flow: row wrap;
@@ -16,7 +17,6 @@ $movie-item-thumb-padding: 15px;
   }
 }
 
-
 .MovieItem {
   display: flex;
   flex-flow: row wrap;
@@ -27,11 +27,11 @@ $movie-item-thumb-padding: 15px;
     height: $movie-item-thumb-height;
     padding: $movie-item-thumb-padding;
   }
-
+  
   .movie-item-title {
     font-weight: bold;
   }
-
+  
   .tag-selector-toggle, .delete-movie-button {
     margin-top: 8px;
   }
@@ -41,4 +41,8 @@ $movie-item-thumb-padding: 15px;
   border: 1px solid #777;
   border-top: none;
   margin: 0 25px;
+}
+
+li.MuiListItem-container {
+  list-style: none;
 }

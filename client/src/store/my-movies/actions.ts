@@ -3,53 +3,44 @@ import { ThunkAction } from 'redux-thunk';
 
 import {
   Movie,
-  TagSetter,
+  Set,
   ByTag,
   MyMovies,
-  AppState,
   MyMoviesActionTypes,
   SET_TAGS,
   CREATE_TAG, 
   DELETE_TAG, 
-  SET_FILTER,
-  SET_FILTER_TO_ALL,
+  SET_FILTERS,
+  SHOW_ALL,
   DELETE_MOVIE,
-  ERROR_INVALID_TAG,
-  // UNDO_DELETE,
-  // ERROR_UNDO_DELETE,
-  // ERROR_NETWORK
+  // ERROR,
+  // UNDO_DELETE
 } from './types';
 
 
 export const setTags = (
-  movie: Movie, tagSetter: TagSetter 
+  movie: Movie, tags: Set
 ): ThunkAction<void, null, null, MyMoviesActionTypes> => (
   dispatch
 ) => {
+  const newTags: Set = Object.assign({}, ...Object.keys(tags).map(tag => (
+    tags[tag]? { [tag]: true }: {} 
+  )));
+
   new Promise(resolve => resolve())
     .then(() => void dispatch({
       type: SET_TAGS,
       movie,
-      tagSetter
+      tags: newTags
     }))
     .catch();
 }
 
 export const createTag = (
   tag: string
-): ThunkAction<void, AppState, null, MyMoviesActionTypes> => (
-  dispatch, getState
-) => {
-  const { byTag } = getState().myMovies;
-  for (let key of Object.keys(byTag)) {
-    if (tag === key) {
-      return void dispatch({
-        type: ERROR_INVALID_TAG,
-        msg: `The tag "${tag}" already exists.`
-      });
-    }    
-  }
-  
+): ThunkAction<void, null, null, MyMoviesActionTypes> => (
+  dispatch
+) => {  
   new Promise(resolve => resolve())
     .then(() => void dispatch({
       type: CREATE_TAG,
@@ -71,18 +62,25 @@ export const deleteTag = (
     .catch();
 };
 
-export const setFilter = (
-  filters: TagSetter
-): MyMoviesActionTypes => {
-  return {
-    type: SET_FILTER,
-    filters
-  };
+export const setFilters = (
+  filters: Set
+): ThunkAction<void, { myMovies: MyMovies }, null, MyMoviesActionTypes> => (
+  dispatch, getState
+) => {
+  const byTag: ByTag = getState().myMovies.byTag;
+  const newFilters: Set = Object.assign({}, ...Object.keys(filters).map(tag => (
+    byTag[tag]? filters[tag]? { [tag]: true }: {}: {}
+  )));
+
+  dispatch({
+    type: SET_FILTERS,
+    filters: newFilters
+  });
 }
 
-export const setFilterToAll = (): MyMoviesActionTypes => {
+export const showAll = (): MyMoviesActionTypes => {
   return {
-    type: SET_FILTER_TO_ALL,
+    type: SHOW_ALL,
   };
 }
 

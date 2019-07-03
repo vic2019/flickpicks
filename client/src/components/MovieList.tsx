@@ -5,13 +5,13 @@ import MovieItem from './MovieItem';
 import { connect } from 'react-redux';
 import { AppState } from '../store';
 
-import { ById, ByTag, Filters } from '../store/my-movies/types';
+import { ById, ByTag, Set } from '../store/my-movies/types';
 
 interface Props {
   byId: ById
   byTag: ByTag
   allIds: string[]
-  filters: Filters
+  filters: Set
   showAll: boolean
 }
 
@@ -25,19 +25,13 @@ const MovieList = ({
   return (
     <div>
       {showAll?
-      allIds.map(id => (
-        <MovieItem key={id} movie={byId[id]} />
-      )):
-      allIds.filter(id => {
-        for (let tag of Object.keys(filters)) {
-          if (!filters[tag]) continue;
-          if (byTag[tag][id]) return true;
-        }
-
-        return false
-      }).map(id => (
-        <MovieItem key={id} movie={byId[id]} />
-      ))}
+        Object.entries(byId).map(([id, movie]) => (
+          <MovieItem key={id} movie={movie} />
+        )):
+        Object.keys(
+          Object.assign({}, ...Object.keys(filters).map(tag => (byTag[tag])))
+        ).map(id => (<MovieItem key={id} movie={byId[id]} />))
+      }
     </div>
   );
 }
