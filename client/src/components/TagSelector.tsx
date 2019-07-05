@@ -49,7 +49,9 @@ const TagSelector = ({
     if (!isOpen) return;
 
     setChecks(initChecks());
-  }, [isOpen]);
+  }, [isOpen]); 
+  // ^ Ignore the missing dependency warning from react. 
+  // Values referenced in this useEffect hook are stale on purpose.
   
   return(
     <span className='TagSelector'>

@@ -1,7 +1,10 @@
+import { combineReducers } from 'redux';
+
 import {
   Set,
+  ById,
   ByTag,
-  MyMovies,
+  AllIds,
   MyMoviesActionTypes,
   SET_TAGS,
   CREATE_TAG, 
@@ -9,7 +12,6 @@ import {
   SET_FILTERS,
   SHOW_ALL,
   DELETE_MOVIE,
-  ById,
   // UNDO_DELETE,
   // ERROR
 } from './types';
@@ -111,7 +113,7 @@ let state = testState;
 
 
 const byIdReducer = (
-  byId: ById,
+  byId: ById = state.myMovies.byId,
   action: MyMoviesActionTypes
 ): ById => {
   switch(action.type) {
@@ -125,7 +127,7 @@ const byIdReducer = (
 };
 
 const byTagReducer = (
-  byTag: ByTag,
+  byTag: ByTag = state.myMovies.byTag,
   action: MyMoviesActionTypes
 ): ByTag => {
   switch(action.type) {
@@ -156,60 +158,108 @@ const byTagReducer = (
   }
 }
 
-export const myMoviesReducer = (
-  { byId, byTag, allIds, filters, showAll }: MyMovies = state.myMovies,
+const allIdsReducer = (
+  allIds: AllIds = state.myMovies.allIds,
   action: MyMoviesActionTypes
-): MyMovies => {
-  switch (action.type) {
-    case SET_TAGS:
-      return {
-        byId: byIdReducer(byId, action),
-        byTag: byTagReducer(byTag, action),
-        allIds,
-        filters,
-        showAll
-      };
-    case CREATE_TAG:
-      return {
-        byId: byIdReducer(byId, action),
-        byTag: byTagReducer(byTag, action),
-        allIds,
-        filters,
-        showAll
-      };
-    case DELETE_TAG:
-      return {
-        byId: byIdReducer(byId, action),
-        byTag: byTagReducer(byTag, action),
-        allIds,
-        filters,
-        showAll
-      };
+): AllIds => {
+  switch(action.type) {
     case DELETE_MOVIE:
-      return {
-        byId: byIdReducer(byId, action),
-        byTag: byTagReducer(byTag, action),
-        allIds: allIds.filter(id => id !== action.movie.id),
-        filters,
-        showAll
-      };  
-    case SET_FILTERS:
-      return {
-        byId: byIdReducer(byId, action),
-        byTag: byTagReducer(byTag, action),
-        allIds,
-        filters: action.filters,
-        showAll: false
-      };
-    case SHOW_ALL:
-      return {
-        byId: byIdReducer(byId, action),
-        byTag: byTagReducer(byTag, action),
-        allIds,
-        filters,
-        showAll: true
-      };
+      return allIds.filter(id => id !== action.movie.id);
     default:
-      return { byId, byTag, allIds, filters, showAll };
+      return allIds;
   }
 };
+
+const filtersReducer = (
+  filters: Set = state.myMovies.filters,
+  action: MyMoviesActionTypes
+): Set => {
+  switch(action.type) {
+    case SET_FILTERS:
+      return action.filters;
+    default:
+      return filters;
+  }
+};
+
+const showAllReducer = (
+  showAll: boolean = state.myMovies.showAll,
+  action: MyMoviesActionTypes
+): boolean => {
+  switch(action.type) {
+    case SET_FILTERS:
+      return false;
+    case SHOW_ALL:
+      return true;
+    default:
+      return showAll;
+  }
+};
+
+export const myMoviesReducer = combineReducers({
+  byId: byIdReducer,
+  byTag: byTagReducer,
+  allIds: allIdsReducer,
+  filters: filtersReducer,
+  showAll: showAllReducer
+});
+
+
+
+// export const myMoviesReducer = (
+//   { byId, byTag, allIds, filters, showAll }: MyMovies = state.myMovies,
+//   action: MyMoviesActionTypes
+// ): MyMovies => {
+//   switch (action.type) {
+//     case SET_TAGS:
+//       return {
+//         byId: byIdReducer(byId, action),
+//         byTag: byTagReducer(byTag, action),
+//         allIds,
+//         filters,
+//         showAll
+//       };
+//     case CREATE_TAG:
+//       return {
+//         byId: byIdReducer(byId, action),
+//         byTag: byTagReducer(byTag, action),
+//         allIds,
+//         filters,
+//         showAll
+//       };
+//     case DELETE_TAG:
+//       return {
+//         byId: byIdReducer(byId, action),
+//         byTag: byTagReducer(byTag, action),
+//         allIds,
+//         filters,
+//         showAll
+//       };
+//     case DELETE_MOVIE:
+//       return {
+//         byId: byIdReducer(byId, action),
+//         byTag: byTagReducer(byTag, action),
+//         allIds: allIds.filter(id => id !== action.movie.id),
+//         filters,
+//         showAll
+//       };  
+//     case SET_FILTERS:
+//       return {
+//         byId: byIdReducer(byId, action),
+//         byTag: byTagReducer(byTag, action),
+//         allIds,
+//         filters: action.filters,
+//         showAll: false
+//       };
+//     case SHOW_ALL:
+//       return {
+//         byId: byIdReducer(byId, action),
+//         byTag: byTagReducer(byTag, action),
+//         allIds,
+//         filters,
+//         showAll: true
+//       };
+//     default:
+//       return { byId, byTag, allIds, filters, showAll };
+//   }
+// };

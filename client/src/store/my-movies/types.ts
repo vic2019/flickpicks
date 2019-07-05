@@ -32,6 +32,8 @@ export interface ByTag {
   [key: string]: Set
 }
 
+export type AllIds = string[]
+
 export interface MyMovies {
   byId: ById
   byTag: ByTag
