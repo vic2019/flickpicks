@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useReducer, useState, useEffect } from 'react';
 import { Button, ButtonGroup, Checkbox, Drawer, ListItem, ListItemIcon, 
   ListItemText } from '@material-ui/core';
 
@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { AppState } from '../store';
 
 import { setTags } from '../store/my-movies/actions';
-import { Movie, ByTag } from '../store/my-movies/types';
+import { Set, Movie, ByTag } from '../store/my-movies/types';
 
 
 interface Props {
@@ -15,24 +15,42 @@ interface Props {
   movie: Movie
 }
 
+interface CheckAction {
+  type: string
+  tag?: string
+}
+
 const TagSelector = ({
   setTags,
   byTag,
   movie
 }: Props) => {
-  const initChecks = () => {
-    return Object.assign({}, ...Object.keys(byTag).map(tag => ({
-      [tag]: Boolean(byTag[tag][movie.id])
-    })));   
-  };
+  const init = () => Object.keys(byTag).reduce((acc, tag) => ({
+    ...acc, 
+    ...{ 
+      [tag]: Boolean(byTag[tag][movie.id]) 
+    } 
+  }), {});
 
-  const [checks, setChecks] = useState(initChecks());
+  const reducer = (checks: Set, action: CheckAction ): Set => {
+    switch (action.type) {
+      case 'toggle':
+        return action.tag? 
+          { ...checks, ...{ [action.tag] : !checks[action.tag] } }: checks;
+      case 'reset':
+        return init();
+      default:
+        return checks;
+    }
+  }
+
+  const [checks, dispatch] = useReducer(reducer, init());
   const [ isOpen, setOpen ] = useState(false);
   
-  const toggleDrawer = (toOpen: boolean) => () => void setOpen(toOpen);
+  const toggleDrawer = (toOpen: boolean) => () => setOpen(toOpen);
   
   const toggleCheckbox = (tag: string) => () => {
-    setChecks(Object.assign({}, checks, { [tag]: !checks[tag]}));
+    dispatch({ type: 'toggle', tag: tag });
   };
       
   const save = async () => {
@@ -48,10 +66,8 @@ const TagSelector = ({
   useEffect(() => {
     if (!isOpen) return;
 
-    setChecks(initChecks());
+    dispatch({ type: 'reset' });
   }, [isOpen]); 
-  // ^ Ignore the missing dependency warning from react. 
-  // Values referenced in this useEffect hook are stale on purpose.
   
   return(
     <span className='TagSelector'>
