@@ -20,13 +20,13 @@ const TagSelector = ({
   byTag,
   movie
 }: Props) => {
-  const initializeChecks = () => {
+  const initChecks = () => {
     return Object.assign({}, ...Object.keys(byTag).map(tag => ({
       [tag]: Boolean(byTag[tag][movie.id])
     })));   
   };
 
-  const [checks, setChecks] = useState(initializeChecks());
+  const [checks, setChecks] = useState(initChecks());
   const [ isOpen, setOpen ] = useState(false);
   
   const toggleDrawer = (toOpen: boolean) => () => void setOpen(toOpen);
@@ -48,7 +48,7 @@ const TagSelector = ({
   useEffect(() => {
     if (!isOpen) return;
 
-    setChecks(initializeChecks());
+    setChecks(initChecks());
   }, [isOpen]);
   
   return(
