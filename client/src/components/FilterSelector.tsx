@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useReducer, useState, useEffect } from 'react';
 import { Button, ButtonGroup, Checkbox, Drawer, ListItem, ListItemIcon,
   ListItemText, Typography, ListItemSecondaryAction, IconButton } 
   from '@material-ui/core';
@@ -19,31 +19,52 @@ interface Props {
   deleteTag: any
 }
 
+interface Action {
+  type: string
+  tag?: string
+}
+
 const FilterSelector = ({
   byTag,
   filters,
   setFilters,
   deleteTag 
 }: Props)  => {
-  const initChecks = () => Object.assign({}, ...Object.keys(byTag).map(tag => {
-    return { 
-      [tag]: Boolean(filters[tag]) 
-    };
-  }));
+  const init = () => Object.assign({}, ...Object.keys(byTag).map(tag => ({
+    [tag]: Boolean(filters[tag]) 
+  })));
 
-  const [checks, setChecks] = useState(initChecks());
+  const reducer = (checks: Set, action: Action ): Set => {
+    switch (action.type) {
+      case 'toggle':
+        return action.tag? 
+          { ...checks, ...{ [action.tag] : !checks[action.tag] } }: checks;
+      case 'toAll':
+        return Object.assign({}, ...Object.keys(checks).map(tag => ({ 
+          [tag]: true
+        })));
+      case 'toNone':
+        return Object.assign({}, ...Object.keys(checks).map(tag => ({ 
+          [tag]: false
+        })));
+      case 'reset':
+        return init();
+      default:
+        return checks;
+    }
+  }
+
+  const [checks, dispatch] = useReducer(reducer, init());
   const [isOpen, setOpen] = useState(false);
 
   const toggleDrawer = (isOpen: boolean) => () => setOpen(isOpen);
 
   const toggleCheckbox = (tag: string) => () => {
-    setChecks(Object.assign({}, checks, { [tag]: !checks[tag] }));
+    dispatch({ type: 'toggle', tag: tag });
   };
-
-  const modifyAll = (isChecked: boolean) => () => {
-    setChecks(Object.assign({}, ...Object.keys(checks).map(tag => ({ 
-      [tag]: isChecked
-    }))));
+  
+  const modifyAll = (toCheck: boolean) => () => {
+    dispatch({ type: toCheck? 'toAll': 'toNone'});
   }
 
   const applyFilters = () => {
@@ -56,7 +77,7 @@ const FilterSelector = ({
   useEffect(() => {
     if (!isOpen) return; 
 
-    setChecks(initChecks());
+    dispatch({ type: 'reset' });
   }, [isOpen]);
 
   return (
