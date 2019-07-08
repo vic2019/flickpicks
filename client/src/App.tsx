@@ -9,8 +9,11 @@ import purple from '@material-ui/core/colors/purple';
 import  createMuiTheme, { ThemeOptions } 
   from '@material-ui/core/styles/createMuiTheme'
 
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+
 import TopNavBar from './components/TopNavBar';
 import MyMovies from './components/MyMovies';
+import MoviePage from './components/MoviePage';
 import './App.scss';
 
 
@@ -25,13 +28,27 @@ const theme = createMuiTheme(themeOptions);
 
 export default function App() {
   return (
-    <ThemeProvider theme={theme} >
-      {/* CssBaseLine must be inside ThemeProvider to enable 'dark' theme */}
-      <CssBaseline />  
-      <div className="App">
+    <Router>
+      <ThemeProvider theme={theme} >
+        {/* CssBaseLine must be inside ThemeProvider to enable 'dark' theme */}
+        <CssBaseline />  
         <TopNavBar />
-        <MyMovies />
-      </div>
-    </ThemeProvider>
+
+        <Route
+          key='MyMovies'
+          path='/MyMovies'
+          exact={true}
+          component={MyMovies}
+        />
+
+        <Route
+          key='Discover'
+          path='/Discover'
+          exact={true}
+          component={MoviePage}
+        />
+        
+      </ThemeProvider>
+    </Router>
   );
 }

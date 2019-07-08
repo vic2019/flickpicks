@@ -19,7 +19,7 @@ interface Props {
   deleteTag: any
 }
 
-interface Action {
+interface CheckAction {
   type: string
   tag?: string
 }
@@ -34,7 +34,7 @@ const FilterSelector = ({
     [tag]: Boolean(filters[tag]) 
   })));
 
-  const reducer = (checks: Set, action: Action ): Set => {
+  const reducer = (checks: Set, action: CheckAction ): Set => {
     switch (action.type) {
       case 'toggle':
         return action.tag? 

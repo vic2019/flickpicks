@@ -1,25 +1,30 @@
-$movie-item-thumb-height: 120px;
+$movie-item-thumb-height: 125px;
 $movie-item-thumb-padding: 15px;
 
+.TopNavBar {
+  a {
+    color: white;
+    text-decoration: none;
+    margin: 0 6px;
 
-.my-movies-controls {
-  display: flex;
-  flex-flow: row wrap;
-  justify-content: flex-start;
-  align-items: center;
-  
-  .my-movies-filter-controls {
-    margin-left: $movie-item-thumb-padding - 8px;
+    &:hover {
+      text-decoration: underline;
+    }
   }
-  
-  .create-custom-tag-textfield {
-    margin-left: $movie-item-thumb-padding;
-  }
+}
+
+.my-movies-filter-controls {
+  margin-top: 10px;
+  margin-left: $movie-item-thumb-padding - 8px;
+}
+
+.create-custom-tag-textfield {
+  margin: 0 $movie-item-thumb-padding;
 }
 
 .MovieItem {
   display: flex;
-  flex-flow: row wrap;
+  flex-flow: row;
   align-items: center;
   
   .movie-item-thumb {
@@ -30,11 +35,63 @@ $movie-item-thumb-padding: 15px;
   
   .movie-item-title {
     font-weight: bold;
+
   }
   
   .tag-selector-toggle, .delete-movie-button {
     margin-top: 8px;
   }
+}
+
+.MoviePage {
+
+  h3 {
+    font-size: 19px;
+  }
+  
+  h4 {
+    font-size: 17px;
+  }
+
+  p {
+    font-size: 15px;
+  }
+
+  h4, p {
+    margin: 0 8px 20px 8px;
+  }
+
+  .movie-backdrop {
+    width: 100vw;
+  }
+
+  .movie-header {
+    display: flex;
+    flex-flow: row;
+  }
+
+  .movie-poster {
+    position: relative;
+    top: -$movie-item-thumb-height / 2;
+    left: $movie-item-thumb-padding;
+    height: $movie-item-thumb-height;
+  }
+
+  .movie-title {
+    display: inline;
+    position: relative;
+    top: 0;
+    left: $movie-item-thumb-padding * 2.2;
+  }
+
+  .movie-crew, .movie-cast, .movie-recommendations {
+    margin: 35px 0;
+  }
+
+  .movie-cast-list, movie-recommendation-list {
+    overflow: scroll;
+  }
+
 }
 
 .Divider {

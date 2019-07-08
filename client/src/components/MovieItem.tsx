@@ -27,20 +27,22 @@ const MovieItem = ({ movie }: Props)  => {
 
   return (
     <Fade in={isVisible} timeout={{ enter: 0, exit: 180 }}>
-      <div className='MovieItem'>
-        <img
-          className='movie-item-thumb'
-          src={`https://image.tmdb.org/t/p/w500${image}`}
-          alt='movie poster'
-        />
-        <div>
-          <div className='movie-item-title'>{title}</div>
-          <div>{`Date Added: ${dateAdded}`}</div>
-          <TagSelector movie={movie} />
-          <DeleteMovie movie={movie} transitionOut={setVisible}/>
+      <>
+        <div className='MovieItem'>
+          <img
+            className='movie-item-thumb'
+            src={`https://image.tmdb.org/t/p/w500${image}`}
+            alt='movie poster'
+          />
+          <div>
+            <div className='movie-item-title'>{title}</div>
+            <div>{`Date Added: ${dateAdded}`}</div>
+            <TagSelector movie={movie} />
+            <DeleteMovie movie={movie} transitionOut={setVisible}/>
+          </div>
         </div>
-        <Divider />
-      </div>
+      <Divider />
+      </>
     </Fade>
   );
 }

@@ -11,12 +11,11 @@ const MyMovies = () => {
   return (
     <>
       <div className='my-movies-controls'>
-        <span className='my-movies-filter-controls'>
+        <div className='my-movies-filter-controls'>
           <FilterSelector />
           /
           <ShowAllButton />
-          /
-        </span>
+        </div>
         <CustomTagInput />
       </div>
       <br />

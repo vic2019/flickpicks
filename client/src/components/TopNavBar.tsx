@@ -4,6 +4,10 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import useScrollTrigger from '@material-ui/core/useScrollTrigger';
 import Slide from '@material-ui/core/Slide';
+import IconButton from '@material-ui/core/IconButton';
+import MenuIcon from '@material-ui/icons/Menu';
+
+import { Link } from 'react-router-dom';
 
 
 export default function TopNavBar() {
@@ -11,8 +15,17 @@ export default function TopNavBar() {
     <>
       <Slide appear={true} direction="down" in ={!useScrollTrigger()}>
         <AppBar className='TopNavBar'>
-          <Toolbar>
-            <Typography variant="h6">Some Text</Typography>
+          <Toolbar disableGutters>
+            <IconButton aria-label='Open drawer'>
+              <MenuIcon />
+            </IconButton>
+            <Typography>
+              <Link to='/MyMovies'>MyMovies</Link>
+              /
+              <Link to='/Discover'>Discover</Link>
+              /
+              <Link to='/'>Friends</Link>
+            </Typography>
           </Toolbar>
         </AppBar>
       </Slide>
