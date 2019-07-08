@@ -45,7 +45,11 @@ const MoviePage = () => {
       <div className='movie-recommendations'>
         <h4>Recommendations</h4>
         <div className='movie-recommendation-list'>
-
+          {RecommendationCard('Avangers: Endgame', '/7RyHsO4yDXtBv1zUU3mTpHeQ0d5.jpg')}
+          {RecommendationCard('Avangers: Endgame', '/7RyHsO4yDXtBv1zUU3mTpHeQ0d5.jpg')}
+          {RecommendationCard('Avangers: Endgame', '/7RyHsO4yDXtBv1zUU3mTpHeQ0d5.jpg')}
+          {RecommendationCard('Avangers: Endgame', '/7RyHsO4yDXtBv1zUU3mTpHeQ0d5.jpg')}
+          {RecommendationCard('Avangers: Endgame', '/7RyHsO4yDXtBv1zUU3mTpHeQ0d5.jpg')}
         </div>
       </div>
 
@@ -79,6 +83,16 @@ const CastCard = (name: string, character: string, image: string) => {
   );
 };
 
+const RecommendationCard = (title: string, image: string) => {
+  return (
+    <span className='movie-recommendation-card'>
+      <img
+        src={`https://image.tmdb.org/t/p/w500${image}`}
+      />
+      <span>{title}</span>
+    </span>
+  );
+};
 
 
 

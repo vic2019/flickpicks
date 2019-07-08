@@ -3,6 +3,7 @@ $movie-item-thumb-padding: 15px;
 $movie-page-section-margin-left: 8px;
 $movie-page-section-margin-bottom: 35px;
 $movie-page-paragraph-margin-bottom: 20px;
+$movie-cast-card-width: 110px;
 
 .TopNavBar {
   a {
@@ -109,16 +110,21 @@ $movie-page-paragraph-margin-bottom: 20px;
       display: flex;
       flex-flow: column wrap;
       margin-bottom: $movie-page-paragraph-margin-bottom;
+      
+      span {
+        font-size: 15px;
+      }
     }    
   }
 
-  .movie-cast-list, movie-recommendation-list {
+  .movie-cast-list, .movie-recommendation-list {
     display: flex;
     flex-flow: row nowrap;
     overflow: scroll; // This must apply to the list and NOT the card
   }
 
   .movie-cast-card {
+    width: $movie-cast-card-width;
     display: flex;
     flex-flow: column;
     justify-content: flex-start;
@@ -130,8 +136,31 @@ $movie-page-paragraph-margin-bottom: 20px;
     
     img {
       height: 120px;
-      width: 110px;
+      width: $movie-cast-card-width;
       object-fit: cover;
+      border-radius: 2px;
+      margin-bottom: 5px;
+    }
+
+    span {
+      margin: 0 5px 5px 5px;
+      font-size: 15px;
+    }
+  }
+
+  .movie-recommendation-card {
+    width: $movie-cast-card-width * 2;
+    display: flex;
+    flex-flow: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    margin: 4px;
+    border-radius: 2px;
+    color: #2b2b2b;
+    background-color: #f6f6f6;
+    
+    img {
+      width: $movie-cast-card-width * 2;
       border-radius: 2px;
       margin-bottom: 5px;
     }
