@@ -1,5 +1,8 @@
 $movie-item-thumb-height: 125px;
 $movie-item-thumb-padding: 15px;
+$movie-page-section-margin-left: 8px;
+$movie-page-section-margin-bottom: 35px;
+$movie-page-paragraph-margin-bottom: 20px;
 
 .TopNavBar {
   a {
@@ -44,21 +47,28 @@ $movie-item-thumb-padding: 15px;
 }
 
 .MoviePage {
+  .movie-details, .movie-crew, .movie-cast, .movie-recommendations {
+    margin: 
+      0 
+      $movie-page-section-margin-left
+      $movie-page-section-margin-bottom 
+      $movie-page-section-margin-left;
+
+    h4, p {
+      margin: 0 0 $movie-page-paragraph-margin-bottom 0;
+    }
+  }
 
   h3 {
-    font-size: 19px;
+    font-size: 18px;
   }
   
   h4 {
     font-size: 17px;
   }
 
-  p {
-    font-size: 15px;
-  }
-
-  h4, p {
-    margin: 0 8px 20px 8px;
+  p, span {
+    font-size: 16px;
   }
 
   .movie-backdrop {
@@ -84,14 +94,53 @@ $movie-item-thumb-padding: 15px;
     left: $movie-item-thumb-padding * 2.2;
   }
 
-  .movie-crew, .movie-cast, .movie-recommendations {
-    margin: 35px 0;
+  .movie-crew {
+    margin-bottom: 
+      $movie-page-section-margin-bottom - $movie-page-paragraph-margin-bottom;
+  }
+
+  .movie-crew-list {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: flex-start;
+
+    .movie-crew-card {
+      width: 44vw;
+      display: flex;
+      flex-flow: column wrap;
+      margin-bottom: $movie-page-paragraph-margin-bottom;
+    }    
   }
 
   .movie-cast-list, movie-recommendation-list {
-    overflow: scroll;
+    display: flex;
+    flex-flow: row nowrap;
+    overflow: scroll; // This must apply to the list and NOT the card
   }
 
+  .movie-cast-card {
+    display: flex;
+    flex-flow: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    margin: 4px;
+    border-radius: 2px;
+    color: #2b2b2b;
+    background-color: #f6f6f6;
+    
+    img {
+      height: 120px;
+      width: 110px;
+      object-fit: cover;
+      border-radius: 2px;
+      margin-bottom: 5px;
+    }
+
+    span {
+      margin: 0 5px 5px 5px;
+      font-size: 15px;
+    }
+  }
 }
 
 .Divider {
