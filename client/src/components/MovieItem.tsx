@@ -27,7 +27,9 @@ const MovieItem = ({ movie }: Props)  => {
 
   return (
     <Fade in={isVisible} timeout={{ enter: 0, exit: 180 }}>
-      <>
+      {/* Fade must only contain a single child element, and 
+      it can't be a React.Fragment */}
+      <div>
         <div className='MovieItem'>
           <img
             className='movie-item-thumb'
@@ -42,7 +44,7 @@ const MovieItem = ({ movie }: Props)  => {
           </div>
         </div>
       <Divider />
-      </>
+      </div>
     </Fade>
   );
 }

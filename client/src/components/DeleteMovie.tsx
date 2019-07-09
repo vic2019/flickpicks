@@ -16,7 +16,7 @@ interface Props {
 const DeleteMovie = ({ movie, deleteMovie, transitionOut }: Props) => {
   const deleteMovieItem = () => {
     transitionOut(false);
-    setTimeout(() => void deleteMovie(movie), 240); 
+    setTimeout(() => void deleteMovie(movie), 230); 
   };
 
   return (
