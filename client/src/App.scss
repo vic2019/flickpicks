@@ -97,16 +97,18 @@ $movie-cast-card-width: 110px;
 
     .movie-poster {
       position: relative;
-      top: -$movie-page-poster-width / 2;
+      top: -$movie-page-poster-width / 1.6;
       left: $movie-page-poster-margin-left;
       width: $movie-page-poster-width;
+      object-fit: contain;
     }
   
     .movie-title {
       position: relative;
       top: 0;
       left: $movie-page-poster-margin-left * 2;
-      width: 100vw - $movie-page-poster-margin-left * 2 -  $movie-page-poster-width;
+      width: 100vw - $movie-page-poster-margin-left * 2 
+        -  $movie-page-poster-width;
     }
   }
 
