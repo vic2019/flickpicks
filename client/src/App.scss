@@ -3,6 +3,8 @@ $movie-item-thumb-padding: 15px;
 $movie-page-section-margin-left: 8px;
 $movie-page-section-margin-bottom: 35px;
 $movie-page-paragraph-margin-bottom: 20px;
+$movie-page-poster-width: 28vw;
+$movie-page-poster-margin-left: 4vw;
 $movie-cast-card-width: 110px;
 
 .TopNavBar {
@@ -39,7 +41,6 @@ $movie-cast-card-width: 110px;
   
   .movie-item-title {
     font-weight: bold;
-
   }
   
   .tag-selector-toggle, .delete-movie-button {
@@ -48,6 +49,8 @@ $movie-cast-card-width: 110px;
 }
 
 .MoviePage {
+  width: 100vw;
+
   .movie-details, .movie-crew, .movie-cast, .movie-recommendations {
     margin: 
       0 
@@ -78,22 +81,35 @@ $movie-cast-card-width: 110px;
 
   .movie-header {
     display: flex;
-    flex-flow: row;
+    flex-flow: row nowrap;
+
+    .movie-release-year {
+      font-weight: normal;
+
+      &::before {
+        content: ' (';
+      }
+
+      &::after {
+        content: ')';
+      }
+    }
+
+    .movie-poster {
+      position: relative;
+      top: -$movie-page-poster-width / 2;
+      left: $movie-page-poster-margin-left;
+      width: $movie-page-poster-width;
+    }
+  
+    .movie-title {
+      position: relative;
+      top: 0;
+      left: $movie-page-poster-margin-left * 2;
+      width: 100vw - $movie-page-poster-margin-left * 2 -  $movie-page-poster-width;
+    }
   }
 
-  .movie-poster {
-    position: relative;
-    top: -$movie-item-thumb-height / 2;
-    left: $movie-item-thumb-padding;
-    height: $movie-item-thumb-height;
-  }
-
-  .movie-title {
-    display: inline;
-    position: relative;
-    top: 0;
-    left: $movie-item-thumb-padding * 2.2;
-  }
 
   .movie-crew {
     margin-bottom: 
