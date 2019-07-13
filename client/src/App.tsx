@@ -14,6 +14,7 @@ import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import TopNavBar from './components/TopNavBar';
 import MyMovies from './components/MyMovies';
 import MoviePage from './components/MoviePage';
+import Discover from './components/Discover';
 import './App.scss';
 
 
@@ -45,7 +46,7 @@ export default function App() {
           key='Discover'
           path='/Discover'
           exact={true}
-          component={MoviePage}
+          component={Discover}
         />
         
       </ThemeProvider>

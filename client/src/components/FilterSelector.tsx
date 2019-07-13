@@ -82,7 +82,7 @@ const FilterSelector = ({
 
   return (
     <>
-      <Button onClick={toggleDrawer(true)}>Filters</Button>
+      <Button onClick={toggleDrawer(true)} size='small'>Filters</Button>
       <Drawer 
         className='filter-selector-dropdown' 
         anchor='top'

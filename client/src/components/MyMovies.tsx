@@ -10,15 +10,12 @@ import LoadButton from './LoadButton';
 const MyMovies = () => {
   return (
     <>
-      <div className='my-movies-controls'>
-        <div className='my-movies-filter-controls'>
-          <FilterSelector />
-          /
-          <ShowAllButton />
-        </div>
-        <CustomTagInput />
+      <div className='my-movies-filter-controls'>
+        <FilterSelector />
+        /
+        <ShowAllButton />
       </div>
-      <br />
+      <CustomTagInput />
       <MovieList />
       <LoadButton />
     </>

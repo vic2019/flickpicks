@@ -1,6 +1,6 @@
 $movie-item-thumb-height: 125px;
 $movie-item-thumb-padding: 15px;
-$movie-page-section-margin-left: 8px;
+$movie-page-section-margin-left: 9px;
 $movie-page-section-margin-bottom: 35px;
 $movie-page-paragraph-margin-bottom: 20px;
 $movie-page-poster-width: 28vw;
@@ -20,7 +20,7 @@ $movie-cast-card-width: 110px;
 }
 
 .my-movies-filter-controls {
-  margin-top: 10px;
+  padding-top: 10px;
   margin-left: $movie-item-thumb-padding - 8px;
 }
 
