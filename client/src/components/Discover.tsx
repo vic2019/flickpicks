@@ -1,14 +1,14 @@
 import React from 'react';
 
-import DiscoverControlls from './DiscoverControlls';
+import DiscoverInput from './DiscoverInput';
 import DiscoverMovieList from './DiscoverMovieList';
 
 const Discover = () => {
   return (
-    <>
-      <DiscoverControlls />
+    <div className='Discover'>
+      <DiscoverInput />
       <DiscoverMovieList />
-    </>
+    </div>
   )
 };
 

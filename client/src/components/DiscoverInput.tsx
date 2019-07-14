@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { InputLabel, Select, MenuItem, FormControl, Container } from '@material-ui/core';
+import { InputLabel, Select, MenuItem, FormControl } from '@material-ui/core';
 
 
 const sortOptions = {
@@ -12,9 +12,9 @@ const sortOptions = {
 };
 
 
-const DiscoverControlls = () => {
+const DiscoverInput = () => {
   const [values, set] = useState({
-    year: '', sortBy: '', genres: []
+    genres: [], year: '', sortBy: 'popularity.desc'
   });
   const currentYear = new Date().getFullYear();
 
@@ -28,7 +28,7 @@ const DiscoverControlls = () => {
   };
 
   return (
-    <Container>
+    <div className='DiscoverInput'>
       <FormControl fullWidth margin='dense'>
         <InputLabel>Genres</InputLabel>
         <Select
@@ -36,7 +36,7 @@ const DiscoverControlls = () => {
           onChange={handleChange}
           inputProps={{ name: 'genres' }}
         >
-          <MenuItem value={'none'} key={'none'}>None</MenuItem>
+          <MenuItem value={''} key={'none'}>None</MenuItem>
           {Array(currentYear - 1989).fill(null).map((_, index) => {
             const value = String(currentYear - index);
             return (<MenuItem value={value} key={value}>{value}</MenuItem>);
@@ -50,7 +50,7 @@ const DiscoverControlls = () => {
           onChange={handleChange}
           inputProps={{ name: 'year' }}
         >
-          <MenuItem value={'none'} key={'none'}>None</MenuItem>
+          <MenuItem value={''} key={'none'}>None</MenuItem>
           {Array(currentYear - 1989).fill(null).map((_, index) => {
             const value = String(currentYear - index);
             return (<MenuItem value={value} key={value}>{value}</MenuItem>);
@@ -69,8 +69,8 @@ const DiscoverControlls = () => {
           ))}
         </Select>
       </FormControl>
-    </Container>
+    </div>
   )
 };
 
-export default DiscoverControlls;
+export default DiscoverInput;

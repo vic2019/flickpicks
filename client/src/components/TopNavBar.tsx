@@ -21,9 +21,9 @@ export default function TopNavBar() {
             </IconButton>
             <Typography>
               <Link to='/MyMovies'>MyMovies</Link>
-              /
+              <span className='breadcrumb-divider'>/</span>
               <Link to='/Discover'>Discover</Link>
-              /
+              <span className='breadcrumb-divider'>/</span>
               <Link to='/'>Friends</Link>
             </Typography>
           </Toolbar>

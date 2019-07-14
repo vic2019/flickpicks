@@ -12,7 +12,7 @@ interface Props {
   movie: Movie
 }
 
-const MovieItem = ({ movie }: Props)  => {
+const MyMovieItem = ({ movie }: Props)  => {
   const [isVisible, setVisible] = useState(true);
 
   const {
@@ -49,4 +49,4 @@ const MovieItem = ({ movie }: Props)  => {
   );
 }
 
-export default MovieItem;
+export default MyMovieItem;

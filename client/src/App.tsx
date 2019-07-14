@@ -46,8 +46,9 @@ export default function App() {
           key='Discover'
           path='/Discover'
           exact={true}
-          component={Discover}
+          component={MoviePage}
         />
+        
         
       </ThemeProvider>
     </Router>

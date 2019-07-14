@@ -13,7 +13,7 @@ const ShowAllButton = ({
   showAll,
 }: Props)  => {
   return (
-    <Button onClick={showAll} size='small'>Show All</Button>
+    <span onClick={showAll}>Show All</span>
   );
 }
 

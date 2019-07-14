@@ -70,7 +70,7 @@ const TagSelector = ({
   }, [isOpen]); 
   
   return(
-    <span className='TagSelector'>
+    <>
       <Button 
         className='tag-selector-toggle'
         size='small'
@@ -81,7 +81,6 @@ const TagSelector = ({
         Edit Tags
       </Button>
       <Drawer 
-        className='tag-selector-dropdown' 
         anchor='bottom'
         open={isOpen} 
         onClose={toggleDrawer(false)}
@@ -99,7 +98,7 @@ const TagSelector = ({
           <Button onClick={save}>Save</Button>
         </ButtonGroup>
       </Drawer>
-    </span>
+    </>
   )
 };
 

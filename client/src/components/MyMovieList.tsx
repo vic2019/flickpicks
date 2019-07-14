@@ -1,6 +1,6 @@
 import React from 'react';
 
-import MovieItem from './MovieItem';
+import MyMovieItem from './MyMovieItem';
 
 import { connect } from 'react-redux';
 import { AppState } from '../store';
@@ -23,16 +23,16 @@ const MovieList = ({
   showAll
 }: Props)  => {
   return (
-    <div>
+    <>
       {showAll?
         Object.entries(byId).map(([id, movie]) => (
-          <MovieItem key={id} movie={movie} />
+          <MyMovieItem key={id} movie={movie} />
         )):
         Object.keys(
           Object.assign({}, ...Object.keys(filters).map(tag => (byTag[tag])))
-        ).map(id => (<MovieItem key={id} movie={byId[id]} />))
+        ).map(id => (<MyMovieItem key={id} movie={byId[id]} />))
       }
-    </div>
+    </>
   );
 }
 

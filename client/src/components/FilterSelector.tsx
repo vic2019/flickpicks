@@ -1,5 +1,5 @@
 import React, { useReducer, useState, useEffect } from 'react';
-import { Button, ButtonGroup, Checkbox, Drawer, ListItem, ListItemIcon,
+import { Button, ButtonBase, ButtonGroup, Checkbox, Drawer, ListItem, ListItemIcon,
   ListItemText, Typography, ListItemSecondaryAction, IconButton } 
   from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -82,9 +82,10 @@ const FilterSelector = ({
 
   return (
     <>
-      <Button onClick={toggleDrawer(true)} size='small'>Filters</Button>
+      <span 
+        onClick={toggleDrawer(true)}
+      >Filters</span>
       <Drawer 
-        className='filter-selector-dropdown' 
         anchor='top'
         open={isOpen} 
         onClose={toggleDrawer(false)}
