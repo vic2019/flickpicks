@@ -34,17 +34,21 @@ export default function App() {
         {/* CssBaseLine must be inside ThemeProvider to enable 'dark' theme */}
         <CssBaseline />  
         <TopNavBar />
-
         <Route
           key='MyMovies'
           path='/MyMovies'
           exact={true}
           component={MyMovies}
         />
-
         <Route
           key='Discover'
           path='/Discover'
+          exact={true}
+          component={Discover}
+        />
+        <Route
+          key='Friends'
+          path='/Friends'
           exact={true}
           component={MoviePage}
         />

@@ -24,7 +24,7 @@ export default function TopNavBar() {
               <span className='breadcrumb-divider'>/</span>
               <Link to='/Discover'>Discover</Link>
               <span className='breadcrumb-divider'>/</span>
-              <Link to='/'>Friends</Link>
+              <Link to='/Friends'>Friends</Link>
             </Typography>
           </Toolbar>
         </AppBar>
