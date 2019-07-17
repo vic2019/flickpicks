@@ -1,33 +1,44 @@
 const express = require('express');
 const router = express.Router();
 const https = require('https');
+const config = require('config');
 
-router.use((req, res, next) => next());
+const { discoverBaseUrl, apiKey } = config.get('server');
 
 router.get('/', (req, res) => {
   const { sort_by, page, with_genres, year } = req.query;
-  // console.log(sort_by, page, with_genres, year);
 
-  const tMDbReqUrl = 'https://api.themoviedb.org/3/discover/movie'
-    + '?api_key=<<key>>&language=en-US'
-    + '&include_adult=false&include_video=false'
+  const tMDbReqUrl = discoverBaseUrl + '?api_key=' + apiKey
     + String(sort_by? `&sort_by=${sort_by}`: '')
     + String(page? `&page=${page}`: '')
     + String(with_genres? `&with_genres=${with_genres}`: '')
-    + String(year? `year=${year}`: '');
-
-  console.log(tMDbReqUrl);
+    + String(year? `&year=${year}`: '');
 
   https.get(tMDbReqUrl, tMDbRes => {
-    let data = '';
+    let buffer = '';
 
     tMDbRes.on('data', chunk => {
-      data += chunk;
+      buffer += chunk;
     });
     
     tMDbRes.on('end', () => {
+      const data = JSON.parse(buffer);
+      const results = Object.assign({}, 
+        { page: data.page },
+        { total_pages: data.total_pages},
+        { movies: data.results.map(movie => {
+            return {
+              id: movie.id,
+              title: movie.title,
+              backdrop_path: movie.backdrop_path,
+              release_date: movie.release_date
+            };
+          })
+        }
+      );
+
       res.set('content-type', 'application/json');
-      res.send(data);
+      res.send(results);
     });
   });
 });

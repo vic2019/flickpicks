@@ -1,11 +1,11 @@
 const express = require('express');
-const path = require('path');
+const config = require('config');
 
 const app = express();
 
-// app.use(express.json());
 app.use('/discover', require('./api/discover'));
+app.use('/movie', require('./api/movie-page'));
 
-const port = process.env.PORT || 3009;
+const port = config.get('server').port;
 
 app.listen(port, () => console.log(`Server listening on port: ${port}\n`));
