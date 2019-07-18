@@ -25,13 +25,13 @@ router.get('/', (req, res) => {
       const data = JSON.parse(buffer);
       const results = Object.assign({}, 
         { page: data.page },
-        { total_pages: data.total_pages},
+        { totalPages: data.total_pages},
         { movies: data.results.map(movie => {
             return {
               id: movie.id,
               title: movie.title,
-              backdrop_path: movie.backdrop_path,
-              release_date: movie.release_date
+              image: (movie.backdrop_path === null)? '': movie.backdrop_path,
+              releaseDate: movie.release_date
             };
           })
         }

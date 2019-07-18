@@ -26,7 +26,7 @@ const MoviePage = () => {
           {CrewCard('Person One', 'Job 1')}
           {CrewCard('Person Two', 'Job 2')}
           {CrewCard('Person Three', 'Job 3')}
-          {CrewCard('Person Four', 'Job 4')}
+          {CrewCard('Person Four', 'Job four')}
         </div>
       </div>
       <div className='movie-page-cast'>

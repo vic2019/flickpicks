@@ -1,4 +1,4 @@
-// import axios from 'axios';
+import axios from 'axios';
 
 import { ThunkAction } from 'redux-thunk';
 
@@ -9,22 +9,84 @@ import {
   NAV_TO_PAGE,
   NAV_TO_FIRST_PAGE,
   NAV_TO_LAST_PAGE,
-  SET_WAITING,
-  CANCEL_WAITING,
-  LOAD_MOVIES,
+  UPDATE_MOVIES,
+  SortBy,
   Discover,
+  NewParam,
+  DiscoverData,
   DiscoverActionTypes
 } from './types';
 
-export const setGenres = (
-  genres: number[]
-): ThunkAction<void, null, null, DiscoverActionTypes> => async (
-  dispatch
-) => {
-  const res = await new Promise(resolve => resolve());
-  dispatch({
-    type: SET_GENRES,
-    genres: genres
-  });
+import {
+  SHOW_WAITING,
+  HIDE_WAITING,
+  SHOW_ERROR,
+  HIDE_ERROR
+} from '../app-level/types';
+
+const BASE_REQ_URL = 'http://localhost:3009/discover?';
+
+const makeReqUrl = (
+  newParam: NewParam, discover: Discover
+): string => {
+  const paramObj = Object.assign({},
+    { genres: discover.genres },
+    { year: discover.year },
+    { sortBy: discover.sortBy },
+    { page: discover.page },
+    newParam
+  );
+
+  return BASE_REQ_URL + 'with_genres=' 
+    + paramObj.genres.reduce((accu: string, curr: string) => (
+      accu + String(curr) + '%2C'
+    ), '')
+    + `&year=${paramObj.year}`
+    + `&sortBy=${paramObj.sortBy}`
+    + `&page=${paramObj.page}`;
 };
 
+const updateDiscoverParamAction = (
+  newParam: NewParam
+): DiscoverActionTypes | undefined => {
+  const key = Object.keys(newParam)[0];
+  switch(key) {
+    case 'genres':
+      return { type: SET_GENRES, genres: (<number[]>newParam.genres) };
+    case 'year':
+      return { type: SET_YEAR, year: (<number>newParam.year) };
+    case 'sortBy':
+      return { type: SET_SORTBY, sortBy: (<SortBy>newParam.sortBy) };
+    case 'page':
+      return { type: NAV_TO_PAGE, page: (<number>newParam.page) };
+    default:
+      return undefined;    
+  }
+};
+
+export const updateDiscover = (
+  newParam: NewParam
+): ThunkAction<void, any, null, DiscoverActionTypes> => (
+  dispatch, getState
+) => {
+  const discover: Discover = getState().discover;
+  const reqUrl = makeReqUrl(newParam, discover);
+
+  console.log('SHOW_WAITING')
+
+  axios.get(reqUrl)
+    .then(res => {
+      if (res.status !== 200) throw Error('nope');
+
+      res.data.type = UPDATE_MOVIES;
+      dispatch(res.data);
+    })
+    .then(() => {
+      const action = updateDiscoverParamAction(newParam);
+      if (action) dispatch(action);
+    })
+    .catch(err => console.log(err))
+    .finally(() =>{
+      console.log('HIDE_WAITING');     
+    });
+};
