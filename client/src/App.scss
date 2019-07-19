@@ -223,6 +223,26 @@ $movie-page-cast-card-width: 110px;
   }
 }
 
+.Pagination {
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
+  font-size: 16px;
+  margin: $list-item-margin-top * 2 0 $list-item-margin-top 0;
+
+  .current-page-number, .page-number {
+    margin: 0 5px;
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+  .current-page-number {
+    font-weight: 300%;
+    font-size: 1.4em;
+  }
+}
+
 .Divider {
   border: 1px solid #777;
   border-top: none;

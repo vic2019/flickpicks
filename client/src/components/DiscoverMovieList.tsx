@@ -7,7 +7,6 @@ import { updateDiscover } from '../store/discover/actions';
 import { Movie } from '../store/discover/types';
 
 import Divider from './Divider';
-import MoviePage from './MoviePage';
 
 interface Props {
   movies: Movie[]
@@ -27,8 +26,7 @@ const DiscoverMovieList = ({
               <img
                 className='discover-movie-card-thumb'
                 src={`https://image.tmdb.org/t/p/w500${movie.image}`}
-              />:
-              <p>{'Image Unavailable🙃'}</p>
+              />: null
             }
             <div className='discover-movie-card-title'>
               {movie.title}

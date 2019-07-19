@@ -45,7 +45,6 @@ const makeReqUrl = (
 const updateDiscoverParamAction = (
   newParam: NewParam
 ): DiscoverActionTypes | undefined => {
-  console.log(newParam.genres)
   const key = Object.keys(newParam)[0];
   switch(key) {
     case 'genres':
@@ -68,7 +67,6 @@ export const updateDiscover = (
 ) => {
   const discover: Discover = getState().discover;
   const reqUrl = makeReqUrl(newParam, discover);
-  console.log(reqUrl);
 
   console.log('SHOW_WAITING')
 
@@ -82,6 +80,9 @@ export const updateDiscover = (
       const action = updateDiscoverParamAction(newParam);
       if (action) dispatch(action);
     })
+    .then(() => window.history.pushState(
+      {}, '', reqUrl.slice(reqUrl.indexOf('?'), reqUrl.length)
+    ))
     .catch(err => console.log(err))
     .finally(() =>{
       console.log('HIDE_WAITING');     
