@@ -1,71 +1,86 @@
 import React, { useState } from 'react';
-import { InputLabel, Select, MenuItem, FormControl } from '@material-ui/core';
+import { Input, InputLabel, Select, MenuItem, FormControl } from '@material-ui/core';
 
+import { connect } from 'react-redux';
+import { AppState } from '../store';
 
-const sortOptions = {
+import { updateDiscover } from '../store/discover/actions';
+import { Genre } from '../store/discover/types';
+
+interface Props {
+  genres: number[]
+  allGenres: Genre[]
+  year: number | undefined
+  allYears: number[]
+  sortBy: string
+  sortOptions: string[]
+  updateDiscover: any
+}
+
+const SortOptions: { [key: string]: string } = {
   'popularity.asc': 'Popularity Ascending',
   'popularity.desc': 'Popularity Descending',
   'release_date.asc': 'Release Date Ascending',
   'release_date.des': 'Release Date Descending',
-  'original_title.asc': 'Original Title Ascending',
-  'original_title.des': 'Original Title Descending',
+  'original_title.asc': 'Title Ascending',
+  'original_title.des': 'Title Descending',
 };
 
-
-const DiscoverInput = () => {
-  const [values, set] = useState({
-    genres: [], year: '', sortBy: 'popularity.desc'
-  });
-  const currentYear = new Date().getFullYear();
-
-  const handleChange = (
-    e: React.ChangeEvent<{name?: string; value: unknown}>
-  ) => {
-    set(oldValues => ({
-      ...oldValues,
-      [e.target.name as string]: e.target.value
-    }))
-  };
+const DiscoverInput = ({
+  genres,
+  allGenres,
+  year,
+  allYears,
+  sortBy,
+  sortOptions,
+  updateDiscover
+}: Props) => {
 
   return (
     <div className='DiscoverInput'>
       <FormControl fullWidth margin='dense'>
         <InputLabel>Genres</InputLabel>
         <Select
-          value={values.genres}
-          onChange={handleChange}
-          inputProps={{ name: 'genres' }}
+          multiple
+          value={genres}
+          onChange={e => {
+            updateDiscover({ genres: e.target.value as number[] });
+          }}
+          input={<Input />}
         >
-          <MenuItem value={''} key={'none'}>None</MenuItem>
-          {Array(currentYear - 1989).fill(null).map((_, index) => {
-            const value = String(currentYear - index);
-            return (<MenuItem value={value} key={value}>{value}</MenuItem>);
-          })}
+          {allGenres.map(genre => (
+            <MenuItem value={genre.id} key={genre.id}>{genre.name}</MenuItem>
+          ))}
         </Select>
       </FormControl>
       <FormControl fullWidth margin='dense'>
         <InputLabel>Year</InputLabel>
         <Select
-          value={values.year}
-          onChange={handleChange}
+          value={year}
+          onChange={e => {
+            updateDiscover({ year: e.target.value });
+          }}
           inputProps={{ name: 'year' }}
         >
-          <MenuItem value={''} key={'none'}>None</MenuItem>
-          {Array(currentYear - 1989).fill(null).map((_, index) => {
-            const value = String(currentYear - index);
-            return (<MenuItem value={value} key={value}>{value}</MenuItem>);
-          })}
+          <MenuItem value={undefined} key={'none'}>None</MenuItem>
+          {allYears.map(year => (
+            <MenuItem value={year} key={year}>{year}</MenuItem>
+          ))}
         </Select>
       </FormControl>
       <FormControl fullWidth margin='dense'>
         <InputLabel>Sort By</InputLabel>
         <Select
-          value={values.sortBy}
-          onChange={handleChange}
+          value={sortBy}
+          onChange={e => {
+            updateDiscover({ sortBy: e.target.value });
+          }}
           inputProps={{ name: 'sortBy' }}
         >
-          {Object.entries(sortOptions).map(([key, value]) => (
-            <MenuItem value={key} key={key}>{value}</MenuItem>
+          {sortOptions.map(option => (
+            <MenuItem value={option} key={option}>
+              {SortOptions[option]}
+            </MenuItem>
           ))}
         </Select>
       </FormControl>
@@ -73,4 +88,16 @@ const DiscoverInput = () => {
   )
 };
 
-export default DiscoverInput;
+const mapStateToProps = (state: AppState) => ({
+  genres: state.discover.genres,
+  allGenres: state.discover.allGenres,
+  year: state.discover.year,
+  allYears: state.discover.allYears,
+  sortBy: state.discover.sortBy,
+  sortOptions: state.discover.sortOptions,
+});
+
+export default connect(
+  mapStateToProps,
+  { updateDiscover }
+)(DiscoverInput);

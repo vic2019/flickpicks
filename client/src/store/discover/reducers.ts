@@ -6,22 +6,48 @@ import {
   NAV_TO_FIRST_PAGE,
   NAV_TO_LAST_PAGE,
   UPDATE_MOVIES,
-  SortBy,
   Discover,
   NewParam,
   DiscoverData,
   DiscoverActionTypes
 } from './types'
 
-import { testState } from '../index';
 
-let state = testState;
+const initialState = {
+  genres: [],
+  allGenres: [{
+    id: 1,
+    name: 'SciFi'
+  }, {
+    id: 2,
+    name: 'Drama'
+  }, {
+    id: 3,
+    name: 'Fantasy'
+  }],
+  year: undefined,
+  allYears: Array(new Date().getFullYear() - 1899).fill(null).map((_, i) => (
+    new Date().getFullYear() - i
+  )),
+  sortBy: 'popularity.desc',
+  sortOptions: [
+    'popularity.asc',
+    'popularity.desc',
+    'release_date.asc',
+    'release_date.des',
+    'original_title.asc',
+    'original_title.des'
+  ],
+  movies: [],
+  page: undefined,
+  totalPages: undefined
+}
 
 export const discoverReducer = (
-  discover: Discover = state.discover,
+  discover: Discover = initialState,
   action: DiscoverActionTypes
 ) => {
-  switch(action.type) {
+  switch (action.type) {
     case SET_GENRES:
       return {
         ...discover,

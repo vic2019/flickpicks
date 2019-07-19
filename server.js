@@ -1,8 +1,10 @@
-const express = require('express');
 const config = require('config');
+const express = require('express');
+const cors = require('cors');
 
 const app = express();
 
+app.use(cors());
 app.use('/discover', require('./api/discover'));
 app.use('/movie', require('./api/movie-page'));
 

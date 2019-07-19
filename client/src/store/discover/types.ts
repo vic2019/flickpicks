@@ -11,13 +11,13 @@ export const UPDATE_MOVIES = 'UPDATE_MOVIES'
 export interface Discover {
   genres: number[]
   allGenres: Genre[]
-  year: number
+  year: number | undefined
   allYears: number[]
-  sortBy: SortBy
-  sortOptions: SortBy[]
+  sortBy: string
+  sortOptions: string[]
   movies: Movie[]
-  page: number
-  totalPages: number
+  page: number | undefined
+  totalPages: number | undefined
 }
 
 export interface Genre {
@@ -25,24 +25,18 @@ export interface Genre {
   name: string
 }
 
-export enum SortBy {
-  'Popularity Ascending' = 'popularity.asc',
-  'Popularity Descending' = 'popularity.desc',
-  'Release Date Ascending' = 'release_date.asc',
-  'Release Date Descending' = 'release_date.des',
-  'Original Title Ascending' = 'original_title.asc',
-  'Original Title Descending' = 'original_title.des',
-}
-
 export interface Movie {
   id: number
   title: string
   releaseDate: string
-  image: string | null
+  image: string
 }
 
 export interface NewParam {
-  [key: string]: number | number[] | SortBy
+  genres?: number[]
+  year?: number | undefined
+  sortBy?: string
+  page?: number | undefined
 }
 
 export interface DiscoverData {
@@ -58,12 +52,12 @@ interface SetGenresAction {
 
 interface SetYearAction {
   type: typeof SET_YEAR
-  year: number
+  year: number | undefined
 }
 
 interface SetSortByAction {
   type: typeof SET_SORTBY
-  sortBy: SortBy
+  sortBy: string
 }
 
 interface NavToPageAction {
