@@ -71,6 +71,14 @@ $movie-page-cast-card-width: 110px;
     font-weight: bold;
   }
 
+  .discover-movie-card-release-year {
+    font-weight: normal;
+
+    &::before {
+      content: '  ';
+    }
+  }
+
 }
 
 .DiscoverInput {

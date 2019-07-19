@@ -12,7 +12,9 @@ router.get('/', (req, res) => {
     + String(sort_by? `&sort_by=${sort_by}`: '')
     + String(page? `&page=${page}`: '')
     + String(with_genres? `&with_genres=${with_genres}`: '')
-    + String(year? `&year=${year}`: '');
+    + String(year? `&primary_release_year=${year}`: '');
+
+  console.log(tMDbReqUrl);
 
   https.get(tMDbReqUrl, tMDbRes => {
     let buffer = '';

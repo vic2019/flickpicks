@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Input, InputLabel, Select, MenuItem, FormControl } from '@material-ui/core';
 
 import { connect } from 'react-redux';
@@ -6,6 +6,7 @@ import { AppState } from '../store';
 
 import { updateDiscover } from '../store/discover/actions';
 import { Genre } from '../store/discover/types';
+
 
 interface Props {
   genres: number[]

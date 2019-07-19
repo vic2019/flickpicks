@@ -1,74 +1,54 @@
 import React from 'react';
 
-// import DiscoverControlls from './DiscoverControlls';
-// import DiscoverMovieList from './DiscoverMovieList';
+import { connect } from 'react-redux';
+import { AppState } from '../store';
 
-const test = [
-  {
-    title: "Avenger: Endgame",
-    image: '/7RyHsO4yDXtBv1zUU3mTpHeQ0d5.jpg',
-    releaseYear: '2019'
-  },
-  {
-    title: "Avenger: Endgame",
-    image: '/7RyHsO4yDXtBv1zUU3mTpHeQ0d5.jpg',
-    releaseYear: '2019'
-  },
-  {
-    title: "Avenger: Endgame",
-    image: '/7RyHsO4yDXtBv1zUU3mTpHeQ0d5.jpg',
-    releaseYear: '2019'
-  },
-  {
-    title: "Avenger: Endgame",
-    image: '/7RyHsO4yDXtBv1zUU3mTpHeQ0d5.jpg',
-    releaseYear: '2019'
-  },
-  {
-    title: "Avenger: Endgame",
-    image: '/7RyHsO4yDXtBv1zUU3mTpHeQ0d5.jpg',
-    releaseYear: '2019'
-  },
-  {
-    title: "Avenger: Endgame",
-    image: '/7RyHsO4yDXtBv1zUU3mTpHeQ0d5.jpg',
-    releaseYear: '2019'
-  }
-]
+import { updateDiscover } from '../store/discover/actions';
+import { Movie } from '../store/discover/types';
 
+import Divider from './Divider';
+import MoviePage from './MoviePage';
 
+interface Props {
+  movies: Movie[]
+  updateDiscover: any
+}
 
-const DiscoverMovieList = () => {
+const DiscoverMovieList = ({
+  movies,
+  updateDiscover
+}: Props) => {
   return (
     <>
-      {test.map(item => (
-        <DiscoverMovieCard 
-          {...item}
-        />
+      {movies.map(movie => (
+        <div key={movie.id}>
+          <div className='discover-movie-card'>
+            {movie.image? 
+              <img
+                className='discover-movie-card-thumb'
+                src={`https://image.tmdb.org/t/p/w500${movie.image}`}
+              />:
+              <p>{'Image Unavailable🙃'}</p>
+            }
+            <div className='discover-movie-card-title'>
+              {movie.title}
+              <span className='discover-movie-card-release-year'>
+                ({movie.releaseDate.split('-')[0]})
+              </span>
+            </div>
+          </div>
+          <Divider />
+        </div>
       ))}
     </>
   )
 };
 
-interface DiscoverMovieCard {
-  title: string
-  image: string
-  releaseYear: string
-}
+const mapStateToProps = (state: AppState) => ({
+  movies: state.discover.movies
+});
 
-const DiscoverMovieCard = ({
-  title, image, releaseYear
-}: DiscoverMovieCard) => {
-  return (
-    <div className='discover-movie-card'>
-      <img
-        className='discover-movie-card-thumb'
-        src={`https://image.tmdb.org/t/p/w500${image}`}
-      />
-      <div className='discover-movie-card-title'>{title}</div>
-      <div>({releaseYear})</div>
-    </div>
-  )
-};
-
-export default DiscoverMovieList;
+export default connect(
+  mapStateToProps,
+  { updateDiscover }
+)(DiscoverMovieList);
