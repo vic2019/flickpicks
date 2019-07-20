@@ -1,5 +1,5 @@
 import React from 'react';
-import { Input, InputLabel, Select, MenuItem, FormControl } from '@material-ui/core';
+import { Button, Checkbox, Input, InputLabel, ListItemIcon, Select, MenuItem, FormControl } from '@material-ui/core';
 
 import { connect } from 'react-redux';
 import { AppState } from '../store';
@@ -45,12 +45,27 @@ const DiscoverInput = ({
           multiple
           value={genres}
           onChange={e => {
-            updateDiscover({ genres: e.target.value as number[] });
+            const value = e.target.value as number[];
+            if (value.indexOf(-1) !== -1) {
+              updateDiscover({ genres: [] });
+            } else {
+              updateDiscover({ genres: value });
+            }
           }}
           input={<Input />}
         >
+          <MenuItem value={-1} key={-1}>
+            <Button fullWidth disableRipple size='large' variant='text'>
+              Clear All
+            </Button>
+          </MenuItem>
           {allGenres.map(genre => (
-            <MenuItem value={genre.id} key={genre.id}>{genre.name}</MenuItem>
+            <MenuItem value={genre.id} key={genre.id}>
+              <ListItemIcon>
+                <Checkbox checked={genres.indexOf(genre.id) !== -1} />
+              </ListItemIcon>            
+              {genre.name}
+            </MenuItem>
           ))}
         </Select>
       </FormControl>

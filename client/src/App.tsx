@@ -36,19 +36,19 @@ export default function App() {
         <TopNavBar />
         <Route
           key='MyMovies'
-          path='/MyMovies'
+          path='/mymovies'
           exact={true}
           component={MyMovies}
         />
         <Route
           key='Discover'
-          path='/Discover'
+          path='/discover'
           exact={true}
           component={Discover}
         />
         <Route
           key='Friends'
-          path='/Friends'
+          path='/friends'
           exact={true}
           component={MoviePage}
         />
