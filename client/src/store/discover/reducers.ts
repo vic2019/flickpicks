@@ -3,12 +3,8 @@ import {
   SET_YEAR,
   SET_SORTBY,
   NAV_TO_PAGE,
-  NAV_TO_FIRST_PAGE,
-  NAV_TO_LAST_PAGE,
   UPDATE_MOVIES,
   Discover,
-  NewParam,
-  DiscoverData,
   DiscoverActionTypes
 } from './types'
 

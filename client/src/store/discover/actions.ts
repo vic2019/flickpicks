@@ -7,12 +7,10 @@ import {
   SET_YEAR,
   SET_SORTBY,
   NAV_TO_PAGE,
-  NAV_TO_FIRST_PAGE,
-  NAV_TO_LAST_PAGE,
   UPDATE_MOVIES,
+  Genre,
   Discover,
   NewParam,
-  DiscoverData,
   DiscoverActionTypes
 } from './types';
 
@@ -36,7 +34,8 @@ const makeReqUrl = (
     newParam
   );
 
-  return BASE_REQ_URL + `with_genres=${paramObj.genres.join('%2C')}`
+  return BASE_REQ_URL 
+    + `with_genres=${paramObj.genres.join('%2C')}`
     + `&year=${paramObj.year}`
     + `&sort_by=${paramObj.sortBy}`
     + `&page=${paramObj.page}`;
@@ -68,7 +67,7 @@ export const updateDiscover = (
   const discover: Discover = getState().discover;
   const reqUrl = makeReqUrl(newParam, discover);
 
-  console.log('SHOW_WAITING')
+  // console.log('SHOW_WAITING')
 
   axios.get(reqUrl)
     .then(res => {
@@ -79,12 +78,12 @@ export const updateDiscover = (
     .then(() => {
       const action = updateDiscoverParamAction(newParam);
       if (action) dispatch(action);
+      window.history.pushState(
+        {}, '', reqUrl.slice(reqUrl.indexOf('?'), reqUrl.length)
+      )
     })
-    .then(() => window.history.pushState(
-      {}, '', reqUrl.slice(reqUrl.indexOf('?'), reqUrl.length)
-    ))
     .catch(err => console.log(err))
     .finally(() =>{
-      console.log('HIDE_WAITING');     
+      // console.log('HIDE_WAITING');     
     });
 };

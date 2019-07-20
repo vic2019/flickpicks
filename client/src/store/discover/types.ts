@@ -1,11 +1,7 @@
-import { NumberTypeAnnotation } from "@babel/types";
-
 export const SET_GENRES = 'SET_GENRES'
 export const SET_YEAR = 'SET_YEAR'
 export const SET_SORTBY = 'SET_SORTBY'
 export const NAV_TO_PAGE = 'NAV_PAGE'
-export const NAV_TO_FIRST_PAGE = 'NAV_FIRST_PAGE'
-export const NAV_TO_LAST_PAGE = 'NAV_LAST_PAGE'
 export const UPDATE_MOVIES = 'UPDATE_MOVIES'
 
 export interface Discover {
@@ -39,11 +35,11 @@ export interface NewParam {
   page?: number | undefined
 }
 
-export interface DiscoverData {
-  page: number
-  totalPages: number
-  movies: Movie[]
-}
+// export interface DiscoverData {
+//   page: number
+//   totalPages: number
+//   movies: Movie[]
+// }
 
 interface SetGenresAction {
   type: typeof SET_GENRES

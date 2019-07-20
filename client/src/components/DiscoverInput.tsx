@@ -53,6 +53,13 @@ const DiscoverInput = ({
             }
           }}
           input={<Input />}
+          renderValue={ids => (ids as number[]).map(id => {
+              for (let genre of allGenres) {
+                if (genre.id === id) return genre.name;
+              }
+              return '';
+            }).join(', ')
+          }
         >
           <MenuItem value={-1} key={-1}>
             <Button fullWidth disableRipple size='large' variant='text'>
@@ -61,10 +68,10 @@ const DiscoverInput = ({
           </MenuItem>
           {allGenres.map(genre => (
             <MenuItem value={genre.id} key={genre.id}>
-              <ListItemIcon>
-                <Checkbox checked={genres.indexOf(genre.id) !== -1} />
-              </ListItemIcon>            
-              {genre.name}
+              <ListItemIcon>             
+                <Checkbox checked={genres.indexOf(genre.id) > -1} />
+              </ListItemIcon>             
+             {genre.name}
             </MenuItem>
           ))}
         </Select>
