@@ -11,7 +11,7 @@ import { Genre } from '../store/discover/types';
 interface Props {
   genres: number[]
   allGenres: Genre[]
-  year: number | undefined
+  year: number
   allYears: number[]
   sortBy: string
   sortOptions: string[]
@@ -36,7 +36,6 @@ const DiscoverInput = ({
   sortOptions,
   updateDiscover
 }: Props) => {
-
   return (
     <div className='DiscoverInput'>
       <FormControl fullWidth margin='dense'>
@@ -79,13 +78,13 @@ const DiscoverInput = ({
       <FormControl fullWidth margin='dense'>
         <InputLabel>Year</InputLabel>
         <Select
-          value={year}
+          value={year > 0? year: ''}
           onChange={e => {
             updateDiscover({ year: e.target.value });
           }}
           inputProps={{ name: 'year' }}
         >
-          <MenuItem value={undefined} key={'none'}>None</MenuItem>
+          <MenuItem value={-1} key={'none'}>None</MenuItem>
           {allYears.map(year => (
             <MenuItem value={year} key={year}>{year}</MenuItem>
           ))}

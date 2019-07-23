@@ -1,19 +1,20 @@
-export const SET_GENRES = 'SET_GENRES'
-export const SET_YEAR = 'SET_YEAR'
-export const SET_SORTBY = 'SET_SORTBY'
-export const NAV_TO_PAGE = 'NAV_PAGE'
+// export const SET_GENRES = 'SET_GENRES'
+// export const SET_YEAR = 'SET_YEAR'
+// export const SET_SORTBY = 'SET_SORTBY'
+export const SET_PARAMS = 'SET_PARAMS'
+// export const NAV_TO_PAGE = 'NAV_PAGE'
 export const UPDATE_MOVIES = 'UPDATE_MOVIES'
 
 export interface Discover {
   genres: number[]
   allGenres: Genre[]
-  year: number | undefined
+  year: number
   allYears: number[]
   sortBy: string
   sortOptions: string[]
   movies: Movie[]
-  page: number | undefined
-  totalPages: number | undefined
+  page: number
+  totalPages: number
 }
 
 export interface Genre {
@@ -28,11 +29,11 @@ export interface Movie {
   image: string
 }
 
-export interface NewParam {
+export interface NewParams {
   genres?: number[]
-  year?: number | undefined
+  year?: number
   sortBy?: string
-  page?: number | undefined
+  page?: number
 }
 
 // export interface DiscoverData {
@@ -41,31 +42,39 @@ export interface NewParam {
 //   movies: Movie[]
 // }
 
-interface SetGenresAction {
-  type: typeof SET_GENRES
-  genres: number[]
+// interface SetGenresAction {
+//   type: typeof SET_GENRES
+//   genres: number[]
+// }
+
+// interface SetYearAction {
+//   type: typeof SET_YEAR
+//   year: number | undefined
+// }
+
+// interface SetSortByAction {
+//   type: typeof SET_SORTBY
+//   sortBy: string
+// }
+
+interface SetParamsAction {
+  type: typeof SET_PARAMS
+  payload: NewParams
 }
 
-interface SetYearAction {
-  type: typeof SET_YEAR
-  year: number | undefined
-}
-
-interface SetSortByAction {
-  type: typeof SET_SORTBY
-  sortBy: string
-}
-
-interface NavToPageAction {
-  type: typeof NAV_TO_PAGE
-  page: number
-}
+// interface NavToPageAction {
+//   type: typeof NAV_TO_PAGE
+//   page: number
+// }
 
 interface UpdateMoviesAction {
   type: typeof UPDATE_MOVIES
-  movies: Movie[]
-  page: number
-  totalPages: number
+  payload: {
+    movies: Movie[]
+    page: number
+    totalPages: number
+  }
 }
 
-export type DiscoverActionTypes = SetGenresAction | SetYearAction | SetSortByAction | NavToPageAction | UpdateMoviesAction
+export type DiscoverActionTypes = SetParamsAction | UpdateMoviesAction
+// | SetGenresAction | SetYearAction | SetSortByAction | NavToPageAction;

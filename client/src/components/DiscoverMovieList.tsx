@@ -26,6 +26,7 @@ const DiscoverMovieList = ({
               <img
                 className='discover-movie-card-thumb'
                 src={`https://image.tmdb.org/t/p/w500${movie.image}`}
+                alt=''
               />: null
             }
             <div className='discover-movie-card-title'>

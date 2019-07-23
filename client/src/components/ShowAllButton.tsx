@@ -1,5 +1,4 @@
 import React from 'react';
-import { Button } from '@material-ui/core';
 
 import { connect } from 'react-redux';
 
@@ -18,6 +17,6 @@ const ShowAllButton = ({
 }
 
 export default connect(
-  () => {},
+  () => ({}),
   { showAll }
 )(ShowAllButton);

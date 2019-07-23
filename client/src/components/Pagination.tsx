@@ -1,8 +1,8 @@
 import React from 'react';
 
 interface Props {
-  page: number | undefined
-  totalPages: number| undefined
+  page: number
+  totalPages: number
   navToPage: any,
 }
 
@@ -12,7 +12,7 @@ interface Page {
 }
 
 const Pagination = ({ page, totalPages, navToPage }: Props) => {
-  if (page === undefined || totalPages === undefined) return null;
+  if (totalPages === -1) return null;
 
   const firstPage = (
     <span
@@ -32,7 +32,7 @@ const Pagination = ({ page, totalPages, navToPage }: Props) => {
   for (let pg = page - 2; pg <= page + 2; pg++) {
     pages.push({
       num: pg,
-      elem: <span 
+      elem: <span
         onClick={() => navToPage({ page: pg })}
         className={pg === page? 'current-page-number': 'page-number'}
       >{pg}</span>

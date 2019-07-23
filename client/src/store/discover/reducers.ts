@@ -1,8 +1,9 @@
 import {
-  SET_GENRES,
-  SET_YEAR,
-  SET_SORTBY,
-  NAV_TO_PAGE,
+  // SET_GENRES,
+  // SET_YEAR,
+  // SET_SORTBY,
+  SET_PARAMS,
+  // NAV_TO_PAGE,
   UPDATE_MOVIES,
   Discover,
   DiscoverActionTypes
@@ -89,7 +90,7 @@ const initialState = {
       "name": "Western"
     }
   ],
-  year: undefined,
+  year: -1,
   allYears: Array(new Date().getFullYear() - 1899).fill(null).map((_, i) => (
     new Date().getFullYear() - i
   )),
@@ -103,8 +104,8 @@ const initialState = {
     'original_title.des'
   ],
   movies: [],
-  page: undefined,
-  totalPages: undefined
+  page: -1,
+  totalPages: -1
 }
 
 export const discoverReducer = (
@@ -112,32 +113,38 @@ export const discoverReducer = (
   action: DiscoverActionTypes
 ) => {
   switch (action.type) {
-    case SET_GENRES:
+    case SET_PARAMS:
       return {
         ...discover,
-        genres: action.genres
+        ...action.payload
       };
-    case SET_YEAR:
-      return {
-        ...discover,
-        year: action.year
-      };
-    case SET_SORTBY:
-      return {
-        ...discover,
-        sortBy: action.sortBy
-      };
-    case NAV_TO_PAGE:
-      return {
-        ...discover,
-        page: action.page
-      };
+
+    // case SET_GENRES:
+    //   return {
+    //     ...discover,
+    //     genres: action.genres
+    //   };
+    // case SET_YEAR:
+    //   return {
+    //     ...discover,
+    //     year: action.year
+    //   };
+    // case SET_SORTBY:
+    //   return {
+    //     ...discover,
+    //     sortBy: action.sortBy
+    //   };
+    // case NAV_TO_PAGE:
+    //   return {
+    //     ...discover,
+    //     page: action.page
+    //   };
     case UPDATE_MOVIES:
       return {
         ...discover,
-        movies: action.movies,
-        page: action.page,
-        totalPages: action.totalPages
+        movies: action.payload.movies,
+        page: action.payload.page,
+        totalPages: action.payload.totalPages
       };
     default:
       return discover;

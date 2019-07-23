@@ -10,8 +10,8 @@ import { AppState } from '../store';
 import { updateDiscover } from '../store/discover/actions';
 
 interface Props {
-  page: number | undefined
-  totalPages: number | undefined
+  page: number
+  totalPages: number
   updateDiscover: any
 }
 

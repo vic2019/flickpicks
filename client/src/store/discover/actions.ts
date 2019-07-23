@@ -3,14 +3,15 @@ import axios from 'axios';
 import { ThunkAction } from 'redux-thunk';
 
 import {
-  SET_GENRES,
-  SET_YEAR,
-  SET_SORTBY,
-  NAV_TO_PAGE,
+  // SET_GENRES,
+  // SET_YEAR,
+  // SET_SORTBY,
+  SET_PARAMS,
+  // NAV_TO_PAGE,
   UPDATE_MOVIES,
-  Genre,
+  // Genre,
   Discover,
-  NewParam,
+  NewParams,
   DiscoverActionTypes
 } from './types';
 
@@ -24,63 +25,59 @@ import {
 const BASE_REQ_URL = 'http://localhost:3009/discover?';
 
 const makeReqUrl = (
-  newParam: NewParam, discover: Discover
+  newParams: NewParams, discover: Discover
 ): string => {
-  const paramObj = Object.assign({},
+  const paramObj = Object.assign(
     { genres: discover.genres },
     { year: discover.year },
     { sortBy: discover.sortBy },
-    { page: discover.page },
-    newParam
+    // Don't put page here. Either newParams would contain page, or tMDb's api
+    // would default to page === 1.
+    newParams
   );
 
   return BASE_REQ_URL 
     + `with_genres=${paramObj.genres.join('%2C')}`
-    + `&year=${paramObj.year}`
+    + `&year=${paramObj.year > 0? paramObj.year: ''}`
     + `&sort_by=${paramObj.sortBy}`
-    + `&page=${paramObj.page}`;
+    + `&page=${paramObj.page? paramObj.page: ''}`;
 };
 
 const updateDiscoverParamAction = (
-  newParam: NewParam
-): DiscoverActionTypes | undefined => {
-  const key = Object.keys(newParam)[0];
-  switch(key) {
-    case 'genres':
-      return { type: SET_GENRES, genres: (<number[]>newParam.genres) };
-    case 'year':
-      return { type: SET_YEAR, year: (<number | undefined>newParam.year) };
-    case 'sortBy':
-      return { type: SET_SORTBY, sortBy: (<string>newParam.sortBy) };
-    case 'page':
-      return { type: NAV_TO_PAGE, page: (<number>newParam.page) };
-    default:
-      return undefined;    
-  }
+  newParams: NewParams, discover: Discover
+): DiscoverActionTypes => {
+
+  return {
+    type: SET_PARAMS,
+    payload: newParams
+  };
 };
 
 export const updateDiscover = (
-  newParam: NewParam
+  newParams: NewParams
 ): ThunkAction<void, any, null, DiscoverActionTypes> => (
   dispatch, getState
 ) => {
   const discover: Discover = getState().discover;
-  const reqUrl = makeReqUrl(newParam, discover);
+  const reqUrl = makeReqUrl(newParams, discover);
 
   // console.log('SHOW_WAITING')
 
   axios.get(reqUrl)
     .then(res => {
       if (res.status !== 200) throw Error('nope');
-      res.data.type = UPDATE_MOVIES;
-      dispatch(res.data);
+
+      dispatch({
+        type: UPDATE_MOVIES,
+        payload: res.data
+      });
     })
     .then(() => {
-      const action = updateDiscoverParamAction(newParam);
+      const action = updateDiscoverParamAction(newParams, discover);
       if (action) dispatch(action);
-      window.history.pushState(
-        {}, '', reqUrl.slice(reqUrl.indexOf('?'), reqUrl.length)
-      )
+      // window.history.pushState(
+      //   {}, '', reqUrl.slice(reqUrl.indexOf('?'), reqUrl.length)
+      // )
     })
     .catch(err => console.log(err))
     .finally(() =>{
