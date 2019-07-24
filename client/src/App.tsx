@@ -50,6 +50,11 @@ export default function App() {
           key='Friends'
           path='/friends'
           exact={true}
+        />
+        <Route
+          key='Movie'
+          path='/movie/*'
+          exact={true}
           component={MoviePage}
         />
         

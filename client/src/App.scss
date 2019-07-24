@@ -13,7 +13,8 @@ $movie-page-cast-card-width: 110px;
 
 .TopNavBar {
   a {
-    color: white;
+    color: inherit;
+    font-size: inherit;
     text-decoration: none;
 
     &:hover {
@@ -63,27 +64,37 @@ $movie-page-cast-card-width: 110px;
 .Discover {
   margin: 0 $content-margin-left-mobile;
 
-  .discover-movie-card {
-    margin: $list-item-margin-top 0;
-  }
+  a {
+    color: inherit;
+    font-size: inherit;
+    text-decoration: none;
 
-  .discover-movie-card-thumb {
-    max-width: 95vw;    
-  }
-
-  .discover-movie-card-title {
-    font-weight: bold;
-  }
-
-  .discover-movie-card-release-year {
-    font-weight: normal;
-
-    &::before {
-      content: '  ';
+    &:hover {
+      text-decoration: underline;
     }
   }
 
+  .discover-movie-card {
+    margin: $list-item-margin-top 0;
+  }
+  
+  .discover-movie-card-thumb {
+    max-width: 95vw;    
+  }
+  
+  .discover-movie-card-title {
+    font-weight: bold;
+  }
+  
+  .discover-movie-card-release-year {
+    font-weight: normal;
+    
+    &::before {
+      content: ' ';
+    }
+  }
 }
+
 
 .DiscoverInput {
   margin-top: $list-item-margin-top;
@@ -178,6 +189,14 @@ $movie-page-cast-card-width: 110px;
     overflow: scroll; // This must apply to the list and NOT the card
   }
 
+  .movie-page-recommendation-list {
+    a {
+      color: inherit;
+      font-size: inherit;
+      text-decoration: none;
+    }
+  }
+
   .movie-page-cast-card {
     display: flex;
     flex-flow: column;
@@ -223,6 +242,10 @@ $movie-page-cast-card-width: 110px;
     span {
       margin: 0 5px 5px 5px;
       font-size: 15px;
+    }
+
+    &:hover {
+      text-decoration: underline;
     }
   }
 }

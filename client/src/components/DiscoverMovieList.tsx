@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 import { connect } from 'react-redux';
 import { AppState } from '../store';
@@ -21,21 +22,26 @@ const DiscoverMovieList = ({
     <>
       {movies.map(movie => (
         <div key={movie.id}>
-          <div className='discover-movie-card'>
-            {movie.image? 
-              <img
-                className='discover-movie-card-thumb'
-                src={`https://image.tmdb.org/t/p/w500${movie.image}`}
-                alt=''
-              />: null
-            }
-            <div className='discover-movie-card-title'>
-              {movie.title}
-              <span className='discover-movie-card-release-year'>
-                ({movie.releaseDate.split('-')[0]})
-              </span>
+          <Link 
+            to={`/movie/${movie.id}-${movie.title
+              .split(/[,:]/).join('').split(' ').join('-')}`}
+          >
+            <div className='discover-movie-card'>
+              {movie.image? 
+                <img
+                  className='discover-movie-card-thumb'
+                  src={`https://image.tmdb.org/t/p/w500${movie.image}`}
+                  alt=''
+                />: null
+              }
+              <div className='discover-movie-card-title'>
+                {movie.title}
+                <span className='discover-movie-card-release-year'>
+                  ({movie.releaseDate.split('-')[0]})
+                </span>
+              </div>
             </div>
-          </div>
+          </Link>
           <Divider />
         </div>
       ))}
