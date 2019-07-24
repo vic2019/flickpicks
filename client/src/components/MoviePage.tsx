@@ -130,7 +130,7 @@ const CastCard = (name: string, character: string, image: string) => {
         src={imageBaseUrl + image}
       />
       <span><strong>{name}</strong></span>
-      <span>{character}</span>
+      <span style={{ minHeight: '4em' }}>{character}</span>
     </span>
   );
 };
@@ -144,7 +144,7 @@ const RecommendationCard = (id: number, title: string, image: string) => {
         <img
           src={`https://image.tmdb.org/t/p/w500${image}`}
         />
-        <span>{title}</span>
+        <span style={{ minHeight: '3em' }}>{title}</span>
       </span>
     </Link>
   );
