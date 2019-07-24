@@ -27,6 +27,7 @@ export interface Movie {
   title: string
   releaseDate: string
   image: string
+  poster: string
 }
 
 export interface NewParams {

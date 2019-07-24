@@ -21,7 +21,7 @@ router.get("/", (req, res) => {
         
         tMDbRes.on('end', () => {
           const data = JSON.parse(buffer);
-          console.log(data)
+          // console.log(data)
 
           const results = Object.assign({},
             { notFound: false },
@@ -32,7 +32,7 @@ router.get("/", (req, res) => {
             { releaseDate: data.release_date },
             { title: data.title },
             { videos: data.videos.results },
-            { cast: data.credits.cast.slice(0, 8).map(member => {
+            { cast: data.credits.cast.slice(0, 12).map(member => {
                 return {
                   character: member.character,
                   name: member.name,

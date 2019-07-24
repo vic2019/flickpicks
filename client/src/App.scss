@@ -38,6 +38,16 @@ $movie-page-cast-card-width: 110px;
       cursor: pointer;
     }
   }
+
+  a {
+    color: inherit;
+    font-size: inherit;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
 }
 
 .MovieItem {
@@ -282,4 +292,14 @@ $movie-page-cast-card-width: 110px;
 
 li.MuiListItem-container {
   list-style: none;
+}
+
+.add-movie-button {
+  font-weight: normal;
+  margin-bottom: 12px;
+  
+  &:hover {
+    text-decoration: underline;
+    cursor: pointer;
+  }
 }

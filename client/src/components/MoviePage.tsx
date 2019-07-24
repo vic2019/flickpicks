@@ -5,17 +5,23 @@ import { connect } from 'react-redux';
 import { AppState } from '../store';
 
 import { loadMovie, movieNotFound } from '../store/movie-page/actions';
+import { addMovie } from '../store/my-movies/actions';
 import { MoviePage as MoviePageType } from '../store/movie-page/types';
+
+import ScrollToTop from './ScrollToTop';
 
 interface Props {
   moviePage: MoviePageType,
   loadMovie: any,
-  movieNotFound: any
+  movieNotFound: any,
+  addMovie: any
 }
 
 const imageBaseUrl = 'https://image.tmdb.org/t/p/w500'
 
-const MoviePage = ({ moviePage, loadMovie, movieNotFound }: Props) => {
+const MoviePage = ({ 
+  moviePage, loadMovie, movieNotFound, addMovie 
+}: Props) => {
   const {
     notFound,
     id,
@@ -29,13 +35,23 @@ const MoviePage = ({ moviePage, loadMovie, movieNotFound }: Props) => {
     recommendations
   } = moviePage;
 
+  const addToMyMovies = () => {
+    addMovie({
+      id,
+      tMDb_id: id,
+      title,
+      image: poster,
+      dateAdded: new Date().toString()
+    });
+  }
+
   useEffect(() => {
     const regexMatch = window.location.pathname.match(/(\d+)/);
     if (!regexMatch) {
       movieNotFound();
       return;
     }
-
+    
     loadMovie(Number(regexMatch[0]));
   }, [window.location.pathname]); 
   //^ The dependency cannot be an object 
@@ -43,6 +59,7 @@ const MoviePage = ({ moviePage, loadMovie, movieNotFound }: Props) => {
 
   return (
     notFound? null:
+    <ScrollToTop>
     <div className='MoviePage'>
       <img 
         className='movie-page-backdrop'
@@ -59,6 +76,11 @@ const MoviePage = ({ moviePage, loadMovie, movieNotFound }: Props) => {
             {releaseDate.slice(0, 4)}
             )
           </span>
+          <br />
+          <span 
+            className='add-movie-button'
+            onClick={addToMyMovies}
+          >{'\u21AA'}Add to my movies</span>
         </h3>
       </div>
       <div className='movie-page-details'>
@@ -88,6 +110,7 @@ const MoviePage = ({ moviePage, loadMovie, movieNotFound }: Props) => {
         </div>
       </div>
     </div>
+    </ScrollToTop>
   );
 };
 
@@ -134,5 +157,5 @@ const mapStateToProps = (state: AppState) => ({
 
 export default connect(
   mapStateToProps,
-  { loadMovie, movieNotFound }
+  { loadMovie, movieNotFound, addMovie }
 )(MoviePage);

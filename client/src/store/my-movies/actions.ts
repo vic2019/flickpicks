@@ -13,6 +13,7 @@ import {
   SET_FILTERS,
   SHOW_ALL,
   DELETE_MOVIE,
+  ADD_MOVIE,
   // ERROR,
   // UNDO_DELETE
 } from './types';
@@ -96,3 +97,8 @@ export const deleteMovie = (
     }))
     .catch();
 };
+
+export const addMovie = (movie: Movie) => ({
+  type: ADD_MOVIE,
+  movie
+});

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Fade } from '@material-ui/core';
+import { Link } from 'react-router-dom';
 
 import TagSelector from './TagSelector';
 import DeleteMovie from './DeleteMovie';
@@ -23,6 +24,8 @@ const MyMovieItem = ({ movie }: Props)  => {
     dateAdded
   } = movie;
 
+  const dateString = dateAdded.split(' ').slice(0, 4).join(' ');
+
   // const deleteMovie
 
   return (
@@ -31,14 +34,24 @@ const MyMovieItem = ({ movie }: Props)  => {
       it can't be a React.Fragment */}
       <div>
         <div className='MovieItem'>
+        <Link
+              to={`/movie/${movie.id}-${movie.title
+                .split(/[,:]/).join('').split(' ').join('-')}`}
+            >
           <img
             className='movie-item-thumb'
             src={`https://image.tmdb.org/t/p/w500${image}`}
             alt='movie poster'
           />
+          </Link>
           <div>
+          <Link
+              to={`/movie/${movie.id}-${movie.title
+                .split(/[,:]/).join('').split(' ').join('-')}`}
+            >
             <div className='movie-item-title'>{title}</div>
-            <div>{`Date Added: ${dateAdded}`}</div>
+          </Link>
+            <div>{`Date Added: ${dateString}`}</div>
             <TagSelector movie={movie} />
             <DeleteMovie movie={movie} transitionOut={setVisible}/>
           </div>

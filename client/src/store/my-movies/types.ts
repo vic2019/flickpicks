@@ -3,14 +3,10 @@ export const CREATE_TAG = 'CREATE_TAG';
 export const DELETE_TAG = 'DELETE_TAG';
 export const SET_FILTERS = 'SET_FILTERs';
 export const SHOW_ALL = 'SHOW_ALL';
+export const ADD_MOVIE = 'ADD_MOVIE'
 export const DELETE_MOVIE = 'DELETE_MOVIE';
 export const UNDO_DELETE = 'UNDO_DELETE';
 export const ERROR = 'ERROR';
-
-
-export interface AppState {
-  myMovies: MyMovies
-}
 
 export interface Movie {
   id: string
@@ -62,6 +58,11 @@ interface ShowAllAction {
   type: typeof SHOW_ALL
 };
 
+interface AddMovieAction {
+  type: typeof ADD_MOVIE
+  movie: Movie
+};
+
 interface DeleteMovieAction {
   type: typeof DELETE_MOVIE
   movie: Movie
@@ -77,4 +78,4 @@ interface ErrorAction {
 }
 
 export type MyMoviesActionTypes = 
-  SetTagsAction | ModifyTagAction | SetFiltersAction | ShowAllAction | DeleteMovieAction | UndoDeleteAction | ErrorAction;
+  SetTagsAction | ModifyTagAction | SetFiltersAction | ShowAllAction | AddMovieAction | DeleteMovieAction | UndoDeleteAction | ErrorAction;

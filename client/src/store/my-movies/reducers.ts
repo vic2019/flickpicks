@@ -11,6 +11,7 @@ import {
   DELETE_TAG, 
   SET_FILTERS,
   SHOW_ALL,
+  ADD_MOVIE,
   DELETE_MOVIE,
   // UNDO_DELETE,
   // ERROR
@@ -108,7 +109,10 @@ const testMyMovies = {
 
 const initialState = {
   byId: {},
-  byTag: {},
+  byTag: {
+    "To Watch": {},
+    "Watched": {}
+  },
   allIds: [],
   filters: {},
   showAll: true
@@ -119,6 +123,8 @@ const byIdReducer = (
   action: MyMoviesActionTypes
 ): ById => {
   switch(action.type) {
+    case ADD_MOVIE:
+      return Object.assign({}, byId, { [action.movie.id]: action.movie });
     case DELETE_MOVIE:
       const newById = Object.assign({}, byId);
       delete newById[action.movie.id];
@@ -144,6 +150,12 @@ const byTagReducer = (
       return Object.assign({}, ...tagArray_setTags);
     case CREATE_TAG:
       return Object.assign({}, byTag, { [action.tag]: {} });
+    case ADD_MOVIE:
+        return Object.assign({}, byTag, {
+          "To Watch": Object.assign({}, byTag["To Watch"], { 
+            [action.movie.id]: true
+          })
+        });
     case DELETE_TAG:
       const newByTag: ByTag = Object.assign({}, byTag);
       delete newByTag[action.tag];
@@ -165,6 +177,8 @@ const allIdsReducer = (
   action: MyMoviesActionTypes
 ): AllIds => {
   switch(action.type) {
+    case ADD_MOVIE:
+        return [...allIds, action.movie.id];
     case DELETE_MOVIE:
       return allIds.filter(id => id !== action.movie.id);
     default:

@@ -75,9 +75,9 @@ export const updateDiscover = (
     .then(() => {
       const action = updateDiscoverParamAction(newParams, discover);
       if (action) dispatch(action);
-      // window.history.pushState(
-      //   {}, '', reqUrl.slice(reqUrl.indexOf('?'), reqUrl.length)
-      // )
+      window.history.pushState(
+        {}, '', reqUrl.slice(reqUrl.indexOf('?'), reqUrl.length)
+      )
     })
     .catch(err => console.log(err))
     .finally(() =>{

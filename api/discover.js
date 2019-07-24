@@ -14,7 +14,7 @@ router.get('/', (req, res) => {
     + String(with_genres? `&with_genres=${with_genres}`: '')
     + String(year? `&primary_release_year=${year}`: '');
 
-  console.log(tMDbReqUrl);
+  // console.log(tMDbReqUrl);
 
   https.get(tMDbReqUrl, tMDbRes => {
     let buffer = '';
@@ -33,6 +33,7 @@ router.get('/', (req, res) => {
               id: movie.id,
               title: movie.title,
               image: (movie.backdrop_path === null)? '': movie.backdrop_path,
+              poster: (movie.poster_path === null)? '': movie.poster_path,
               releaseDate: movie.release_date
             };
           })

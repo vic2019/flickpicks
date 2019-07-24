@@ -36,6 +36,7 @@ const DiscoverInput = ({
   sortOptions,
   updateDiscover
 }: Props) => {
+
   return (
     <div className='DiscoverInput'>
       <FormControl fullWidth margin='dense'>
