@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import { addMovie } from '../store/my-movies/actions';
-import { Movie } from '../store/discover/types';
+import { Movie } from '../store/search/types';
 import { AppState } from '../store';
 
 import Divider from './Divider';
@@ -15,11 +15,10 @@ interface Props {
   addMovie: any
 }
 
-const DiscoverMovieList = ({
+const SearchMovieList = ({
   movies,
   addMovie
 }: Props) => {
-  alert(movies[0]? movies[0].title: 'no title')
   return (
     <ScrollToTop>     
       {movies.map(movie => (
@@ -69,6 +68,6 @@ const DiscoverMovieList = ({
 };
 
 export default connect(
-  (state: AppState) => ({ movies: state.discover.movies }),
+  (state: AppState) => ({ movies: state.search.movies }),
   { addMovie }
-)(DiscoverMovieList);
+)(SearchMovieList);

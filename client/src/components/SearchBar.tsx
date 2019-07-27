@@ -1,4 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+
+import { connect } from 'react-redux';
+import { AppState } from '../store';
+
+import { updateSearch } from '../store/search/actions';
+
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import InputBase from '@material-ui/core/InputBase';
@@ -27,8 +34,22 @@ const useStyles = makeStyles({
   }
 });
 
-export default function SearchBar() {
+interface Props {
+  query: string,
+  updateSearch: any
+}
+
+const SearchBar = ({ query, updateSearch }: Props) => {
   const classes = useStyles();
+  const [text, set] = useState(query);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    set(e.target.value as string);
+  }
+
+  const handleClick = () => {
+    updateSearch({ query: text });
+  }
 
   return (
     <Paper className={classes.root}>
@@ -36,10 +57,29 @@ export default function SearchBar() {
         className={classes.input}
         placeholder='Search Movie Title'
         inputProps={{ 'aria-label': 'Search Movie Title' }}
+        value={text}
+        onChange={handleChange}
       />
-      <IconButton className={classes.iconButton} aria-label="Search">
-        <SearchIcon />
-      </IconButton>
+      <Link
+        to={`/search?${query}`}
+      >
+        <IconButton 
+          className={classes.iconButton} 
+          aria-label="Search"
+          onClick={handleClick}
+        >
+          <SearchIcon />
+        </IconButton>
+      </Link>
     </Paper>
   );
 }
+
+const mapStateToProps = (state: AppState) => ({
+  query: state.search.query
+});
+
+export default connect(
+  mapStateToProps,
+  { updateSearch }
+)(SearchBar);

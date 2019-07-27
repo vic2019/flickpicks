@@ -3,18 +3,17 @@ const router = express.Router();
 const https = require('https');
 const config = require('config');
 
-const { discoverBaseUrl, apiKey } = config.get('server');
+const { searchBaseUrl, apiKey } = config.get('server');
 
 router.get('/', (req, res) => {
-  const { sort_by, page, with_genres, year } = req.query;
+  const { query } = req.query;
 
-  const tMDbReqUrl = discoverBaseUrl + '?api_key=' + apiKey
-    + String(sort_by? `&sort_by=${sort_by}`: '')
-    + String(page? `&page=${page}`: '')
-    + String(with_genres? `&with_genres=${with_genres}`: '')
-    + String(year? `&primary_release_year=${year}`: '');
+  if (!query) res.status(400).end();
 
-  // console.log(tMDbReqUrl);
+  const tMDbReqUrl = searchBaseUrl + '?api_key=' + apiKey
+    + String(`&query=${query}`);
+
+  console.log(tMDbReqUrl);
 
   https.get(tMDbReqUrl, tMDbRes => {
     let buffer = '';

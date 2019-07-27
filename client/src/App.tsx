@@ -15,6 +15,7 @@ import TopNavBar from './components/TopNavBar';
 import MyMovies from './components/MyMovies';
 import MoviePage from './components/MoviePage';
 import Discover from './components/Discover';
+import Search from './components/Search';
 import './App.scss';
 
 
@@ -47,6 +48,12 @@ export default function App() {
           component={Discover}
         />
         <Route
+          key='Search'
+          path='/search'
+          exact={true}
+          component={Search}
+        />
+        <Route
           key='Friends'
           path='/friends'
           exact={true}
@@ -57,8 +64,6 @@ export default function App() {
           exact={true}
           component={MoviePage}
         />
-        
-        
       </ThemeProvider>
     </Router>
   );
