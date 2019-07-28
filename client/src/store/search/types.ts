@@ -1,5 +1,5 @@
-export const UPDATE_MOVIES = 'UPDATE_MOVIES'
-export const SET_PARAMS = 'SET_PARAMS'
+export const UPDATE_SEARCH_MOVIES = 'UPDATE_SEARCH_MOVIES'
+export const SET_SEARCH_PARAMS = 'SET_SEARCH_PARAMS'
 
 export interface Search {
   query: string
@@ -43,14 +43,14 @@ export interface Params {
 }
 
 interface SetParamsAction {
-  type: typeof SET_PARAMS
+  type: typeof SET_SEARCH_PARAMS
   payload: {
 
   }
 }
 
 interface UpdateMoviesAction {
-  type: typeof UPDATE_MOVIES
+  type: typeof UPDATE_SEARCH_MOVIES
   payload: {
     movies: Movie[]
     page: number

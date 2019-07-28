@@ -19,7 +19,6 @@ const DiscoverMovieList = ({
   movies,
   addMovie
 }: Props) => {
-  alert(movies[0]? movies[0].title: 'no title')
   return (
     <ScrollToTop>     
       {movies.map(movie => (
@@ -68,7 +67,11 @@ const DiscoverMovieList = ({
   )
 };
 
+const mapStateToProps = (state: AppState) => ({
+  movies: state.discover.movies
+});
+
 export default connect(
-  (state: AppState) => ({ movies: state.discover.movies }),
+  mapStateToProps,
   { addMovie }
 )(DiscoverMovieList);

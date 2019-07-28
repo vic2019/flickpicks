@@ -1,10 +1,9 @@
 import {
-  SET_PARAMS,
-  UPDATE_MOVIES,
+  SET_SEARCH_PARAMS,
+  UPDATE_SEARCH_MOVIES,
   Search,
   SearchActionTypes
 } from './types'
-
 
 const initialState = {
   query: '',
@@ -18,12 +17,12 @@ export const searchReducer = (
   action: SearchActionTypes
 ) => {
   switch (action.type) {
-    case SET_PARAMS:
+    case SET_SEARCH_PARAMS:
       return {
         ...search,
         ...action.payload
       };
-    case UPDATE_MOVIES:
+    case UPDATE_SEARCH_MOVIES:
       return {
         ...search,
         movies: action.payload.movies,

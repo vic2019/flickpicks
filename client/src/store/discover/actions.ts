@@ -3,15 +3,10 @@ import axios from 'axios';
 import { ThunkAction } from 'redux-thunk';
 
 import {
-  // SET_GENRES,
-  // SET_YEAR,
-  // SET_SORTBY,
-  SET_PARAMS,
-  // NAV_TO_PAGE,
-  UPDATE_MOVIES,
-  // Genre,
+  SET_DISCOVER_PARAMS,
+  UPDATE_DISCOVER_MOVIES,
   Discover,
-  NewParams,
+  Params,
   DiscoverActionTypes
 } from './types';
 
@@ -22,64 +17,56 @@ import {
   HIDE_ERROR
 } from '../app-level/types';
 
-const BASE_REQ_URL = 'http://localhost:3009/discover?';
+const BASE_REQ_URL = 'http://localhost:3009/discover';
 
 const makeReqUrl = (
-  newParams: NewParams, discover: Discover
+  params: Params, discover: Discover
 ): string => {
   const paramObj = Object.assign(
     { genres: discover.genres },
     { year: discover.year },
     { sortBy: discover.sortBy },
-    // Don't put page here. Either newParams would contain page, or tMDb's api
+    // Don't put page here. Either params would contain page, or tMDb's api
     // would default to page === 1.
-    newParams
+    params
   );
 
   return BASE_REQ_URL 
-    + `with_genres=${paramObj.genres.join('%2C')}`
+    + `?with_genres=${paramObj.genres.join('%2C')}`
     + `&year=${paramObj.year > 0? paramObj.year: ''}`
     + `&sort_by=${paramObj.sortBy}`
     + `&page=${paramObj.page? paramObj.page: ''}`;
 };
 
-const updateDiscoverParamAction = (
-  newParams: NewParams, discover: Discover
-): DiscoverActionTypes => {
-
-  return {
-    type: SET_PARAMS,
-    payload: newParams
-  };
-};
-
 export const updateDiscover = (
-  newParams: NewParams
+  params: Params
 ): ThunkAction<void, any, null, DiscoverActionTypes> => (
   dispatch, getState
 ) => {
   const discover: Discover = getState().discover;
-  const reqUrl = makeReqUrl(newParams, discover);
+  const reqUrl = makeReqUrl(params, discover);
 
   // console.log('SHOW_WAITING')
 
   axios.get(reqUrl)
     .then(res => {
       if (res.status !== 200) throw Error('nope');
-
+   
       dispatch({
-        type: UPDATE_MOVIES,
+        type: UPDATE_DISCOVER_MOVIES,
         payload: res.data
       });
     })
     .then(() => {
-      const action = updateDiscoverParamAction(newParams, discover);
-      if (action) dispatch(action);
+      dispatch({
+        type: SET_DISCOVER_PARAMS,
+        payload: params
+      });
       window.history.pushState(
         {}, '', reqUrl.slice(reqUrl.indexOf('?'), reqUrl.length)
       )
     })
-    .catch(err => console.log(err))
+    .catch(err => alert(err.message))
     .finally(() =>{
       // console.log('HIDE_WAITING');     
     });

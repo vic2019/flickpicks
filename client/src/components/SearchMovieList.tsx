@@ -20,7 +20,7 @@ const SearchMovieList = ({
   addMovie
 }: Props) => {
   return (
-    <ScrollToTop>     
+    <ScrollToTop>    
       {movies.map(movie => (
         <div className='discover-movie-card'>
           <div key={movie.id}>
@@ -63,11 +63,15 @@ const SearchMovieList = ({
           <Divider />
         </div>
       ))}
-    </ScrollToTop>
+      </ScrollToTop>
   )
 };
 
+const mapStateToProps = (state: AppState) => ({
+  movies: state.search.movies
+});
+
 export default connect(
-  (state: AppState) => ({ movies: state.search.movies }),
+  mapStateToProps,
   { addMovie }
 )(SearchMovieList);

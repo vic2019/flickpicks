@@ -1,9 +1,11 @@
 import React from 'react';
+import { updateDiscover } from '../store/discover/actions';
+import { updateSearch } from '../store/search/actions';
 
 interface Props {
   page: number
   totalPages: number
-  navToPage: any,
+  navToPage: typeof updateDiscover | typeof updateSearch
 }
 
 interface Page {

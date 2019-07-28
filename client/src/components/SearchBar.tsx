@@ -61,7 +61,7 @@ const SearchBar = ({ query, updateSearch }: Props) => {
         onChange={handleChange}
       />
       <Link
-        to={`/search?${query}`}
+        to={'/search'}
       >
         <IconButton 
           className={classes.iconButton} 

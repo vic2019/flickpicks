@@ -1,9 +1,5 @@
-// export const SET_GENRES = 'SET_GENRES'
-// export const SET_YEAR = 'SET_YEAR'
-// export const SET_SORTBY = 'SET_SORTBY'
-export const SET_PARAMS = 'SET_PARAMS'
-// export const NAV_TO_PAGE = 'NAV_PAGE'
-export const UPDATE_MOVIES = 'UPDATE_MOVIES'
+export const SET_DISCOVER_PARAMS = 'SET_PARAMS'
+export const UPDATE_DISCOVER_MOVIES = 'UPDATE_DISCOVER_MOVIES'
 
 export interface Discover {
   genres: number[]
@@ -30,46 +26,20 @@ export interface Movie {
   poster: string
 }
 
-export interface NewParams {
+export interface Params {
   genres?: number[]
   year?: number
   sortBy?: string
   page?: number
 }
 
-// export interface DiscoverData {
-//   page: number
-//   totalPages: number
-//   movies: Movie[]
-// }
-
-// interface SetGenresAction {
-//   type: typeof SET_GENRES
-//   genres: number[]
-// }
-
-// interface SetYearAction {
-//   type: typeof SET_YEAR
-//   year: number | undefined
-// }
-
-// interface SetSortByAction {
-//   type: typeof SET_SORTBY
-//   sortBy: string
-// }
-
 interface SetParamsAction {
-  type: typeof SET_PARAMS
-  payload: NewParams
+  type: typeof SET_DISCOVER_PARAMS
+  payload: Params
 }
 
-// interface NavToPageAction {
-//   type: typeof NAV_TO_PAGE
-//   page: number
-// }
-
 interface UpdateMoviesAction {
-  type: typeof UPDATE_MOVIES
+  type: typeof UPDATE_DISCOVER_MOVIES
   payload: {
     movies: Movie[]
     page: number

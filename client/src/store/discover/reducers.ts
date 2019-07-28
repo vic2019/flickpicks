@@ -1,14 +1,9 @@
 import {
-  // SET_GENRES,
-  // SET_YEAR,
-  // SET_SORTBY,
-  SET_PARAMS,
-  // NAV_TO_PAGE,
-  UPDATE_MOVIES,
+  SET_DISCOVER_PARAMS,
+  UPDATE_DISCOVER_MOVIES,
   Discover,
   DiscoverActionTypes
 } from './types'
-
 
 const initialState = {
   genres: [],
@@ -113,33 +108,12 @@ export const discoverReducer = (
   action: DiscoverActionTypes
 ) => {
   switch (action.type) {
-    case SET_PARAMS:
+    case SET_DISCOVER_PARAMS:
       return {
         ...discover,
         ...action.payload
       };
-
-    // case SET_GENRES:
-    //   return {
-    //     ...discover,
-    //     genres: action.genres
-    //   };
-    // case SET_YEAR:
-    //   return {
-    //     ...discover,
-    //     year: action.year
-    //   };
-    // case SET_SORTBY:
-    //   return {
-    //     ...discover,
-    //     sortBy: action.sortBy
-    //   };
-    // case NAV_TO_PAGE:
-    //   return {
-    //     ...discover,
-    //     page: action.page
-    //   };
-    case UPDATE_MOVIES:
+    case UPDATE_DISCOVER_MOVIES:
       return {
         ...discover,
         movies: action.payload.movies,

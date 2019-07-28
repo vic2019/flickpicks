@@ -6,12 +6,13 @@ const config = require('config');
 const { searchBaseUrl, apiKey } = config.get('server');
 
 router.get('/', (req, res) => {
-  const { query } = req.query;
+  const { query, page } = req.query;
 
   if (!query) res.status(400).end();
 
   const tMDbReqUrl = searchBaseUrl + '?api_key=' + apiKey
-    + String(`&query=${query}`);
+    + String(`&query=${query}`)
+    + String(`&page=${page}`);
 
   console.log(tMDbReqUrl);
 

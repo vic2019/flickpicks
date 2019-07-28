@@ -3,8 +3,8 @@ import axios from 'axios';
 import { ThunkAction } from 'redux-thunk';
 
 import {
-  SET_PARAMS,
-  UPDATE_MOVIES,
+  SET_SEARCH_PARAMS,
+  UPDATE_SEARCH_MOVIES,
   Search,
   Params,
   SearchActionTypes
@@ -23,24 +23,15 @@ const makeReqUrl = (
   params: Params, search: Search
 ): string => {
   const paramObj = Object.assign(
-    { page: search.page },
     { query: search.query },
+    // Don't put page here. Either params would contain page, or tMDb's api
+    // would default to page === 1.
     params
   );
 
   return BASE_REQ_URL 
     + `?query=${paramObj.query? paramObj.query: ''}`
     + `&page=${paramObj.page? paramObj.page: ''}`;
-};
-
-const updateSearchParamAction = (
-  params: Params, search: Search
-): SearchActionTypes => {
-
-  return {
-    type: SET_PARAMS,
-    payload: params
-  };
 };
 
 export const updateSearch = (
@@ -58,18 +49,20 @@ export const updateSearch = (
       if (res.status !== 200) throw Error('nope');
 
       dispatch({
-        type: UPDATE_MOVIES,
+        type: UPDATE_SEARCH_MOVIES,
         payload: res.data
       });
     })
     .then(() => {
-      const action = updateSearchParamAction(params, search);
-      if (action) dispatch(action);
+      dispatch({
+        type: SET_SEARCH_PARAMS,
+        payload: params
+      });
       window.history.pushState(
         {}, '', reqUrl.slice(reqUrl.indexOf('?'), reqUrl.length)
       );
     })
-    .catch(err => console.log(err))
+    .catch(err => alert(err.message))
     .finally(() =>{
       // console.log('HIDE_WAITING');     
     });

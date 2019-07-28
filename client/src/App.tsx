@@ -9,7 +9,7 @@ import purple from '@material-ui/core/colors/purple';
 import  createMuiTheme, { ThemeOptions } 
   from '@material-ui/core/styles/createMuiTheme'
 
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 import TopNavBar from './components/TopNavBar';
 import MyMovies from './components/MyMovies';
