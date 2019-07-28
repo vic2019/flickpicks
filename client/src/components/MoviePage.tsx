@@ -1,26 +1,32 @@
 import React, { useEffect } from 'react';
+import Checkbox from '@material-ui/core/Checkbox';
+import Star from '@material-ui/icons/Star';
+import StarBorder from '@material-ui/icons/StarBorder';
 import { Link } from 'react-router-dom';
 
 import { connect } from 'react-redux';
 import { AppState } from '../store';
 
 import { loadMovie, movieNotFound } from '../store/movie-page/actions';
-import { addMovie } from '../store/my-movies/actions';
+import { addMovie, deleteMovie } from '../store/my-movies/actions';
 import { MoviePage as MoviePageType } from '../store/movie-page/types';
+import { ById } from '../store/my-movies/types';
 
 import ScrollToTop from './ScrollToTop';
 
 interface Props {
-  moviePage: MoviePageType,
-  loadMovie: any,
-  movieNotFound: any,
+  byId: ById
+  moviePage: MoviePageType
+  loadMovie: any
+  movieNotFound: any
   addMovie: any
+  deleteMovie: any
 }
 
 const imageBaseUrl = 'https://image.tmdb.org/t/p/w500'
 
 const MoviePage = ({ 
-  moviePage, loadMovie, movieNotFound, addMovie 
+  byId, moviePage, loadMovie, movieNotFound, addMovie, deleteMovie
 }: Props) => {
   const {
     notFound,
@@ -35,7 +41,12 @@ const MoviePage = ({
     recommendations
   } = moviePage;
 
-  const addToMyMovies = () => {
+  const toggleAddMovie = () => {
+    if(Boolean(byId[id])) {
+      deleteMovie(byId[id]);
+      return;
+    }
+
     addMovie({
       id,
       tMDb_id: id,
@@ -43,7 +54,7 @@ const MoviePage = ({
       image: poster,
       dateAdded: new Date().toString()
     });
-  }
+  };
 
   useEffect(() => {
     const regexMatch = window.location.pathname.match(/(\d+)/);
@@ -70,22 +81,28 @@ const MoviePage = ({
           className='movie-page-poster' 
           src={imageBaseUrl + poster}
         />
-        <h3 className='movie-page-title'>{title}
+        <h3 className='movie-page-title'>
+        {title}
           <span className='movie-page-release-year'>
             (
             {releaseDate.slice(0, 4)}
             )
           </span>
-          <br />
-          <span 
-            className='add-movie-button'
-            onClick={addToMyMovies}
-          >{'\u21AA'}Add to my movies</span>
+          <Checkbox
+            icon={<StarBorder />} 
+            checkedIcon={<Star />} 
+            checked={Boolean(byId[id])}
+            onClick={toggleAddMovie}
+            color='secondary'
+            title='Add to my movies'
+          />
         </h3>
       </div>
       <div className='movie-page-details'>
+        <ColoredDivider top={true} />
         <h4>Overview</h4>
         <p>{overview}</p> 
+        <ColoredDivider top={false} />
       </div>              
       <div className='movie-page-crew'>
         <h4>Featured Crew</h4>
@@ -150,12 +167,27 @@ const RecommendationCard = (id: number, title: string, image: string) => {
   );
 };
 
+const ColoredDivider = ({ top }: { top: boolean }) => {
+  const containerStyle = {
+    display: 'flex',
+    justifyContent: 'center',
+    margin: `${top? '0': '35px'} 0 ${top? '35px': '0'} 0`
+  }
+  const style = { 
+    border: '2px solid #26c6da',
+    width: '40vw'
+  };
+
+  return <div style={containerStyle}><div style={style} /></div>
+}
+
 
 const mapStateToProps = (state: AppState) => ({
-  moviePage: state.moviePage
+  moviePage: state.moviePage,
+  byId: state.myMovies.byId
 });
 
 export default connect(
   mapStateToProps,
-  { loadMovie, movieNotFound, addMovie }
+  { loadMovie, movieNotFound, addMovie, deleteMovie }
 )(MoviePage);

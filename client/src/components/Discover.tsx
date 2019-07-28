@@ -8,25 +8,29 @@ import { connect } from 'react-redux';
 import { AppState } from '../store';
 
 import { Movie } from '../store/discover/types';
+import { ById } from '../store/my-movies/types';
 import { updateDiscover } from '../store/discover/actions';
-import { addMovie } from '../store/my-movies/actions';
+import { addMovie, deleteMovie } from '../store/my-movies/actions';
 
 interface Props {
+  byId: ById
   movies: Movie[]
   page: number
   totalPages: number
   updateDiscover: any
   addMovie: any
+  deleteMovie: any
 }
 
 const Discover = ({ 
-  movies, page, totalPages, updateDiscover, addMovie
+  byId, movies, page, totalPages, updateDiscover, addMovie, deleteMovie
 }: Props) => {
   return (
     <div className='Discover'>
       <DiscoverInput />
-      <MovieList movies={movies} addMovie={addMovie}/>
+      <MovieList byId={byId} movies={movies} addMovie={addMovie} deleteMovie={deleteMovie} />
       <Pagination 
+        pathname='/discover'
         page={page} 
         totalPages={totalPages} 
         navToPage={updateDiscover}
@@ -36,6 +40,7 @@ const Discover = ({
 };
 
 const mapStateToProps = (state: AppState) => ({
+  byId: state.myMovies.byId,
   movies: state.discover.movies,
   page: state.discover.page,
   totalPages: state.discover.totalPages
@@ -43,5 +48,5 @@ const mapStateToProps = (state: AppState) => ({
 
 export default connect(
   mapStateToProps,
-  { updateDiscover, addMovie }
+  { updateDiscover, addMovie, deleteMovie }
 )(Discover);

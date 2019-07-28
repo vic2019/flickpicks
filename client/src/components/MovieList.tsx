@@ -1,25 +1,44 @@
 import React from 'react';
+import Checkbox from '@material-ui/core/Checkbox';
+import Star from '@material-ui/icons/Star';
+import StarBorder from '@material-ui/icons/StarBorder';
 import { Link } from 'react-router-dom';
 
-import { connect } from 'react-redux';
-
-import { addMovie } from '../store/my-movies/actions';
 import { Movie } from '../store/search/types';
+import { ById } from '../store/my-movies/types';
 
 import Divider from './Divider';
-import ScrollToTop from './ScrollToTop';
 
 interface Props {
+  byId: ById
   movies: Movie[]
   addMovie: any
+  deleteMovie: any
 }
 
 const MovieList = ({
+  byId,
   movies,
-  addMovie
+  addMovie,
+  deleteMovie
 }: Props) => {
+  const toggleAddMovie = (movie: any) => () => {
+    if(Boolean(byId[movie.id])) {
+      deleteMovie(byId[movie.id]);
+      return;
+    }
+
+    addMovie({
+      id: movie.id,
+      tMDb_id: movie.id,
+      title: movie.title,
+      image: movie.poster,
+      dateAdded: new Date().toString()
+    });
+  };
+
   return (
-    <ScrollToTop>    
+    <>
       {movies.map(movie => (
         <div className='discover-movie-card'>
           <div key={movie.id}>
@@ -35,34 +54,32 @@ const MovieList = ({
                 /> : null
               }
             </Link>
+            <div>
             <Link
               to={`/movie/${movie.id}-${movie.title
                 .split(/[,:]/).join('').split(' ').join('-')}`}
             >
-              <div className='discover-movie-card-title'>
+              <span className='discover-movie-card-title'>
                 {movie.title}
                 <span className='discover-movie-card-release-year'>
                   ({movie.releaseDate.split('-')[0]})
                 </span>
-              </div>
+              </span>
             </Link>
+            <Checkbox
+              icon={<StarBorder />} 
+              checkedIcon={<Star />} 
+              checked={Boolean(byId[movie.id])}
+              color='secondary'
+              onClick={toggleAddMovie(movie)}
+              title='Add to my movies'
+            />
           </div>
-          <div
-            className='add-movie-button'
-            onClick={() => addMovie({
-              id: movie.id,
-              tMDb_id: movie.id,
-              title: movie.title,
-              image: movie.poster,
-              dateAdded: new Date().toString()
-            })}
-          >
-            {'\u21AA'}Add to my movies
           </div>
           <Divider />
         </div>
       ))}
-      </ScrollToTop>
+    </>
   )
 };
 

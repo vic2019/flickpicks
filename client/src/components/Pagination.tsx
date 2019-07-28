@@ -1,8 +1,10 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { updateDiscover } from '../store/discover/actions';
 import { updateSearch } from '../store/search/actions';
 
 interface Props {
+  pathname: string
   page: number
   totalPages: number
   navToPage: typeof updateDiscover | typeof updateSearch
@@ -13,31 +15,35 @@ interface Page {
   elem: JSX.Element
 }
 
-const Pagination = ({ page, totalPages, navToPage }: Props) => {
+const Pagination = ({ pathname, page, totalPages, navToPage }: Props) => {
   if (totalPages === -1) return null;
 
   const firstPage = (
+    <Link to={`${pathname}/page1`}>
     <span
       onClick={() => navToPage({ page: 1 })}
       className={page === 1? 'current-page-number': 'page-number'}
     >1</span>
+    </Link>
   );
   
   const lastPage = (
+    <Link to={`${pathname}/page${totalPages}`}>
     <span
       onClick={() => navToPage({ page: totalPages })}
       className={page === totalPages? 'current-page-number': 'page-number'}
     >{totalPages}</span>
+    </Link>
   );
   
   const pages: Page[] = [];
   for (let pg = page - 2; pg <= page + 2; pg++) {
     pages.push({
       num: pg,
-      elem: <span
+      elem:  <Link to={`${pathname}/page${pg}`}><span
         onClick={() => navToPage({ page: pg })}
         className={pg === page? 'current-page-number': 'page-number'}
-      >{pg}</span>
+      >{pg}</span></Link>
     })
   }
 

@@ -34,6 +34,7 @@ const Notification = ({
           aria-label="close"
           color="inherit"
           onClick={handleClose}
+          size='small'
         >
           <CloseIcon />
         </IconButton>

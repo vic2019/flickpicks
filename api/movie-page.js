@@ -11,7 +11,7 @@ router.get("/", (req, res) => {
 
     https.get(tMDbReqUrl, tMDbRes => {
       try {
-        if (tMDbRes.statusCode != 200) throw Error('tMDb error');
+        if (tMDbRes.statusCode != 200) throw Error();
 
         let buffer = '';
 
@@ -21,7 +21,6 @@ router.get("/", (req, res) => {
         
         tMDbRes.on('end', () => {
           const data = JSON.parse(buffer);
-          // console.log(data)
 
           const results = Object.assign({},
             { notFound: false },

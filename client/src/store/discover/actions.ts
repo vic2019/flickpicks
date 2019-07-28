@@ -13,8 +13,7 @@ import {
 import {
   SHOW_WAITING,
   HIDE_WAITING,
-  SHOW_ERROR,
-  HIDE_ERROR
+  SHOW_ERROR
 } from '../app-level/types';
 
 const BASE_REQ_URL = 'http://localhost:3009/discover';
@@ -56,15 +55,11 @@ export const updateDiscover = (
         type: UPDATE_DISCOVER_MOVIES,
         payload: res.data
       });
-    })
-    .then(() => {
+
       dispatch({
         type: SET_DISCOVER_PARAMS,
         payload: params
       });
-      window.history.pushState(
-        {}, '', reqUrl.slice(reqUrl.indexOf('?'), reqUrl.length)
-      )
     })
     .catch(err => dispatch({
       type: SHOW_ERROR,

@@ -14,6 +14,7 @@ import MoviePage from './components/MoviePage';
 import Discover from './components/Discover';
 import Search from './components/Search';
 import Notification from './components/Notification';
+import ScrollToTop from './components/ScrollToTop';
 import './App.scss';
 
 
@@ -32,6 +33,7 @@ const theme = createMuiTheme(themeOptions);
 export default function App() {
   return (
     <Router>
+        <ScrollToTop>
       <ThemeProvider theme={theme} >
         {/* CssBaseLine must be inside ThemeProvider to enable 'dark' theme */}
         <CssBaseline />
@@ -39,19 +41,19 @@ export default function App() {
         <Notification />
         <Route
           key='MyMovies'
-          path='/mymovies'
+          path='/mymovies*'
           exact={true}
           component={MyMovies}
         />
         <Route
           key='Discover'
-          path='/discover'
+          path='/discover*'
           exact={true}
           component={Discover}
         />
         <Route
           key='Search'
-          path='/search'
+          path='/search*'
           exact={true}
           component={Search}
         />
@@ -62,11 +64,12 @@ export default function App() {
         />
         <Route
           key='Movie'
-          path='/movie/*'
+          path='/movie*'
           exact={true}
           component={MoviePage}
         />
       </ThemeProvider>
+        </ScrollToTop>
     </Router>
   );
 }

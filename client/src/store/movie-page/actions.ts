@@ -12,7 +12,6 @@ import {
   SHOW_WAITING,
   HIDE_WAITING,
   SHOW_ERROR,
-  HIDE_ERROR
 } from '../app-level/types';
 
 const BASE_REQ_URL = 'http://localhost:3009/movie?id=';

@@ -13,8 +13,7 @@ import {
 import {
   SHOW_WAITING,
   HIDE_WAITING,
-  SHOW_ERROR,
-  HIDE_ERROR
+  SHOW_ERROR
 } from '../app-level/types';
 
 const BASE_REQ_URL = 'http://localhost:3009/search';
@@ -38,7 +37,15 @@ export const updateSearch = (
   params: Params
 ): ThunkAction<void, any, null, SearchActionTypes> => (
   dispatch, getState
-) => {
+) => { 
+  if (!params.query) {
+    dispatch({
+      type: SHOW_ERROR,
+      msg: 'Search field cannot be empty'
+    });
+    return;
+  } 
+  
   const search: Search = getState().search;
   const reqUrl = makeReqUrl(params, search);
 
@@ -48,23 +55,18 @@ export const updateSearch = (
 
   axios.get(reqUrl)
     .then(res => {
-      if (res.status !== 200) throw Error('nope');
-
       dispatch({
         type: UPDATE_SEARCH_MOVIES,
         payload: res.data
       });
-    })
-    .then(() => {
+
       dispatch({
         type: SET_SEARCH_PARAMS,
         payload: params
       });
-      window.history.pushState(
-        {}, '', reqUrl.slice(reqUrl.indexOf('?'), reqUrl.length)
-      );
     })
-    .catch(err => dispatch({
+    .catch(err => 
+      dispatch({
       type: SHOW_ERROR,
       msg: err.message
     }))

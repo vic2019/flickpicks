@@ -14,15 +14,12 @@ import {
   SHOW_ALL,
   DELETE_MOVIE,
   ADD_MOVIE,
-  // ERROR,
-  // UNDO_DELETE
 } from './types';
 
 import {
   SHOW_WAITING,
   HIDE_WAITING,
   SHOW_ERROR,
-  HIDE_ERROR
 } from '../app-level/types';
 
 export const setTags = (
