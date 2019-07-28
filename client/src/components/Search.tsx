@@ -1,23 +1,25 @@
 import React from 'react';
 
-import SearchMovieList from './SearchMovieList';
+import MovieList from './MovieList';
 import Pagination from './Pagination';
 
 import { connect } from 'react-redux';
 import { AppState } from '../store';
 
+import { Movie } from '../store/search/types';
 import { updateSearch } from '../store/search/actions';
 
 interface Props {
+  movies: Movie[]
   page: number
   totalPages: number
   updateSearch: any
 }
 
-const Search = ({ page, totalPages, updateSearch}: Props) => {
+const Search = ({ movies, page, totalPages, updateSearch}: Props) => {
   return (
     <div className='Discover'>
-      <SearchMovieList />
+      <MovieList movies={movies}/>
       <Pagination 
         page={page} 
         totalPages={totalPages} 
@@ -28,6 +30,7 @@ const Search = ({ page, totalPages, updateSearch}: Props) => {
 };
 
 const mapStateToProps = (state: AppState) => ({
+  movies: state.search.movies,
   page: state.search.page,
   totalPages: state.search.totalPages
 });

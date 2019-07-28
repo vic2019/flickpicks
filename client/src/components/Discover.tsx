@@ -1,25 +1,27 @@
 import React from 'react';
 
 import DiscoverInput from './DiscoverInput';
-import DiscoverMovieList from './DiscoverMovieList';
+import MovieList from './MovieList';
 import Pagination from './Pagination';
 
 import { connect } from 'react-redux';
 import { AppState } from '../store';
 
+import { Movie } from '../store/discover/types';
 import { updateDiscover } from '../store/discover/actions';
 
 interface Props {
+  movies: Movie[]
   page: number
   totalPages: number
   updateDiscover: any
 }
 
-const Discover = ({ page, totalPages, updateDiscover}: Props) => {
+const Discover = ({ movies, page, totalPages, updateDiscover}: Props) => {
   return (
     <div className='Discover'>
       <DiscoverInput />
-      <DiscoverMovieList />
+      <MovieList movies={movies} />
       <Pagination 
         page={page} 
         totalPages={totalPages} 
@@ -30,6 +32,7 @@ const Discover = ({ page, totalPages, updateDiscover}: Props) => {
 };
 
 const mapStateToProps = (state: AppState) => ({
+  movies: state.discover.movies,
   page: state.discover.page,
   totalPages: state.discover.totalPages
 });

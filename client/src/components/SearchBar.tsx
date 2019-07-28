@@ -59,10 +59,9 @@ const SearchBar = ({ query, updateSearch }: Props) => {
         inputProps={{ 'aria-label': 'Search Movie Title' }}
         value={text}
         onChange={handleChange}
+        onSubmit={handleClick}
       />
-      <Link
-        to={'/search'}
-      >
+      <Link to={'/search'} >
         <IconButton 
           className={classes.iconButton} 
           aria-label="Search"
