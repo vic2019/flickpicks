@@ -10,6 +10,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { NavLink } from 'react-router-dom';
 
 import SearchBar from './SearchBar';
+import ProgressBar from './ProgressBar';
 
 const useStyles = makeStyles({
   root: {
@@ -43,6 +44,7 @@ export default function TopNavBar() {
             </Typography>
           </Toolbar>
       <SearchBar />
+      <ProgressBar />
         </AppBar>
       {/* </Slide> */}
       <Toolbar className={classes.root}/>

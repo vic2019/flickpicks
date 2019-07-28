@@ -43,15 +43,15 @@ export const updateDiscover = (
 ): ThunkAction<void, any, null, DiscoverActionTypes> => (
   dispatch, getState
 ) => {
+  dispatch({
+    type: SHOW_WAITING
+  });
+
   const discover: Discover = getState().discover;
   const reqUrl = makeReqUrl(params, discover);
 
-  // console.log('SHOW_WAITING')
-
   axios.get(reqUrl)
-    .then(res => {
-      if (res.status !== 200) throw Error('nope');
-   
+    .then(res => {   
       dispatch({
         type: UPDATE_DISCOVER_MOVIES,
         payload: res.data
@@ -66,8 +66,13 @@ export const updateDiscover = (
         {}, '', reqUrl.slice(reqUrl.indexOf('?'), reqUrl.length)
       )
     })
-    .catch(err => alert(err.message))
+    .catch(err => dispatch({
+      type: SHOW_ERROR,
+      msg: err.message
+    }))
     .finally(() =>{
-      // console.log('HIDE_WAITING');     
+      dispatch({
+        type: HIDE_WAITING
+      }); 
     });
 };

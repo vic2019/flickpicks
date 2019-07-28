@@ -98,7 +98,7 @@ const FilterSelector = ({
         {Object.keys(byTag).map(tag => (
           <ListItem button onClick={toggleCheckbox(tag)}>
             <ListItemIcon>
-              <Checkbox checked={checks[tag]} />
+              <Checkbox color='primary' checked={checks[tag]} />
             </ListItemIcon>
             <ListItemText primary={tag} />
             <ListItemSecondaryAction>

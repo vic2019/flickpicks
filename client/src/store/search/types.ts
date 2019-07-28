@@ -1,3 +1,5 @@
+import { AppLevelActionTypes } from '../app-level/types';
+
 export const UPDATE_SEARCH_MOVIES = 'UPDATE_SEARCH_MOVIES'
 export const SET_SEARCH_PARAMS = 'SET_SEARCH_PARAMS'
 
@@ -16,40 +18,19 @@ export interface Movie {
   poster: string
 }
 
-// export interface DiscoverData {
-//   page: number
-//   totalPages: number
-//   movies: Movie[]
-// }
-
-// interface SetGenresAction {
-//   type: typeof SET_GENRES
-//   genres: number[]
-// }
-
-// interface SetYearAction {
-//   type: typeof SET_YEAR
-//   year: number | undefined
-// }
-
-// interface SetSortByAction {
-//   type: typeof SET_SORTBY
-//   sortBy: string
-// }
-
 export interface Params {
   query?: string
   page?: number
 }
 
-interface SetParamsAction {
+interface SetSearchParamsAction {
   type: typeof SET_SEARCH_PARAMS
   payload: {
 
   }
 }
 
-interface UpdateMoviesAction {
+interface UpdateSearchMoviesAction {
   type: typeof UPDATE_SEARCH_MOVIES
   payload: {
     movies: Movie[]
@@ -58,5 +39,4 @@ interface UpdateMoviesAction {
   }
 }
 
-export type SearchActionTypes = SetParamsAction | UpdateMoviesAction
-// | SetGenresAction | SetYearAction | SetSortByAction | NavToPageAction;
+export type SearchActionTypes = SetSearchParamsAction | UpdateSearchMoviesAction | AppLevelActionTypes;

@@ -36,10 +36,9 @@ const DiscoverInput = ({
   sortOptions,
   updateDiscover
 }: Props) => {
-
   return (
     <div className='DiscoverInput'>
-      <FormControl fullWidth margin='dense'>
+      <FormControl fullWidth margin='none'>
         <InputLabel>Genres</InputLabel>
         <Select
           multiple
@@ -69,7 +68,10 @@ const DiscoverInput = ({
           {allGenres.map(genre => (
             <MenuItem value={genre.id} key={genre.id}>
               <ListItemIcon>             
-                <Checkbox checked={genres.indexOf(genre.id) > -1} />
+                <Checkbox 
+                  color='primary' 
+                  checked={genres.indexOf(genre.id) > -1} 
+                />
               </ListItemIcon>             
              {genre.name}
             </MenuItem>

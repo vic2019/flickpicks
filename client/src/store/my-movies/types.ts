@@ -1,3 +1,5 @@
+import { AppLevelActionTypes } from '../app-level/types';
+
 export const SET_TAGS = 'SET_TAG';
 export const CREATE_TAG = 'CREATE_TAG';
 export const DELETE_TAG = 'DELETE_TAG';
@@ -78,4 +80,4 @@ interface ErrorAction {
 }
 
 export type MyMoviesActionTypes = 
-  SetTagsAction | ModifyTagAction | SetFiltersAction | ShowAllAction | AddMovieAction | DeleteMovieAction | UndoDeleteAction | ErrorAction;
+  SetTagsAction | ModifyTagAction | SetFiltersAction | ShowAllAction | AddMovieAction | DeleteMovieAction | UndoDeleteAction | ErrorAction | AppLevelActionTypes;

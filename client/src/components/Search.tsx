@@ -8,18 +8,22 @@ import { AppState } from '../store';
 
 import { Movie } from '../store/search/types';
 import { updateSearch } from '../store/search/actions';
+import { addMovie } from '../store/my-movies/actions';
 
 interface Props {
   movies: Movie[]
   page: number
   totalPages: number
   updateSearch: any
+  addMovie: any
 }
 
-const Search = ({ movies, page, totalPages, updateSearch}: Props) => {
+const Search = ({ 
+  movies, page, totalPages, updateSearch, addMovie 
+}: Props) => {
   return (
     <div className='Discover'>
-      <MovieList movies={movies}/>
+      <MovieList movies={movies} addMovie={addMovie}/>
       <Pagination 
         page={page} 
         totalPages={totalPages} 
@@ -37,5 +41,5 @@ const mapStateToProps = (state: AppState) => ({
 
 export default connect(
   mapStateToProps,
-  { updateSearch }
+  { updateSearch, addMovie }
 )(Search);

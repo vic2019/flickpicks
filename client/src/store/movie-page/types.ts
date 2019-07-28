@@ -1,4 +1,4 @@
-import { string } from "prop-types";
+import { AppLevelActionTypes } from '../app-level/types';
 
 export const LOAD_MOVIE = 'LOAD_MOVIE';
 export const NOT_FOUND = 'NOT_FOUND';
@@ -42,4 +42,4 @@ interface notFoundAction {
   type: typeof NOT_FOUND
 }
 
-export type MoviePageActionTypes = loadMovieAction | notFoundAction
+export type MoviePageActionTypes = loadMovieAction | notFoundAction | AppLevelActionTypes

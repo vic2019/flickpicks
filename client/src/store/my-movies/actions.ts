@@ -18,12 +18,22 @@ import {
   // UNDO_DELETE
 } from './types';
 
+import {
+  SHOW_WAITING,
+  HIDE_WAITING,
+  SHOW_ERROR,
+  HIDE_ERROR
+} from '../app-level/types';
 
 export const setTags = (
   movie: Movie, tags: Set
 ): ThunkAction<void, null, null, MyMoviesActionTypes> => (
   dispatch
 ) => {
+  dispatch({
+    type: SHOW_WAITING
+  });
+
   const newTags: Set = Object.assign({}, ...Object.keys(tags).map(tag => (
     tags[tag]? { [tag]: true }: {} 
   )));
@@ -34,7 +44,15 @@ export const setTags = (
       movie,
       tags: newTags
     }))
-    .catch();
+    .catch(err => dispatch({
+      type: SHOW_ERROR,
+      msg: err.message
+    }))
+    .finally(() =>{
+      dispatch({
+        type: HIDE_WAITING
+      }); 
+    });
 }
 
 export const createTag = (
@@ -42,12 +60,24 @@ export const createTag = (
 ): ThunkAction<void, null, null, MyMoviesActionTypes> => (
   dispatch
 ) => {  
+  dispatch({
+    type: SHOW_WAITING
+  });
+
   new Promise(resolve => resolve())
     .then(() => void dispatch({
       type: CREATE_TAG,
       tag
     }))
-    .catch();
+    .catch(err => dispatch({
+      type: SHOW_ERROR,
+      msg: err.message
+    }))
+    .finally(() =>{
+      dispatch({
+        type: HIDE_WAITING
+      }); 
+    });
 };
 
 export const deleteTag = (
@@ -55,12 +85,24 @@ export const deleteTag = (
 ): ThunkAction<void, null, null, MyMoviesActionTypes> => (
   dispatch
 ) => {
+  dispatch({
+    type: SHOW_WAITING
+  });
+
   new Promise(resolve => resolve())
     .then(_ => void dispatch({
       type: DELETE_TAG,
       tag
     }))
-    .catch();
+    .catch(err => dispatch({
+      type: SHOW_ERROR,
+      msg: err.message
+    }))
+    .finally(() =>{
+      dispatch({
+        type: HIDE_WAITING
+      }); 
+    });
 };
 
 export const setFilters = (
@@ -90,15 +132,47 @@ export const deleteMovie = (
 ): ThunkAction<void, null, null, MyMoviesActionTypes> => (
   dispatch
 ) => {
+  dispatch({
+    type: SHOW_WAITING
+  });
+
   new Promise(resolve => resolve())
     .then(_ => void dispatch({
       type: DELETE_MOVIE,
       movie
     }))
-    .catch();
+    .catch(err => dispatch({
+      type: SHOW_ERROR,
+      msg: err.message
+    }))
+    .finally(() =>{
+      dispatch({
+        type: HIDE_WAITING
+      }); 
+    });
 };
 
-export const addMovie = (movie: Movie) => ({
-  type: ADD_MOVIE,
-  movie
-});
+export const addMovie = (
+  movie: Movie
+): ThunkAction<void, null, null, MyMoviesActionTypes> => (
+  dispatch
+) => {
+  dispatch({
+    type: SHOW_WAITING
+  });
+
+  new Promise(resolve => resolve())
+    .then(_ => void dispatch({
+      type: ADD_MOVIE,
+      movie
+    }))
+    .catch(err => dispatch({
+      type: SHOW_ERROR,
+      msg: err.message
+    }))
+    .finally(() =>{
+      dispatch({
+        type: HIDE_WAITING
+      }); 
+    });
+};

@@ -42,7 +42,9 @@ export const updateSearch = (
   const search: Search = getState().search;
   const reqUrl = makeReqUrl(params, search);
 
-  // console.log('SHOW_WAITING')
+  dispatch({
+    type: SHOW_WAITING
+  });
 
   axios.get(reqUrl)
     .then(res => {
@@ -62,8 +64,13 @@ export const updateSearch = (
         {}, '', reqUrl.slice(reqUrl.indexOf('?'), reqUrl.length)
       );
     })
-    .catch(err => alert(err.message))
+    .catch(err => dispatch({
+      type: SHOW_ERROR,
+      msg: err.message
+    }))
     .finally(() =>{
-      // console.log('HIDE_WAITING');     
+      dispatch({
+        type: HIDE_WAITING
+      }); 
     });
 };

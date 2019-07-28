@@ -8,6 +8,13 @@ import {
   MoviePageActionTypes
 } from './types';
 
+import {
+  SHOW_WAITING,
+  HIDE_WAITING,
+  SHOW_ERROR,
+  HIDE_ERROR
+} from '../app-level/types';
+
 const BASE_REQ_URL = 'http://localhost:3009/movie?id=';
 
 export const movieNotFound = () => ({ type: NOT_FOUND });
@@ -17,9 +24,11 @@ export const loadMovie = (
 ): ThunkAction<void, null, null, MoviePageActionTypes> => (
   dispatch
 ) => {
+  dispatch({
+    type: SHOW_WAITING
+  });
+  
   const reqUrl = BASE_REQ_URL + String(id);
-
-  // show waiting
 
   axios.get(reqUrl)
     .then(res => {
@@ -29,10 +38,17 @@ export const loadMovie = (
       });
     })
     .catch(err => {
-      dispatch({ type: NOT_FOUND });
-      console.log(err.message);
+      dispatch({
+        type: NOT_FOUND
+      });
+      dispatch({
+        type: SHOW_ERROR,
+        msg: err.message
+      });
     })
     .finally(() =>{
-      // console.log('HIDE_WAITING');     
+      dispatch({
+        type: HIDE_WAITING
+      }); 
     });
 };

@@ -1,3 +1,5 @@
+import { AppLevelActionTypes } from '../app-level/types';
+
 export const SET_DISCOVER_PARAMS = 'SET_PARAMS'
 export const UPDATE_DISCOVER_MOVIES = 'UPDATE_DISCOVER_MOVIES'
 
@@ -47,5 +49,5 @@ interface UpdateMoviesAction {
   }
 }
 
-export type DiscoverActionTypes = SetParamsAction | UpdateMoviesAction
+export type DiscoverActionTypes = SetParamsAction | UpdateMoviesAction | AppLevelActionTypes
 // | SetGenresAction | SetYearAction | SetSortByAction | NavToPageAction;

@@ -66,7 +66,4 @@ const MovieList = ({
   )
 };
 
-export default connect(
-  () => ({}),
-  { addMovie }
-)(MovieList);
+export default MovieList;
