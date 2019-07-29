@@ -2,12 +2,20 @@ import React from 'react';
 import Checkbox from '@material-ui/core/Checkbox';
 import Star from '@material-ui/icons/Star';
 import StarBorder from '@material-ui/icons/StarBorder';
+import { makeStyles } from '@material-ui/core/styles';
+
 import { Link } from 'react-router-dom';
 
 import { Movie } from '../store/search/types';
 import { ById } from '../store/my-movies/types';
 
 import Divider from './Divider';
+
+const checkboxStyles = makeStyles({
+  root: {
+    padding: '0 1px 4px 0'
+  }
+});
 
 interface Props {
   byId: ById
@@ -22,6 +30,8 @@ const MovieList = ({
   addMovie,
   deleteMovie
 }: Props) => {
+  const checkboxClasses = checkboxStyles();
+
   const toggleAddMovie = (movie: any) => () => {
     if(Boolean(byId[movie.id])) {
       deleteMovie(byId[movie.id]);
@@ -43,8 +53,7 @@ const MovieList = ({
         <div className='discover-movie-card'>
           <div key={movie.id}>
             <Link
-              to={`/movie/${movie.id}-${movie.title
-                .split(/[,:]/).join('').split(' ').join('-')}`}
+              to={`/movie/${movie.id}`}
             >
               {movie.image ?
                 <img
@@ -56,8 +65,7 @@ const MovieList = ({
             </Link>
             <div>
             <Link
-              to={`/movie/${movie.id}-${movie.title
-                .split(/[,:]/).join('').split(' ').join('-')}`}
+              to={`/movie/${movie.id}`}
             >
               <span className='discover-movie-card-title'>
                 {movie.title}
@@ -67,8 +75,8 @@ const MovieList = ({
               </span>
             </Link>
             <Checkbox
-              icon={<StarBorder />} 
-              checkedIcon={<Star />} 
+              icon={<StarBorder fontSize='small' />}
+              checkedIcon={<Star fontSize='small' />}
               checked={Boolean(byId[movie.id])}
               color='secondary'
               onClick={toggleAddMovie(movie)}

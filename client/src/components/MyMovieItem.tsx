@@ -24,7 +24,7 @@ const MyMovieItem = ({ movie }: Props)  => {
     dateAdded
   } = movie;
 
-  const dateString = dateAdded.split(' ').slice(0, 4).join(' ');
+  const dateString = dateAdded.split(' ').slice(1, 4).join(' ');
 
   // const deleteMovie
 

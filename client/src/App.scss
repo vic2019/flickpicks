@@ -1,15 +1,16 @@
 $list-item-margin-top: 15px;
-$content-margin-left-mobile: 10px;
+$content-margin-left-mobile: 11px;
+$content-margin-left-laptop: 120px;
 $breadcrumb-divider-margin-left: 5px;
 
 $movie-item-thumb-height: 125px;
 $movie-item-thumb-padding: 15px;
 
-$movie-page-section-margin-bottom: 35px;
+$movie-page-section-margin-bottom: 45px;
 $movie-page-paragraph-margin-bottom: 20px;
 $movie-page-poster-width: 105px;
 $movie-page-poster-margin-left: 12px;
-$movie-page-cast-card-width: 110px;
+$movie-page-cast-card-width: 120px;
 
 .TopNavBar {
   a {
@@ -28,7 +29,11 @@ $movie-page-cast-card-width: 110px;
 }
 
 .MyMovies {
-  margin: 0 $content-margin-left-mobile;
+  margin: $list-item-margin-top * 2 $content-margin-left-mobile;
+
+  @media screen and (min-width: 1000px) {
+    margin: $list-item-margin-top * 2.5 $content-margin-left-laptop;
+  }
 
   .my-movies-toggles {
     margin-top: 12px;
@@ -60,6 +65,11 @@ $movie-page-cast-card-width: 110px;
     box-sizing: content-box;
     height: $movie-item-thumb-height;
     margin-right: $list-item-margin-top;
+
+    @media screen and (min-width: 1000px) {
+      height: $movie-item-thumb-height * 1.7;
+      margin-right: $list-item-margin-top * 3
+    }
   }
   
   .movie-item-title {
@@ -72,7 +82,11 @@ $movie-page-cast-card-width: 110px;
 }
 
 .Discover {
-  margin: 0 $content-margin-left-mobile;
+  margin: $list-item-margin-top $content-margin-left-mobile;
+
+  @media screen and (min-width: 1000px) {
+    margin: $list-item-margin-top * 2 $content-margin-left-laptop;
+  }
 
   a {
     color: inherit;
@@ -122,6 +136,14 @@ $movie-page-cast-card-width: 110px;
       $movie-page-section-margin-bottom 
       $content-margin-left-mobile;
 
+    @media screen and (min-width: 1000px) {
+      margin:
+        0  
+        $content-margin-left-laptop
+        $movie-page-section-margin-bottom 
+        $content-margin-left-laptop;
+    }
+
     h4, p {
       margin: 0 0 $movie-page-paragraph-margin-bottom 0;
     }
@@ -140,12 +162,20 @@ $movie-page-cast-card-width: 110px;
   }
 
   .movie-page-backdrop {
-    max-width: 100vw;
+    width: 100%;
+    height: auto;
   }
 
   .movie-page-header {
     display: flex;
     flex-flow: row nowrap;
+
+    @media screen and (min-width: 1000px) {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      margin: 25px $content-margin-left-laptop;
+    }
 
     .movie-page-release-year {
       font-weight: normal;
@@ -160,7 +190,13 @@ $movie-page-cast-card-width: 110px;
       top: -$movie-page-poster-width / 1.6;
       left: $movie-page-poster-margin-left;
       width: $movie-page-poster-width;
+      height: 165px;
       object-fit: contain;
+
+      @media screen and (min-width: 1000px) {
+        position: static;
+        margin-right: 25px;
+      }
     }
   
     .movie-page-title {
@@ -168,6 +204,10 @@ $movie-page-cast-card-width: 110px;
       top: 0;
       left: $movie-page-poster-margin-left * 2;
       max-width: 59vw;
+
+      @media screen and (min-width: 1000px) {
+        font-size: 28px;
+      }
     }
   }
 
