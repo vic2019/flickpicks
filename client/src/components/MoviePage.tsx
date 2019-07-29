@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import Checkbox from '@material-ui/core/Checkbox';
 import Star from '@material-ui/icons/Star';
 import StarBorder from '@material-ui/icons/StarBorder';
@@ -10,15 +10,22 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { AppState } from '../store';
 
-import { loadMovie, movieNotFound } from '../store/movie-page/actions';
+import { loadMovie } from '../store/movie-page/actions';
 import { MoviePage as MoviePageType } from '../store/movie-page/types';
 
 import { addMovie, deleteMovie } from '../store/my-movies/actions';
 import { ById } from '../store/my-movies/types';
 
+import shrug from '../images/shrug.png';
+
+const altImage = (e: any) => {
+  e.target.onerror = null; 
+  e.target.src = shrug;
+};
+
 const checkboxStyles = makeStyles({
   root: {
-    padding: '0 2px 4px 0'
+    padding: '0 0 2px 3px'
   }
 });
 
@@ -32,10 +39,9 @@ interface Props {
 }
 
 const MoviePage = ({ 
-  byId, moviePage, loadMovie, movieNotFound, addMovie, deleteMovie
+  byId, moviePage, loadMovie, addMovie, deleteMovie
 }: Props) => {
   const {
-    notFound,
     id,
     backdrop,
     poster,
@@ -48,6 +54,7 @@ const MoviePage = ({
   } = moviePage;
 
   const checkboxClasses = checkboxStyles();
+  const querying = useRef(true);
 
   const smlBaseUrl = 'https://image.tmdb.org/t/p/w500';
   const respBaseUrl = useMediaQuery('(max-width: 520px)')?
@@ -71,28 +78,36 @@ const MoviePage = ({
   useEffect(() => {
     const regexMatch = window.location.pathname.match(/(\d+)/);
     if (!regexMatch) {
-      movieNotFound();
       return;
     }
     
-    loadMovie(Number(regexMatch[0]));
+    querying.current = false;           // This does not trigger re-render
+    loadMovie(Number(regexMatch[0]));   // But this does
   }, [window.location.pathname]); 
   //^ The dependency cannot be an object 
   // (window.location won't work; has to be a string)
 
-  return notFound ? null:
+  return querying.current? null:
     <div className='MoviePage'>
       <img
         className='movie-page-backdrop'
         src={respBaseUrl + backdrop}
+        alt=''
+        onError={altImage}
       />
       <header className='movie-page-header'>
         <img
           className='movie-page-poster'
           src={smlBaseUrl + poster}
+          alt=''
+          onError={altImage}
         />
         <div>
           <h3 className='movie-page-title'>
+            {title}
+            <span className='movie-page-release-year'>
+              ({releaseDate? releaseDate.slice(0, 4): '?'})
+            </span>
             <Checkbox
               icon={<StarBorder fontSize='small' />}
               checkedIcon={<Star fontSize='small' />}
@@ -102,10 +117,6 @@ const MoviePage = ({
               classes={{ root: checkboxClasses.root }}
               title='Add to my movies'
             />
-            {title}
-            <span className='movie-page-release-year'>
-              ({releaseDate.slice(0, 4)})
-            </span>
           </h3>
         </div>
       </header>
@@ -156,7 +167,7 @@ const CrewCard = (name: string, job: string) => {
 const CastCard = (name: string, character: string, image: string) => {
   return (
     <span className='movie-page-cast-card'>
-      <img src={image} />
+      <img src={image} alt='' onError={altImage}/>
       <span style={{ height: '6em', overflow: 'scroll' }}>
         <div><strong>{name}</strong></div>
         <div>{character}</div>
@@ -169,7 +180,7 @@ const RecommendationCard = (id: number, title: string, image: string) => {
   return (
     <Link to={`/movie/${id}`} >
       <span className='movie-page-recommendation-card'>
-        <img src={image} />
+        <img src={image} alt='' onError={altImage}/>
         <span style={{ minHeight: '3em' }}>{title}</span>
       </span>
     </Link>
@@ -200,5 +211,5 @@ const mapStateToProps = (state: AppState) => ({
 
 export default connect(
   mapStateToProps,
-  { loadMovie, movieNotFound, addMovie, deleteMovie }
+  { loadMovie, addMovie, deleteMovie }
 )(MoviePage);

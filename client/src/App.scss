@@ -1,13 +1,13 @@
-$list-item-margin-top: 15px;
+$list-item-margin-top: 17px;
 $content-margin-left-mobile: 11px;
-$content-margin-left-laptop: 120px;
+$content-margin-left-laptop: 15%;
 $breadcrumb-divider-margin-left: 5px;
 
 $movie-item-thumb-height: 125px;
 $movie-item-thumb-padding: 15px;
 
 $movie-page-section-margin-bottom: 45px;
-$movie-page-paragraph-margin-bottom: 20px;
+$movie-page-paragraph-margin-bottom: 23px;
 $movie-page-poster-width: 105px;
 $movie-page-poster-margin-left: 12px;
 $movie-page-cast-card-width: 120px;
@@ -31,7 +31,7 @@ $movie-page-cast-card-width: 120px;
 .MyMovies {
   margin: $list-item-margin-top * 2 $content-margin-left-mobile;
 
-  @media screen and (min-width: 1000px) {
+  @media screen and (min-width: 800px) {
     margin: $list-item-margin-top * 2.5 $content-margin-left-laptop;
   }
 
@@ -66,7 +66,7 @@ $movie-page-cast-card-width: 120px;
     height: $movie-item-thumb-height;
     margin-right: $list-item-margin-top;
 
-    @media screen and (min-width: 1000px) {
+    @media screen and (min-width: 800px) {
       height: $movie-item-thumb-height * 1.7;
       margin-right: $list-item-margin-top * 3
     }
@@ -84,7 +84,7 @@ $movie-page-cast-card-width: 120px;
 .Discover {
   margin: $list-item-margin-top $content-margin-left-mobile;
 
-  @media screen and (min-width: 1000px) {
+  @media screen and (min-width: 800px) {
     margin: $list-item-margin-top * 2 $content-margin-left-laptop;
   }
 
@@ -104,6 +104,8 @@ $movie-page-cast-card-width: 120px;
   
   .discover-movie-card-thumb {
     max-width: 95vw;    
+    max-height: 40vh;
+    margin-bottom: 5px;
   }
   
   .discover-movie-card-title {
@@ -136,7 +138,7 @@ $movie-page-cast-card-width: 120px;
       $movie-page-section-margin-bottom 
       $content-margin-left-mobile;
 
-    @media screen and (min-width: 1000px) {
+    @media screen and (min-width: 800px) {
       margin:
         0  
         $content-margin-left-laptop
@@ -150,15 +152,27 @@ $movie-page-cast-card-width: 120px;
   }
 
   h3 {
-    font-size: 18px;
+    font-size: 19px;
+
+    @media screen and (min-width: 800px) {
+      font-size: 28px;
+    }     
   }
   
   h4 {
-    font-size: 17px;
+    font-size: 18px;
+
+    @media screen and (min-width: 800px) {
+      font-size: 23px;
+    } 
   }
 
   p, span {
     font-size: 16px;
+
+    @media screen and (min-width: 800px) {
+      font-size: 18px;
+    } 
   }
 
   .movie-page-backdrop {
@@ -170,7 +184,7 @@ $movie-page-cast-card-width: 120px;
     display: flex;
     flex-flow: row nowrap;
 
-    @media screen and (min-width: 1000px) {
+    @media screen and (min-width: 800px) {
       display: flex;
       justify-content: flex-start;
       align-items: center;
@@ -193,7 +207,7 @@ $movie-page-cast-card-width: 120px;
       height: 165px;
       object-fit: contain;
 
-      @media screen and (min-width: 1000px) {
+      @media screen and (min-width: 800px) {
         position: static;
         margin-right: 25px;
       }
@@ -204,10 +218,6 @@ $movie-page-cast-card-width: 120px;
       top: 0;
       left: $movie-page-poster-margin-left * 2;
       max-width: 59vw;
-
-      @media screen and (min-width: 1000px) {
-        font-size: 28px;
-      }
     }
   }
 
@@ -254,7 +264,7 @@ $movie-page-cast-card-width: 120px;
     align-items: flex-start;
     width: $movie-page-cast-card-width;
     margin: 4px;
-    border-radius: 2px;
+    border-radius: 3px;
     color: #2b2b2b;
     background-color: #f6f6f6;
     
@@ -263,7 +273,7 @@ $movie-page-cast-card-width: 120px;
       margin-bottom: 5px;
       width: $movie-page-cast-card-width;
       object-fit: cover;
-      border-radius: 2px;
+      border-radius: 3px;
     }
 
     span {
@@ -279,13 +289,13 @@ $movie-page-cast-card-width: 120px;
     justify-content: flex-start;
     align-items: flex-start;
     margin: 4px;
-    border-radius: 2px;
+    border-radius: 3px;
     color: #2b2b2b;
     background-color: #f6f6f6;
     
     img {
       width: $movie-page-cast-card-width * 2;
-      border-radius: 2px;
+      border-radius: 3px;
       margin-bottom: 5px;
     }
 
@@ -323,7 +333,7 @@ $movie-page-cast-card-width: 120px;
 .Divider {
   border: 1px solid #777;
   border-top: none;
-  margin: 0 25px;
+  margin: 12px 25px;
 }
 
 .breadcrumb-divider {
@@ -342,4 +352,12 @@ li.MuiListItem-container {
     text-decoration: underline;
     cursor: pointer;
   }
+}
+
+.NotFound {
+  height: 85vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

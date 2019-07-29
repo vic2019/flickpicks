@@ -36,7 +36,7 @@ const Notification = ({
           onClick={handleClose}
           size='small'
         >
-          <CloseIcon />
+          <CloseIcon fontSize='small' />
         </IconButton>
       }
     />

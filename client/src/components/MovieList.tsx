@@ -10,10 +10,11 @@ import { Movie } from '../store/search/types';
 import { ById } from '../store/my-movies/types';
 
 import Divider from './Divider';
+import shrug from '../images/shrug.png';
 
 const checkboxStyles = makeStyles({
   root: {
-    padding: '0 1px 4px 0'
+    padding: '0 0 3px 2px'
   }
 });
 
@@ -52,25 +53,32 @@ const MovieList = ({
       {movies.map(movie => (
         <div className='discover-movie-card'>
           <div key={movie.id}>
-            <Link
-              to={`/movie/${movie.id}`}
-            >
-              {movie.image ?
+            <Link to={`/movie/${movie.id}`} >
+              {movie.image?
                 <img
                   className='discover-movie-card-thumb'
                   src={`https://image.tmdb.org/t/p/w500${movie.image}`}
                   alt=''
-                /> : null
+                />:
+                movie.poster?
+                  <img
+                    className='discover-movie-card-thumb'
+                    src={`https://image.tmdb.org/t/p/w500${movie.poster}`}
+                    alt=''
+                  />: 
+                  <img 
+                    className='discover-movie-card-thumb' 
+                    src={shrug}
+                    alt=''
+                  />
               }
             </Link>
             <div>
-            <Link
-              to={`/movie/${movie.id}`}
-            >
+            <Link to={`/movie/${movie.id}`} >
               <span className='discover-movie-card-title'>
                 {movie.title}
                 <span className='discover-movie-card-release-year'>
-                  ({movie.releaseDate.split('-')[0]})
+                  ({movie.releaseDate? movie.releaseDate.split('-')[0]: '?'})
                 </span>
               </span>
             </Link>
@@ -80,6 +88,7 @@ const MovieList = ({
               checked={Boolean(byId[movie.id])}
               color='secondary'
               onClick={toggleAddMovie(movie)}
+              classes={{ root: checkboxClasses.root }}
               title='Add to my movies'
             />
           </div>

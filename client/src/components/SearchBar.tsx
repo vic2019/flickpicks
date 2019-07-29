@@ -48,7 +48,7 @@ const SearchBar = ({ query, updateSearch }: Props) => {
   }
 
   const handleClick = () => {
-    updateSearch({ query: text });
+    updateSearch({ query: text.trim() });
   }
 
   return (

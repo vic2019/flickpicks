@@ -37,17 +37,17 @@ export const updateSearch = (
   params: Params
 ): ThunkAction<void, any, null, SearchActionTypes> => (
   dispatch, getState
-) => { 
-  if (!params.query) {
+) => {   
+  const search: Search = getState().search;
+  const reqUrl = makeReqUrl(params, search);
+
+  if (!params.query && !search.query) {
     dispatch({
       type: SHOW_ERROR,
       msg: 'Search field cannot be empty'
     });
     return;
   } 
-  
-  const search: Search = getState().search;
-  const reqUrl = makeReqUrl(params, search);
 
   dispatch({
     type: SHOW_WAITING

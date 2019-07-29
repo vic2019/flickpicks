@@ -4,7 +4,6 @@ import { ThunkAction } from 'redux-thunk';
 
 import {
   LOAD_MOVIE,
-  NOT_FOUND,
   MoviePageActionTypes
 } from './types';
 
@@ -15,8 +14,6 @@ import {
 } from '../app-level/types';
 
 const BASE_REQ_URL = 'http://localhost:3009/movie?id=';
-
-export const movieNotFound = () => ({ type: NOT_FOUND });
 
 export const loadMovie = (
   id: number
@@ -37,9 +34,6 @@ export const loadMovie = (
       });
     })
     .catch(err => {
-      dispatch({
-        type: NOT_FOUND
-      });
       dispatch({
         type: SHOW_ERROR,
         msg: err.message
