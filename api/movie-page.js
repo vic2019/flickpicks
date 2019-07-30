@@ -30,7 +30,10 @@ router.get("/", (req, res) => {
             { poster: data.poster_path? data.poster_path: '' },
             { releaseDate: data.release_date },
             { title: data.title },
-            { videos: data.videos.results },
+            { videos: data.videos.results.map(video => {
+                return { key: video.key? video.key: '' }
+              })  
+            },
             { cast: data.credits.cast.slice(0, 10).map(member => {
                 return {
                   character: member.character,

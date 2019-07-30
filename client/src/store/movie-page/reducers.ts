@@ -1,10 +1,12 @@
 import {
   LOAD_MOVIE,
+  NOT_FOUND,
   MoviePage,
   MoviePageActionTypes
 } from './types';
 
 const initialState: MoviePage = {
+  notFound: true,
   id: -1,
   backdrop: '',
   poster: '',
@@ -13,7 +15,8 @@ const initialState: MoviePage = {
   overview: '',
   crew: [],
   cast: [],
-  recommendations: []
+  recommendations: [],
+  videos: []
 }
 
 export const moviePageReducer = (
@@ -25,6 +28,11 @@ export const moviePageReducer = (
       return {
         ...action.payload
       };
+    case NOT_FOUND:
+      return {
+        ...moviePage,
+        notFound: true
+      }
     default:
       return moviePage;
   }

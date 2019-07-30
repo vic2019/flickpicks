@@ -155,7 +155,7 @@ $movie-page-cast-card-width: 120px;
     font-size: 19px;
 
     @media screen and (min-width: 800px) {
-      font-size: 28px;
+      font-size: 29px;
     }     
   }
   
@@ -178,17 +178,24 @@ $movie-page-cast-card-width: 120px;
   .movie-page-backdrop {
     width: 100%;
     height: auto;
+    position: fixed;
+    top: 105px;
+    z-index: -1;
+    filter: opacity(0.25);
   }
 
   .movie-page-header {
     display: flex;
     flex-flow: row nowrap;
+    justify-content: flex-start;
+    align-items: center;
+    margin: 35px $content-margin-left-mobile 55px $content-margin-left-mobile;
 
     @media screen and (min-width: 800px) {
       display: flex;
       justify-content: flex-start;
       align-items: center;
-      margin: 25px $content-margin-left-laptop;
+      margin: 70px $content-margin-left-laptop 70px $content-margin-left-laptop;
     }
 
     .movie-page-release-year {
@@ -199,25 +206,34 @@ $movie-page-cast-card-width: 120px;
       }
     }
 
+    .movie-page-header-column {
+      display: flex;
+      flex-flow: column wrap;
+      justify-content: center;
+      align-items: stretch;
+    }
+
+    .movie-page-header-row {
+      display: flex;
+      flex-flow: row wrap;
+      justify-content: flex-start;
+      align-items: center;
+    }
+
     .movie-page-poster {
-      position: relative;
-      top: -$movie-page-poster-width / 1.6;
-      left: $movie-page-poster-margin-left;
       width: $movie-page-poster-width;
-      height: 165px;
       object-fit: contain;
+      margin: 0 9px 0 4px;
 
       @media screen and (min-width: 800px) {
-        position: static;
-        margin-right: 25px;
+        width: $movie-page-poster-width * 1.8;
+        margin-right: 50px;
       }
     }
   
     .movie-page-title {
-      position: relative;
-      top: 0;
-      left: $movie-page-poster-margin-left * 2;
-      max-width: 59vw;
+      padding-left: 10px; //To align with play button
+      margin: 0 0 8px 0;
     }
   }
 
@@ -360,4 +376,20 @@ li.MuiListItem-container {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.video-modal-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.video-iframe {
+  width: 100vw;
+  height: 85vh;
+  
+  @media screen and (min-aspect-ratio: 9/5) {
+    width: 85vw;
+    height: 100vh;
+  }
 }

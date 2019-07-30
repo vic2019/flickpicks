@@ -4,6 +4,7 @@ import { ThunkAction } from 'redux-thunk';
 
 import {
   LOAD_MOVIE,
+  NOT_FOUND,
   MoviePageActionTypes
 } from './types';
 
@@ -20,6 +21,13 @@ export const loadMovie = (
 ): ThunkAction<void, null, null, MoviePageActionTypes> => (
   dispatch
 ) => {
+  if (!id) {
+    dispatch({
+      type: NOT_FOUND
+    });
+    return;
+  }
+
   dispatch({
     type: SHOW_WAITING
   });
@@ -30,7 +38,9 @@ export const loadMovie = (
     .then(res => {
       dispatch({
         type: LOAD_MOVIE,
-        payload: res.data
+        payload: Object.assign({}, res.data, {
+          notFound: false
+        })
       });
     })
     .catch(err => {
@@ -38,8 +48,9 @@ export const loadMovie = (
         type: SHOW_ERROR,
         msg: err.message
       });
+      dispatch({ type: NOT_FOUND })
     })
-    .finally(() =>{
+    .finally(() => {
       dispatch({
         type: HIDE_WAITING
       }); 

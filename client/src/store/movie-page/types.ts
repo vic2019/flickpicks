@@ -1,8 +1,10 @@
-import { AppLevelActionTypes } from '../app-level/types';
+import { AppLevelActionTypes } from '../app-level/types'
 
-export const LOAD_MOVIE = 'LOAD_MOVIE';
+export const LOAD_MOVIE = 'LOAD_MOVIE'
+export const NOT_FOUND = 'NOT_FOUND'
 
 export interface MoviePage {
+  notFound: boolean
   id: number
   backdrop: string
   poster: string
@@ -12,6 +14,7 @@ export interface MoviePage {
   crew: Crew[]
   cast: Cast[]
   recommendations: Recommendation[]
+  videos: Video[]
 }
 
 interface Crew {
@@ -31,9 +34,17 @@ interface Recommendation {
   image: string
 }
 
-interface loadMovieAction {
+interface Video {
+  key: string
+}
+
+interface LoadMovieAction {
   type: typeof LOAD_MOVIE
   payload: MoviePage
 }
 
-export type MoviePageActionTypes = loadMovieAction | AppLevelActionTypes
+interface NotFoundAction {
+  type: typeof NOT_FOUND
+}
+
+export type MoviePageActionTypes = LoadMovieAction | NotFoundAction | AppLevelActionTypes

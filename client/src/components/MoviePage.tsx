@@ -1,8 +1,7 @@
-import React, { useEffect, useRef } from 'react';
-import Checkbox from '@material-ui/core/Checkbox';
+import React, { useEffect } from 'react';
+import Button from '@material-ui/core/Button';
 import Star from '@material-ui/icons/Star';
 import StarBorder from '@material-ui/icons/StarBorder';
-import { makeStyles } from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 import { Link } from 'react-router-dom';
@@ -17,31 +16,32 @@ import { addMovie, deleteMovie } from '../store/my-movies/actions';
 import { ById } from '../store/my-movies/types';
 
 import shrug from '../images/shrug.png';
+import NotFound from './NotFound';
+import Video from './Video';
 
-const altImage = (e: any) => {
+const onError = (e: any) => {
   e.target.onerror = null; 
   e.target.src = shrug;
 };
 
-const checkboxStyles = makeStyles({
-  root: {
-    padding: '0 0 2px 3px'
-  }
-});
+const hideOnError = (e: any) => {
+  e.target.onerror = null; 
+  e.target.style.display = 'none';
+};
 
 interface Props {
   byId: ById
-  moviePage: MoviePageType
+  waiting: boolean
   loadMovie: any
-  movieNotFound: any
   addMovie: any
   deleteMovie: any
+  moviePage: MoviePageType
 }
 
 const MoviePage = ({ 
-  byId, moviePage, loadMovie, addMovie, deleteMovie
-}: Props) => {
-  const {
+  byId, waiting, loadMovie, addMovie, deleteMovie, 
+  moviePage: {
+    notFound,
     id,
     backdrop,
     poster,
@@ -50,15 +50,16 @@ const MoviePage = ({
     overview,
     crew,
     cast,
-    recommendations
-  } = moviePage;
-
-  const checkboxClasses = checkboxStyles();
-  const querying = useRef(true);
-
+    recommendations,
+    videos 
+  }
+}: Props) => {
   const smlBaseUrl = 'https://image.tmdb.org/t/p/w500';
-  const respBaseUrl = useMediaQuery('(max-width: 520px)')?
-    'https://image.tmdb.org/t/p/w500': 'https://image.tmdb.org/t/p/w1280'
+  const respBaseUrl = useMediaQuery('(max-width: 500px)')?
+    'https://image.tmdb.org/t/p/w500': 'https://image.tmdb.org/t/p/original'
+
+  const iconSize = useMediaQuery('(max-width: 800px)')?
+    'small': 'large';
 
   const toggleAddMovie = () => {
     if(Boolean(byId[id])) {
@@ -78,48 +79,66 @@ const MoviePage = ({
   useEffect(() => {
     const regexMatch = window.location.pathname.match(/(\d+)/);
     if (!regexMatch) {
+      loadMovie();
       return;
     }
     
-    querying.current = false;           // This does not trigger re-render
-    loadMovie(Number(regexMatch[0]));   // But this does
+    loadMovie(Number(regexMatch[0]));
   }, [window.location.pathname]); 
   //^ The dependency cannot be an object 
   // (window.location won't work; has to be a string)
 
-  return querying.current? null:
+  return waiting? null: notFound? <NotFound />:
     <div className='MoviePage'>
       <img
         className='movie-page-backdrop'
         src={respBaseUrl + backdrop}
         alt=''
-        onError={altImage}
+        onError={hideOnError}
       />
       <header className='movie-page-header'>
         <img
           className='movie-page-poster'
           src={smlBaseUrl + poster}
           alt=''
-          onError={altImage}
+          onError={onError}
         />
-        <div>
+        <div className='movie-page-header-column'>
           <h3 className='movie-page-title'>
             {title}
-            <span className='movie-page-release-year'>
-              ({releaseDate? releaseDate.slice(0, 4): '?'})
-            </span>
-            <Checkbox
-              icon={<StarBorder fontSize='small' />}
-              checkedIcon={<Star fontSize='small' />}
-              checked={Boolean(byId[id])}
-              onClick={toggleAddMovie}
-              color='secondary'
-              classes={{ root: checkboxClasses.root }}
-              title='Add to my movies'
-            />
+            {releaseDate?
+              <span className='movie-page-release-year'>
+                ({releaseDate.slice(0, 4)})
+              </span>:
+              null
+            }
           </h3>
+          <div className='movie-page-header-row'>
+            {videos[0]? <Video id={videos[0].key} />: null}
+            <Button 
+              variant='text'
+              onClick={toggleAddMovie} 
+              size='small'
+              style={{ textTransform: 'none' }}
+              title='Add to my movies'
+            >
+              {Boolean(byId[id])? 
+                <Star 
+                  fontSize={iconSize} 
+                  color='secondary'
+                  style={{ marginRight: '6px' }} 
+                />:
+                <StarBorder 
+                  fontSize={iconSize} 
+                  style={{ marginRight: '6px' }} 
+                />
+              }
+              <span style={{ fontSize: '17px' }}>My Movies</span>
+            </Button>
+          </div>
         </div>
       </header>
+          
 
       <div className='movie-page-details' >
         <ColoredDivider top={true} />
@@ -128,30 +147,39 @@ const MoviePage = ({
         <ColoredDivider top={false} />
       </div>
 
-      <div className='movie-page-crew'>
-        <h4>Featured Crew</h4>
-        <div className='movie-page-crew-list'>
-          {crew.map(({ name, job }) => CrewCard(name, job))}
-        </div>
-      </div>
+      {Boolean(crew.length)?
+        <div className='movie-page-crew'>
+          <h4>Featured Crew</h4>
+          <div className='movie-page-crew-list'>
+            {crew.map(({ name, job }) => CrewCard(name, job))}
+          </div>
+        </div>:
+        null
+      }
 
-      <div className='movie-page-cast'>
-        <h4>Featured Cast</h4>
-        <div className='movie-page-cast-list'>
-          {cast.map(({ name, character, image }) => (
-            CastCard(name, character, smlBaseUrl + image)
-          ))}
-        </div>
-      </div>
+      {Boolean(cast.length)?
+        <div className='movie-page-cast'>
+          <h4>Featured Cast</h4>
+          <div className='movie-page-cast-list'>
+            {cast.map(({ name, character, image }) => (
+              CastCard(name, character, smlBaseUrl + image)
+            ))}
+          </div>
+        </div>:
+        null
+      }
 
-      <div className='movie-page-recommendations'>
-        <h4>Recommendations</h4>
-        <div className='movie-page-recommendation-list'>
-          {recommendations.map(({ id, title, image }) => (
-            RecommendationCard(id, title, smlBaseUrl + image)
-          ))}
-        </div>
-      </div>
+      {Boolean(recommendations.length)?
+        <div className='movie-page-recommendations'>
+          <h4>Recommendations</h4>
+          <div className='movie-page-recommendation-list'>
+            {recommendations.map(({ id, title, image }) => (
+              RecommendationCard(id, title, smlBaseUrl + image)
+            ))}
+          </div>
+        </div>: 
+        null
+      }
     </div>
 };
 
@@ -167,7 +195,7 @@ const CrewCard = (name: string, job: string) => {
 const CastCard = (name: string, character: string, image: string) => {
   return (
     <span className='movie-page-cast-card'>
-      <img src={image} alt='' onError={altImage}/>
+      <img src={image} alt='' onError={onError}/>
       <span style={{ height: '6em', overflow: 'scroll' }}>
         <div><strong>{name}</strong></div>
         <div>{character}</div>
@@ -180,7 +208,7 @@ const RecommendationCard = (id: number, title: string, image: string) => {
   return (
     <Link to={`/movie/${id}`} >
       <span className='movie-page-recommendation-card'>
-        <img src={image} alt='' onError={altImage}/>
+        <img src={image} alt='' onError={onError}/>
         <span style={{ minHeight: '3em' }}>{title}</span>
       </span>
     </Link>
@@ -206,7 +234,8 @@ const ColoredDivider = ({ top }: { top: boolean }) => {
 
 const mapStateToProps = (state: AppState) => ({
   moviePage: state.moviePage,
-  byId: state.myMovies.byId
+  byId: state.myMovies.byId,
+  waiting: state.appLevel.waiting
 });
 
 export default connect(

@@ -52,7 +52,7 @@ export default function TopNavBar() {
         <SearchBar />
         <ProgressBar />
       </AppBar>
-      <InputBase />
+      <InputBase /> // This is here for spacing
       <Toolbar />
     </>
   );

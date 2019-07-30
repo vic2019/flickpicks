@@ -59,6 +59,7 @@ const DiscoverInput = ({
               return '';
             }).join(', ')
           }
+          title='Discover movies that satisfy ALL the selected genres'
         >
           <MenuItem value={-1} key={-1}>
             <Button fullWidth disableRipple size='large' variant='text'>
