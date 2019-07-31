@@ -2,7 +2,7 @@ import React from 'react';
 
 const Divider = () => {
   return (
-    <hr className='Divider' />
+    <div className='Divider' />
   );
 };
 

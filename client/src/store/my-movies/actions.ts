@@ -1,5 +1,7 @@
-import { ThunkAction } from 'redux-thunk';
 // import axios from 'axios';
+// import { HOST } from '../../config';
+
+import { ThunkAction } from 'redux-thunk';
 
 import {
   Movie,

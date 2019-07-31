@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { HOST } from '../../config';
 
 import { ThunkAction } from 'redux-thunk';
 
@@ -14,7 +15,7 @@ import {
   SHOW_ERROR,
 } from '../app-level/types';
 
-const BASE_REQ_URL = 'http://localhost:3009/movie?id=';
+const BASE_REQ_URL = HOST + '/movie?id=';
 
 export const loadMovie = (
   id: number

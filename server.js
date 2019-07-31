@@ -1,16 +1,29 @@
+'use strict';
+
 const config = require('config');
 const express = require('express');
 const cors = require('cors');
+const path = require('path');
 
 const app = express();
 
-app.use(cors());
-// app.use(express.json());
+const origin = config.get('server').origin;
+// Remember to include the protocal. Pay attention to http vs https.
 
-app.use('/discover', require('./api/discover'));
-app.use('/movie', require('./api/movie-page'));
-app.use('/search', require('./api/search'));
+app.use(cors({ origin }));
 
-const port = config.get('server').port;
+app.use('/api/discover', require('./api/discover'));
+app.use('/api/movie', require('./api/movie-page'));
+app.use('/api/search', require('./api/search'));
 
-app.listen(port, () => console.log(`Server listening on port: ${port}\n`));
+// if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, 'client', 'build')));
+
+  app.get('/*', (_, res) => {   // Has to be '/*' and not '*'
+    res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'));
+  });
+// }
+
+const PORT = config.get('server').port;
+
+app.listen(PORT, () => console.log(`Server listening on port: ${PORT}\n`));

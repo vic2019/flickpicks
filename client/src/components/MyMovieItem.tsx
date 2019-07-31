@@ -33,37 +33,37 @@ const MyMovieItem = ({ movie }: Props)  => {
   const dateString = dateAdded.split(' ').slice(1, 4).join(' ');
 
   return (
-    <Fade in={isVisible} timeout={{ enter: 0, exit: 180 }}>
-      {/* Fade must only contain a single child element, and 
-      it can't be a React.Fragment */}
-      <div>
+    <>
+      <Fade in={isVisible} timeout={{ enter: 0, exit: 180 }}>
+        {/* Fade must only contain a single child element, and 
+        it can't be a React.Fragment */}
         <div className='MovieItem'>
-        <Link
-              to={`/movie/${id}-${title
-                .split(/[,:]/).join('').split(' ').join('-')}`}
-            >
-          <img
-            className='movie-item-thumb'
-            src={`https://image.tmdb.org/t/p/w500${image}`}
-            alt='movie poster'
-            onError={onError}
-          />
+          <Link
+            to={`/movie/${id}-${title
+              .split(/[,:]/).join('').split(' ').join('-')}`}
+          >
+            <img
+              className='movie-item-thumb'
+              src={`https://image.tmdb.org/t/p/w500${image}`}
+              alt='movie poster'
+              onError={onError}
+            />
           </Link>
           <div>
-          <Link
+            <Link
               to={`/movie/${movie.id}-${movie.title
                 .split(/[,:]/).join('').split(' ').join('-')}`}
             >
-            <div className='movie-item-title'>{title}</div>
-          </Link>
+              <div className='movie-item-title'>{title}</div>
+            </Link>
             <div>{`Date Added: ${dateString}`}</div>
             <TagSelector movie={movie} />
-            <DeleteMovie movie={movie} transitionOut={setVisible}/>
+            <DeleteMovie movie={movie} transitionOut={setVisible} />
           </div>
         </div>
+      </Fade>
       <Divider />
-      </div>
-    </Fade>
+    </>
   );
 }
 

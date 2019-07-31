@@ -30,8 +30,6 @@ const themeOptions: ThemeOptions = {
 
 const theme = createMuiTheme(themeOptions);
 
-
-
 export default function App() {
   return (
     <Router>

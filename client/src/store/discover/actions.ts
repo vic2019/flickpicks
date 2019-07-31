@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { HOST } from '../../config';
 
 import { ThunkAction } from 'redux-thunk';
 
@@ -16,7 +17,7 @@ import {
   SHOW_ERROR
 } from '../app-level/types';
 
-const BASE_REQ_URL = 'http://localhost:3009/discover';
+const BASE_REQ_URL = HOST + '/discover';
 
 const makeReqUrl = (
   params: Params, discover: Discover

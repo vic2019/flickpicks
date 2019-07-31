@@ -1,4 +1,4 @@
-$list-item-margin-top: 17px;
+$list-item-margin-top: 15px;
 $content-margin-left-mobile: 11px;
 $content-margin-left-laptop: 15%;
 $breadcrumb-divider-margin-left: 5px;
@@ -31,7 +31,7 @@ $movie-page-cast-card-width: 120px;
 .MyMovies {
   margin: $list-item-margin-top * 2 $content-margin-left-mobile;
 
-  @media screen and (min-width: 800px) {
+  @media screen and (min-width: 760px) {
     margin: $list-item-margin-top * 2.5 $content-margin-left-laptop;
   }
 
@@ -64,9 +64,10 @@ $movie-page-cast-card-width: 120px;
   .movie-item-thumb {
     box-sizing: content-box;
     height: $movie-item-thumb-height;
+    margin-top: 4px;
     margin-right: $list-item-margin-top;
 
-    @media screen and (min-width: 800px) {
+    @media screen and (min-width: 760px) {
       height: $movie-item-thumb-height * 1.7;
       margin-right: $list-item-margin-top * 3
     }
@@ -84,7 +85,7 @@ $movie-page-cast-card-width: 120px;
 .Discover {
   margin: $list-item-margin-top $content-margin-left-mobile;
 
-  @media screen and (min-width: 800px) {
+  @media screen and (min-width: 760px) {
     margin: $list-item-margin-top * 2 $content-margin-left-laptop;
   }
 
@@ -105,7 +106,7 @@ $movie-page-cast-card-width: 120px;
   .discover-movie-card-thumb {
     max-width: 95vw;    
     max-height: 40vh;
-    margin-bottom: 5px;
+    margin: 5px 0;
   }
   
   .discover-movie-card-title {
@@ -123,8 +124,7 @@ $movie-page-cast-card-width: 120px;
 
 
 .DiscoverInput {
-  margin-top: $list-item-margin-top;
-  margin-bottom: $list-item-margin-top * 3;
+  margin: $list-item-margin-top 0 $list-item-margin-top*2.5 0;
 }
 
 .MoviePage {
@@ -138,7 +138,7 @@ $movie-page-cast-card-width: 120px;
       $movie-page-section-margin-bottom 
       $content-margin-left-mobile;
 
-    @media screen and (min-width: 800px) {
+    @media screen and (min-width: 760px) {
       margin:
         0  
         $content-margin-left-laptop
@@ -154,7 +154,7 @@ $movie-page-cast-card-width: 120px;
   h3 {
     font-size: 19px;
 
-    @media screen and (min-width: 800px) {
+    @media screen and (min-width: 760px) {
       font-size: 29px;
     }     
   }
@@ -162,7 +162,7 @@ $movie-page-cast-card-width: 120px;
   h4 {
     font-size: 18px;
 
-    @media screen and (min-width: 800px) {
+    @media screen and (min-width: 760px) {
       font-size: 23px;
     } 
   }
@@ -170,7 +170,7 @@ $movie-page-cast-card-width: 120px;
   p, span {
     font-size: 16px;
 
-    @media screen and (min-width: 800px) {
+    @media screen and (min-width: 760px) {
       font-size: 18px;
     } 
   }
@@ -191,7 +191,7 @@ $movie-page-cast-card-width: 120px;
     align-items: center;
     margin: 35px $content-margin-left-mobile 55px $content-margin-left-mobile;
 
-    @media screen and (min-width: 800px) {
+    @media screen and (min-width: 760px) {
       display: flex;
       justify-content: flex-start;
       align-items: center;
@@ -225,7 +225,7 @@ $movie-page-cast-card-width: 120px;
       object-fit: contain;
       margin: 0 9px 0 4px;
 
-      @media screen and (min-width: 800px) {
+      @media screen and (min-width: 760px) {
         width: $movie-page-poster-width * 1.8;
         margin-right: 50px;
       }
@@ -248,10 +248,12 @@ $movie-page-cast-card-width: 120px;
     justify-content: flex-start;
 
     .movie-page-crew-card {
-      width: 44vw;
+      width: 35vw;
+      flex-grow: 1;
       display: flex;
-      flex-flow: column wrap;
+      flex-flow: column nowrap;
       margin-bottom: $movie-page-paragraph-margin-bottom;
+      padding-right: 8px;
       
       span {
         font-size: 15px;
@@ -311,8 +313,10 @@ $movie-page-cast-card-width: 120px;
     
     img {
       width: $movie-page-cast-card-width * 2;
+      max-height: 137px;
       border-radius: 3px;
       margin-bottom: 5px;
+      object-fit: cover;
     }
 
     span {
@@ -349,7 +353,7 @@ $movie-page-cast-card-width: 120px;
 .Divider {
   border: 1px solid #777;
   border-top: none;
-  margin: 12px 25px;
+  margin: 12px 25px 0 25px;
 }
 
 .breadcrumb-divider {
@@ -392,4 +396,8 @@ li.MuiListItem-container {
     width: 85vw;
     height: 100vh;
   }
+}
+
+.tmdb-logo {
+  filter: invert(1);
 }
