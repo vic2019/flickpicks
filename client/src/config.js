@@ -1,7 +1,5 @@
-// export const HOST = process.env.NODE_ENV === 'production'?
-//   'https://flickpicks.victorwang.info/api': 'http://localhost:3009/api';
-
-export const HOST = 'http://localhost:3009/api';
+export const HOST = process.env.NODE_ENV === 'production'?
+  'https://api.victorwang.info/flickpicks': 'http://localhost:3009/flickpicks';
 
 export const img500BaseUrl = 'https://image.tmdb.org/t/p/w500';
 
