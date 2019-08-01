@@ -18,6 +18,8 @@ interface Page {
 const Pagination = ({ pathname, page, totalPages, navToPage }: Props) => {
   if (totalPages === -1) return null;
 
+  const largest = totalPages <= 1000? totalPages: 1000;
+
   const firstPage = (
     <Link to={`${pathname}/page1`}>
     <span
@@ -28,11 +30,11 @@ const Pagination = ({ pathname, page, totalPages, navToPage }: Props) => {
   );
   
   const lastPage = (
-    <Link to={`${pathname}/page${totalPages}`}>
+    <Link to={`${pathname}/page${largest}`}>
     <span
-      onClick={() => navToPage({ page: totalPages })}
-      className={page === totalPages? 'current-page-number': 'page-number'}
-    >{totalPages}</span>
+      onClick={() => navToPage({ page: largest })}
+      className={page === largest? 'current-page-number': 'page-number'}
+    >{largest}</span>
     </Link>
   );
   
@@ -50,18 +52,18 @@ const Pagination = ({ pathname, page, totalPages, navToPage }: Props) => {
   return (
     <div className='Pagination'>
       {firstPage}
-      {pages.filter(({ num, elem }) => num > 1 && num < totalPages)
+      {pages.filter(({ num, elem }) => num > 1 && num < largest)
         .map(({ num, elem }, index, { length }) => {
           if (index === 0 && num > 2) {
             return <><span>...</span>{elem}</>;
-          } else if (index === length - 1 && num < totalPages - 1) {
+          } else if (index === length - 1 && num < largest - 1) {
             return <>{elem}<span>...</span></>;
           } else {
             return elem;
           }
         }
       )}
-      {totalPages === 1? null: lastPage}
+      {largest === 1? null: lastPage}
     </div>
   )
 };

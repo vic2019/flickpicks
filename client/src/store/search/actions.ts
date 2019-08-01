@@ -63,7 +63,9 @@ export const updateSearch = (
 
       dispatch({
         type: SET_SEARCH_PARAMS,
-        payload: params
+        payload: Object.assign({}, params, {
+          page: params.page? params.page: 1
+        })
       });
     })
     .catch(err => 

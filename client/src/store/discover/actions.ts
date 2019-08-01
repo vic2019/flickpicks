@@ -59,7 +59,9 @@ export const updateDiscover = (
 
       dispatch({
         type: SET_DISCOVER_PARAMS,
-        payload: params
+        payload: Object.assign({}, params, {
+          page: params.page? params.page: 1
+        })
       });
     })
     .catch(err => dispatch({

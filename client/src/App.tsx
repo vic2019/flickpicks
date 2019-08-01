@@ -43,7 +43,7 @@ export default function App() {
           <Route
             key='MyMovies'
             path='/mymovies'
-            exact={true}
+            exact={false}
             component={MyMovies}
           />
           <Route
@@ -61,7 +61,7 @@ export default function App() {
           <Route
             key='Friends'
             path='/friends'
-            exact={true}
+            exact={false}
           />
           <Route
             key='Movie'
