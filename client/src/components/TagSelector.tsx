@@ -8,6 +8,8 @@ import { AppState } from '../store';
 import { setTags } from '../store/my-movies/actions';
 import { Set, Movie, ByTag } from '../store/my-movies/types';
 
+import { showError } from '../store/app-level/actions';
+
 
 interface Props {
   setTags: any
@@ -57,7 +59,7 @@ const TagSelector = ({
     try {
       await setTags(movie, checks);
     } catch(err) {
-      alert(err);
+      showError('Error: Please try again later.');
     }
 
     toggleDrawer(false)();
@@ -108,5 +110,5 @@ const mapStateToProps = (state: AppState) => ({
 
 export default connect(
   mapStateToProps,
-  { setTags }
+  { setTags, showError }
 )(TagSelector);

@@ -8,8 +8,9 @@ import { connect } from 'react-redux';
 import { AppState } from '../store';
 
 import { Movie } from '../store/discover/types';
-import { ById } from '../store/my-movies/types';
 import { updateDiscover } from '../store/discover/actions';
+
+import { ById } from '../store/my-movies/types';
 import { addMovie, deleteMovie } from '../store/my-movies/actions';
 
 interface Props {
@@ -28,7 +29,12 @@ const Discover = ({
   return (
     <div className='Discover'>
       <DiscoverInput />
-      <MovieList byId={byId} movies={movies} addMovie={addMovie} deleteMovie={deleteMovie} />
+      <MovieList 
+        byId={byId} 
+        movies={movies} 
+        addMovie={addMovie} 
+        deleteMovie={deleteMovie} 
+      />
       <Pagination 
         pathname='/discover'
         page={page} 

@@ -5,7 +5,7 @@ import {
   DiscoverActionTypes
 } from './types'
 
-const initialState = {
+const initialState: Discover = {
   genres: [],
   allGenres: [
     {

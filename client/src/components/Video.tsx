@@ -3,6 +3,8 @@ import { Modal, Button } from '@material-ui/core';
 import PlayIcon from '@material-ui/icons/PlayCircleFilledWhiteOutlined';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 
+const videoBaseUrl = 'https://www.youtube.com/embed/';
+
 interface Props {
   id: string
 };
@@ -41,7 +43,7 @@ const Video = ({ id }: Props) => {
         <iframe
           title='trailer'
           className='video-iframe'
-          src={`https://www.youtube.com/embed/${id}`}
+          src={videoBaseUrl + id}
           frameBorder='0'
         />
       </Modal>

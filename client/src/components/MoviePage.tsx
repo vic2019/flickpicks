@@ -18,6 +18,7 @@ import { ById } from '../store/my-movies/types';
 import shrug from '../images/shrug.png';
 import NotFound from './NotFound';
 import Video from './Video';
+import { img500BaseUrl, imgOriginalBaseUrl } from '../config';
 
 const onError = (e: any) => {
   e.target.onerror = null; 
@@ -54,9 +55,9 @@ const MoviePage = ({
     videos 
   }
 }: Props) => {
-  const smlBaseUrl = 'https://image.tmdb.org/t/p/w500';
+  const smlBaseUrl = img500BaseUrl;
   const respBaseUrl = useMediaQuery('(max-width: 500px)')?
-    'https://image.tmdb.org/t/p/w500': 'https://image.tmdb.org/t/p/original'
+    img500BaseUrl: imgOriginalBaseUrl;
 
   const iconSize = useMediaQuery('(max-width: 800px)')?
     'small': 'large';
@@ -75,6 +76,16 @@ const MoviePage = ({
       dateAdded: new Date().toString()
     });
   };
+
+  const crewList = crew.map(({ name, job }) => CrewCard(name, job));
+
+  const castList = cast.map(({ name, character, image }) => (
+    CastCard(name, character, smlBaseUrl + image)
+  ));
+
+  const recommendationList = recommendations.map(({ id, title, image }) => (
+    RecommendationCard(id, title, smlBaseUrl + image)
+  ));
 
   useEffect(() => {
     const regexMatch = window.location.pathname.match(/(\d+)/);
@@ -138,7 +149,6 @@ const MoviePage = ({
           </div>
         </div>
       </header>
-          
 
       <div className='movie-page-details' >
         <ColoredDivider top={true} />
@@ -151,7 +161,7 @@ const MoviePage = ({
         <div className='movie-page-crew'>
           <h4>Featured Crew</h4>
           <div className='movie-page-crew-list'>
-            {crew.map(({ name, job }) => CrewCard(name, job))}
+            {crewList}
           </div>
         </div>:
         null
@@ -161,9 +171,7 @@ const MoviePage = ({
         <div className='movie-page-cast'>
           <h4>Featured Cast</h4>
           <div className='movie-page-cast-list'>
-            {cast.map(({ name, character, image }) => (
-              CastCard(name, character, smlBaseUrl + image)
-            ))}
+            {castList}
           </div>
         </div>:
         null
@@ -173,9 +181,7 @@ const MoviePage = ({
         <div className='movie-page-recommendations'>
           <h4>Recommendations</h4>
           <div className='movie-page-recommendation-list'>
-            {recommendations.map(({ id, title, image }) => (
-              RecommendationCard(id, title, smlBaseUrl + image)
-            ))}
+            {recommendationList}
           </div>
         </div>: 
         null
@@ -193,10 +199,12 @@ const CrewCard = (name: string, job: string) => {
 };
 
 const CastCard = (name: string, character: string, image: string) => {
+  const style = { height: '6em', overflow: 'scroll' };
+
   return (
     <span className='movie-page-cast-card'>
       <img src={image} alt='' onError={onError}/>
-      <span style={{ height: '6em', overflow: 'scroll' }}>
+      <span style={style}>
         <div><strong>{name}</strong></div>
         <div>{character}</div>
       </span>
@@ -205,11 +213,13 @@ const CastCard = (name: string, character: string, image: string) => {
 };
 
 const RecommendationCard = (id: number, title: string, image: string) => {
+  const style = { minHeight: '3em' };
+
   return (
     <Link to={`/movie/${id}`} >
       <span className='movie-page-recommendation-card'>
         <img src={image} alt='' onError={onError}/>
-        <span style={{ minHeight: '3em' }}>{title}</span>
+        <span style={style}>{title}</span>
       </span>
     </Link>
   );

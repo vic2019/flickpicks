@@ -19,7 +19,7 @@ interface HideWaitingAction {
 
 interface ShowErrorAction {
   type: typeof SHOW_ERROR
-  msg: string | undefined | null
+  msg: string
 }
 
 interface HideErrorAction {

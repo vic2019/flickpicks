@@ -1,5 +1,6 @@
 import React from 'react';
-import { Button, Checkbox, Input, InputLabel, ListItemIcon, Select, MenuItem, FormControl } from '@material-ui/core';
+import { Button, Checkbox, Input, InputLabel, ListItemIcon, Select, 
+  MenuItem, FormControl } from '@material-ui/core';
 
 import { connect } from 'react-redux';
 import { AppState } from '../store';
@@ -36,6 +37,52 @@ const DiscoverInput = ({
   sortOptions,
   updateDiscover
 }: Props) => {
+  const handleGenreChange = (e: any) => {
+    const value = e.target.value as number[];
+    if (value.indexOf(-1) !== -1) {
+      updateDiscover({ genres: [] });
+    } else {
+      updateDiscover({ genres: value });
+    }
+  };
+
+  const renderGenreValue = (ids: unknown) => (ids as number[]).map(id => {
+    for (let genre of allGenres) {
+      if (genre.id === id) return genre.name;
+    }
+    return '';
+  }).join(', ')
+
+  const genreSelectionDropdown = allGenres.map(genre => (
+    <MenuItem value={genre.id} key={genre.id}>
+      <ListItemIcon>             
+        <Checkbox 
+          color='primary' 
+          checked={genres.indexOf(genre.id) > -1} 
+        />
+      </ListItemIcon>             
+     {genre.name}
+    </MenuItem>
+  ));
+
+  const handleYearChange = (e: any) => {
+    updateDiscover({ year: e.target.value });
+  };
+
+  const yearSelectionDropdown = allYears.map(year => (
+    <MenuItem value={year} key={year}>{year}</MenuItem>
+  ));
+
+  const handleSortByChange = (e: any) => {
+    updateDiscover({ sortBy: e.target.value });
+  };
+
+  const sortBySelectionDropdown = sortOptions.map(option => (
+    <MenuItem value={option} key={option}>
+      {SortOptions[option]}
+    </MenuItem>
+  ));
+
   return (
     <div className='DiscoverInput'>
       <FormControl fullWidth margin='none'>
@@ -43,71 +90,38 @@ const DiscoverInput = ({
         <Select
           multiple
           value={genres}
-          onChange={e => {
-            const value = e.target.value as number[];
-            if (value.indexOf(-1) !== -1) {
-              updateDiscover({ genres: [] });
-            } else {
-              updateDiscover({ genres: value });
-            }
-          }}
+          onChange={handleGenreChange}
           input={<Input />}
-          renderValue={ids => (ids as number[]).map(id => {
-              for (let genre of allGenres) {
-                if (genre.id === id) return genre.name;
-              }
-              return '';
-            }).join(', ')
-          }
-          title='Discover movies that satisfy ALL the selected genres'
+          renderValue={renderGenreValue}
+          title='Discover movies that meet ALL of the selected genres'
         >
           <MenuItem value={-1} key={-1}>
             <Button fullWidth disableRipple size='large' variant='text'>
               Clear All
             </Button>
           </MenuItem>
-          {allGenres.map(genre => (
-            <MenuItem value={genre.id} key={genre.id}>
-              <ListItemIcon>             
-                <Checkbox 
-                  color='primary' 
-                  checked={genres.indexOf(genre.id) > -1} 
-                />
-              </ListItemIcon>             
-             {genre.name}
-            </MenuItem>
-          ))}
+          {genreSelectionDropdown}
         </Select>
       </FormControl>
       <FormControl fullWidth margin='dense'>
         <InputLabel>Year</InputLabel>
         <Select
           value={year > 0? year: ''}
-          onChange={e => {
-            updateDiscover({ year: e.target.value });
-          }}
+          onChange={handleYearChange}
           inputProps={{ name: 'year' }}
         >
           <MenuItem value={-1} key={'none'}>None</MenuItem>
-          {allYears.map(year => (
-            <MenuItem value={year} key={year}>{year}</MenuItem>
-          ))}
+          {yearSelectionDropdown}
         </Select>
       </FormControl>
       <FormControl fullWidth margin='dense'>
         <InputLabel>Sort By</InputLabel>
         <Select
           value={sortBy}
-          onChange={e => {
-            updateDiscover({ sortBy: e.target.value });
-          }}
+          onChange={handleSortByChange}
           inputProps={{ name: 'sortBy' }}
         >
-          {sortOptions.map(option => (
-            <MenuItem value={option} key={option}>
-              {SortOptions[option]}
-            </MenuItem>
-          ))}
+          {sortBySelectionDropdown}
         </Select>
       </FormControl>
     </div>

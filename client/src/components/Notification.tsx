@@ -5,18 +5,18 @@ import CloseIcon from '@material-ui/icons/Close';
 import { connect } from 'react-redux';
 import { AppState } from '../store';
 
-import { HIDE_ERROR } from '../store/app-level/types';
+import { hideError } from '../store/app-level/actions';
 
 interface Props {
   error: boolean
   errorMsg: string
-  hide: any
+  hideError: any
 }
 
 const Notification = ({
-  error, errorMsg, hide
+  error, errorMsg, hideError
 }: Props) => {
-  const handleClose = () => hide();
+  const handleClose = () => hideError();
 
   return (
     <Snackbar
@@ -25,7 +25,7 @@ const Notification = ({
         horizontal: 'left',
       }}
       open={error}
-      autoHideDuration={5000}
+      autoHideDuration={4000}
       onClose={handleClose}
       message={<span className='notification-text'>{errorMsg}</span>}
       action={
@@ -48,9 +48,5 @@ export default connect(
     error: state.appLevel.error,
     errorMsg: state.appLevel.errorMsg
   }),
-  dispatch => ({
-    hide: () => dispatch({
-      type: HIDE_ERROR
-    })
-  })
+  { hideError }
 )(Notification);

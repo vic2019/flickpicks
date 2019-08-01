@@ -7,7 +7,7 @@ import {
   AppLevelActionTypes
 } from './types'
 
-const initialState = {
+const initialState: AppLevel = {
   waiting: false,
   error: false,
   errorMsg: 'Error. Please try again later.'

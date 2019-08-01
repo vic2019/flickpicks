@@ -17,13 +17,13 @@ app.use('/api/movie', require('./api/movie-page'));
 app.use('/api/search', require('./api/search'));
 
 // if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, 'client', 'build')));
+  app.use(express.static(path.join(__dirname, 'client/build')));
 
-  app.get('/*', (_, res) => {   // Has to be '/*' and not '*'
-    res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'));
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'client/build/'));
   });
-// }
-
+  // }
+  
 const PORT = config.get('server').port;
 
 app.listen(PORT, () => console.log(`Server listening on port: ${PORT}\n`));

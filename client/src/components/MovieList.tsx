@@ -2,7 +2,6 @@ import React from 'react';
 import Checkbox from '@material-ui/core/Checkbox';
 import Star from '@material-ui/icons/Star';
 import StarBorder from '@material-ui/icons/StarBorder';
-import { makeStyles } from '@material-ui/core/styles';
 
 import { Link } from 'react-router-dom';
 
@@ -11,12 +10,9 @@ import { ById } from '../store/my-movies/types';
 
 import Divider from './Divider';
 import shrug from '../images/shrug.png';
+import { img500BaseUrl } from '../config';
 
-const checkboxStyles = makeStyles({
-  root: {
-    padding: '0 0 3px 2px'
-  }
-});
+const checkboxStyle = { padding: '0 0 3px 2px' };
 
 interface Props {
   byId: ById
@@ -31,8 +27,6 @@ const MovieList = ({
   addMovie,
   deleteMovie
 }: Props) => {
-  const checkboxClasses = checkboxStyles();
-
   const toggleAddMovie = (movie: any) => () => {
     if(Boolean(byId[movie.id])) {
       deleteMovie(byId[movie.id]);
@@ -54,44 +48,44 @@ const MovieList = ({
         <div className='discover-movie-card'>
           <div key={movie.id}>
             <Link to={`/movie/${movie.id}`} >
-              {movie.image?
+              {movie.image ?
                 <img
                   className='discover-movie-card-thumb'
-                  src={`https://image.tmdb.org/t/p/w500${movie.image}`}
+                  src={img500BaseUrl + movie.image}
                   alt=''
-                />:
-                movie.poster?
+                /> :
+                movie.poster ?
                   <img
                     className='discover-movie-card-thumb'
-                    src={`https://image.tmdb.org/t/p/w500${movie.poster}`}
+                    src={img500BaseUrl + movie.poster}
                     alt=''
-                  />: 
-                  <img 
-                    className='discover-movie-card-thumb' 
+                  /> :
+                  <img
+                    className='discover-movie-card-thumb'
                     src={shrug}
                     alt=''
                   />
               }
             </Link>
             <div>
-            <Link to={`/movie/${movie.id}`} >
-              <span className='discover-movie-card-title'>
-                {movie.title}
-                <span className='discover-movie-card-release-year'>
-                  ({movie.releaseDate? movie.releaseDate.split('-')[0]: '?'})
+              <Link to={`/movie/${movie.id}`} >
+                <span className='discover-movie-card-title'>
+                  {movie.title}
+                  <span className='discover-movie-card-release-year'>
+                    ({movie.releaseDate ? movie.releaseDate.split('-')[0] : '?'})
                 </span>
-              </span>
-            </Link>
-            <Checkbox
-              icon={<StarBorder fontSize='small' />}
-              checkedIcon={<Star fontSize='small' />}
-              checked={Boolean(byId[movie.id])}
-              color='secondary'
-              onClick={toggleAddMovie(movie)}
-              classes={{ root: checkboxClasses.root }}
-              title='Add to my movies'
-            />
-          </div>
+                </span>
+              </Link>
+              <Checkbox
+                icon={<StarBorder fontSize='small' />}
+                checkedIcon={<Star fontSize='small' />}
+                checked={Boolean(byId[movie.id])}
+                color='secondary'
+                onClick={toggleAddMovie(movie)}
+                style={checkboxStyle}
+                title='Add to my movies'
+              />
+            </div>
           </div>
           <Divider />
         </div>

@@ -6,7 +6,7 @@ import {
 } from './types';
 
 const initialState: MoviePage = {
-  notFound: true,
+  notFound: false,
   id: -1,
   backdrop: '',
   poster: '',

@@ -5,7 +5,7 @@ import {
   SearchActionTypes
 } from './types'
 
-const initialState = {
+const initialState: Search = {
   query: '',
   movies: [],
   page: -1,

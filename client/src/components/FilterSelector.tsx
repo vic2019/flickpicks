@@ -7,8 +7,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import { connect } from 'react-redux';
 import { AppState } from '../store';
 
-import { setFilters, deleteTag } 
-  from '../store/my-movies/actions'
+import { setFilters, deleteTag } from '../store/my-movies/actions';
 import { Set, ByTag } from '../store/my-movies/types';
 
 

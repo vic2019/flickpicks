@@ -22,18 +22,15 @@ const MovieList = ({
   filters,
   showAll
 }: Props)  => {
-  return (
-    <>
-      {showAll?
-        Object.entries(byId).map(([id, movie]) => (
-          <MyMovieItem key={id} movie={movie} />
-        )):
-        Object.keys(
-          Object.assign({}, ...Object.keys(filters).map(tag => (byTag[tag])))
-        ).map(id => (<MyMovieItem key={id} movie={byId[id]} />))
-      }
-    </>
-  );
+  const allMovies = Object.entries(byId).map(([id, movie]) => (
+    <MyMovieItem key={id} {...movie} />
+  ));
+
+  const filteredMovies = Object.keys(
+    Object.assign({}, ...Object.keys(filters).map(tag => (byTag[tag])))
+  ).map(id => (<MyMovieItem key={id} {...byId[id]} />));
+
+  return <>{showAll? allMovies: filteredMovies}</>
 }
 
 const mapStateToProps = (state: AppState) => ({

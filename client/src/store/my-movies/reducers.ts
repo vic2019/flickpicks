@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux';
 
 import {
+  MyMovies,
   Set,
   ById,
   ByTag,
@@ -13,9 +14,8 @@ import {
   SHOW_ALL,
   ADD_MOVIE,
   DELETE_MOVIE,
-  // UNDO_DELETE,
-  // ERROR
 } from './types';
+
 
 // const testMyMovies = {
 //   byId: {
@@ -107,7 +107,7 @@ import {
 // };
 
 
-const initialState = {
+const initialState: MyMovies = {
   byId: {},
   byTag: {
     "To Watch": {},

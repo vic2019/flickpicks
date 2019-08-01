@@ -12,7 +12,6 @@ export const ERROR = 'ERROR';
 
 export interface Movie {
   id: string
-  tMDb_id: string
   title: string
   image: string
   dateAdded: string
@@ -74,10 +73,5 @@ interface UndoDeleteAction {
   type: typeof UNDO_DELETE
 }
 
-interface ErrorAction {
-  type: typeof ERROR
-  msg: string | number
-}
-
 export type MyMoviesActionTypes = 
-  SetTagsAction | ModifyTagAction | SetFiltersAction | ShowAllAction | AddMovieAction | DeleteMovieAction | UndoDeleteAction | ErrorAction | AppLevelActionTypes;
+  SetTagsAction | ModifyTagAction | SetFiltersAction | ShowAllAction | AddMovieAction | DeleteMovieAction | UndoDeleteAction | AppLevelActionTypes;

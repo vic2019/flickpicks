@@ -26,7 +26,12 @@ const Search = ({
 }: Props) => {
   return (
     <div className='Discover'>
-      <MovieList byId={byId} movies={movies} addMovie={addMovie} deleteMovie={deleteMovie} />
+      <MovieList 
+        byId={byId} 
+        movies={movies} 
+        addMovie={addMovie} 
+        deleteMovie={deleteMovie} 
+      />
       <Pagination
         pathname='/search' 
         page={page} 

@@ -4,7 +4,7 @@ import FilterSelector from './FilterSelector';
 import ShowAllButton from './ShowAllButton';
 import CustomTagInput from './CustomTagInput';
 import MyMovieList from './MyMovieList';
-import LoadButton from './LoadButton';
+// import LoadButton from './LoadButton';
 
 const MyMovies = () => {
   return (
@@ -16,7 +16,7 @@ const MyMovies = () => {
         </div>
         <CustomTagInput />
         <MyMovieList />
-        <LoadButton />
+        {/* <LoadButton /> */}
       </div>
   );
 };

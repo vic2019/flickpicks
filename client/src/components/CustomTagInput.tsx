@@ -6,21 +6,20 @@ import { AppState } from '../store';
 
 import { createTag } from '../store/my-movies/actions';
 import { ByTag } from '../store/my-movies/types';
-
+import { showError as showMessage } from '../store/app-level/actions';
 
 interface Props {
   createTag: any
   byTag: ByTag
+  showMessage: any
 }
 
 const CustomTagInput = ({
   createTag,
-  byTag
+  byTag,
+  showMessage,
 }: Props) => {
   const [text, setText] = useState('');
-  // const [duplicateError, setDuplicateError] = useState(false);
-
-  // const closeDuplicateError = () => setDuplicateError(false);
 
   const handleChange = (e: any) => {
     setText(e.target.value);
@@ -29,18 +28,15 @@ const CustomTagInput = ({
   const submit = (e: any) => {
     e.preventDefault();
 
-    // Checking for duplicate should be done by the server
-    // If duplicate, server will returns error msg and the error component will 
-    // relay that msg to user through a snackbar
-
     for (let tag of Object.keys(byTag)) {
       if (text === tag) {
-        // setDuplicateError(true);
+        showMessage(`The tag "${text}" already exists.`);
         return;
       }    
     }
 
     createTag(text);
+    showMessage(`New tag created: "${text}"`);
     setText('');
   }
   
@@ -58,24 +54,6 @@ const CustomTagInput = ({
           onChange={handleChange}
         />
       </form>
-      {/* <Snackbar
-        anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: 'left',
-        }}
-        open={duplicateError}
-        autoHideDuration={2200}
-        onClose={closeDuplicateError}
-      >
-        <SnackbarContent
-          message={
-            <span style={{ display: 'flex', alignItems: 'center' }}>
-              <Error />
-              <span>{`Error: The tag "${text}" already exists.`}</span>
-            </span>
-          }
-        />
-      </Snackbar> */}
     </>
   )
 };
@@ -86,5 +64,5 @@ const mapStateToProps = (state: AppState) => ({
 
 export default connect(
   mapStateToProps,
-  { createTag }
+  { createTag, showMessage }
 )(CustomTagInput);
