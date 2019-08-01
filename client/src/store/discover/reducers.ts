@@ -99,7 +99,7 @@ const initialState: Discover = {
     'original_title.des'
   ],
   movies: [],
-  page: -1,
+  page: 1,
   totalPages: -1
 }
 

@@ -10,31 +10,20 @@ import { AppState } from '../store';
 import { Movie } from '../store/discover/types';
 import { updateDiscover } from '../store/discover/actions';
 
-import { ById } from '../store/my-movies/types';
-import { addMovie, deleteMovie } from '../store/my-movies/actions';
-
 interface Props {
-  byId: ById
   movies: Movie[]
   page: number
   totalPages: number
   updateDiscover: any
-  addMovie: any
-  deleteMovie: any
 }
 
 const Discover = ({ 
-  byId, movies, page, totalPages, updateDiscover, addMovie, deleteMovie
+  movies, page, totalPages, updateDiscover
 }: Props) => {
   return (
     <div className='Discover'>
       <DiscoverInput />
-      <MovieList 
-        byId={byId} 
-        movies={movies} 
-        addMovie={addMovie} 
-        deleteMovie={deleteMovie} 
-      />
+      <MovieList movies={movies} />
       <Pagination 
         pathname='/discover'
         page={page} 
@@ -54,5 +43,5 @@ const mapStateToProps = (state: AppState) => ({
 
 export default connect(
   mapStateToProps,
-  { updateDiscover, addMovie, deleteMovie }
+  { updateDiscover }
 )(Discover);

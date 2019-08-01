@@ -5,8 +5,12 @@ import StarBorder from '@material-ui/icons/StarBorder';
 
 import { Link } from 'react-router-dom';
 
-import { Movie } from '../store/search/types';
+import { connect } from 'react-redux';
+import { AppState } from '../store';
+
+import { addMovie, deleteMovie } from '../store/my-movies/actions';
 import { ById } from '../store/my-movies/types';
+import { Movie } from '../store/search/types';
 
 import Divider from './Divider';
 import shrug from '../images/shrug.png';
@@ -15,15 +19,17 @@ import { img500BaseUrl } from '../config';
 const checkboxStyle = { padding: '0 0 3px 2px' };
 
 interface Props {
-  byId: ById
   movies: Movie[]
+  byId: ById
+  waiting: boolean
   addMovie: any
   deleteMovie: any
 }
 
 const MovieList = ({
-  byId,
   movies,
+  byId,
+  waiting,
   addMovie,
   deleteMovie
 }: Props) => {
@@ -44,7 +50,7 @@ const MovieList = ({
 
   return (
     <>
-      {movies.map(movie => (
+      {waiting? null: movies.map(movie => (
         <div className='discover-movie-card'>
           <div key={movie.id}>
             <Link to={`/movie/${movie.id}`} >
@@ -94,4 +100,10 @@ const MovieList = ({
   )
 };
 
-export default MovieList;
+export default connect(
+  (state: AppState) => ({
+    byId: state.myMovies.byId,
+    waiting: state.appLevel.waiting
+  }),
+  { addMovie, deleteMovie }
+)(MovieList);

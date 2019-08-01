@@ -7,31 +7,21 @@ import { connect } from 'react-redux';
 import { AppState } from '../store';
 
 import { Movie } from '../store/search/types';
-import { ById } from '../store/my-movies/types';
 import { updateSearch } from '../store/search/actions';
-import { addMovie, deleteMovie } from '../store/my-movies/actions';
 
 interface Props {
-  byId: ById
   movies: Movie[]
   page: number
   totalPages: number
   updateSearch: any
-  addMovie: any
-  deleteMovie: any
 }
 
 const Search = ({ 
-  byId, movies, page, totalPages, updateSearch, addMovie, deleteMovie
+  movies, page, totalPages, updateSearch
 }: Props) => {
   return (
     <div className='Discover'>
-      <MovieList 
-        byId={byId} 
-        movies={movies} 
-        addMovie={addMovie} 
-        deleteMovie={deleteMovie} 
-      />
+      <MovieList movies={movies} />
       <Pagination
         pathname='/search' 
         page={page} 
@@ -51,5 +41,5 @@ const mapStateToProps = (state: AppState) => ({
 
 export default connect(
   mapStateToProps,
-  { updateSearch, addMovie, deleteMovie }
+  { updateSearch }
 )(Search);

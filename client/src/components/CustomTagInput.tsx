@@ -36,7 +36,7 @@ const CustomTagInput = ({
     }
 
     createTag(text);
-    showMessage(`New tag created: "${text}"`);
+    showMessage(`Created tag "${text}"`);
     setText('');
   }
   
