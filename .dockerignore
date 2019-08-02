@@ -1,5 +1,13 @@
 node_modules
 npm-debug.log
+.babelrc
+.dockerignore
+.gitignore
 
-/client/node_modules
-/client/npm-debug.log
+client/node_modules
+client/public
+client/src
+client/package.json
+client/package-lock.json
+client/README.md
+client/tsconfig.json

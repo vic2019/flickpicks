@@ -1,11 +1,15 @@
 FROM node:10.16.0
 
-WORKDIR /flickpicks
+WORKDIR /app
 
-COPY . /flickpicks
+COPY package*.json /app/
 
-RUN npm install; npm run client-install; npm run build -prefix client
+RUN npm install --production
+
+COPY . /app
 
 EXPOSE 3009
+
+ENV NODE_ENV production
 
 CMD ["node", "server.js"]
