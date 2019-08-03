@@ -18,7 +18,7 @@ export interface Movie {
 }
 
 export interface Set {
-  [key: string]: boolean
+  [key: string]: string
 }
 
 export interface ById {

@@ -30,14 +30,16 @@ const FilterSelector = ({
   deleteTag 
 }: Props)  => {
   const init = () => Object.assign({}, ...Object.keys(byTag).map(tag => ({
-    [tag]: Boolean(filters[tag]) 
+    [tag]: Boolean(filters[tag])? tag: ''
   })));
 
   const reducer = (checks: Set, action: CheckAction ): Set => {
     switch (action.type) {
       case 'toggle':
-        return action.tag? 
-          { ...checks, ...{ [action.tag] : !checks[action.tag] } }: checks;
+        return action.tag !== undefined? {
+          ...checks,
+          [action.tag]: checks[action.tag]? '': action.tag
+        }: checks;
       case 'toAll':
         return Object.assign({}, ...Object.keys(checks).map(tag => ({ 
           [tag]: true
@@ -97,7 +99,7 @@ const FilterSelector = ({
         {Object.keys(byTag).map(tag => (
           <ListItem button onClick={toggleCheckbox(tag)}>
             <ListItemIcon>
-              <Checkbox color='primary' checked={checks[tag]} />
+              <Checkbox color='primary' checked={Boolean(checks[tag])} />
             </ListItemIcon>
             <ListItemText primary={tag} />
             <ListItemSecondaryAction>

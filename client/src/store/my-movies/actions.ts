@@ -34,7 +34,7 @@ export const setTags = (
   });
 
   const newTags: Set = Object.assign({}, ...Object.keys(tags).map(tag => (
-    tags[tag]? { [tag]: true }: {} 
+    tags[tag]? { [tag]: tag }: {} 
   )));
 
   new Promise(resolve => resolve())
@@ -111,7 +111,7 @@ export const setFilters = (
 ) => {
   const byTag: ByTag = getState().myMovies.byTag;
   const newFilters: Set = Object.assign({}, ...Object.keys(filters).map(tag => (
-    byTag[tag]? filters[tag]? { [tag]: true }: {}: {}
+    byTag[tag]? filters[tag]? { [tag]: tag }: {}: {}
   )));
 
   dispatch({

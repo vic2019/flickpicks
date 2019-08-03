@@ -142,7 +142,7 @@ const byTagReducer = (
     case SET_TAGS:
       const tagArray_setTags: ByTag[] = Object.keys(byTag).map(tag => {
         const newSet: Set = Object.assign({}, byTag[tag], { 
-          [action.movie.id]: true
+          [action.movie.id]: action.movie.id
         });
         if (!action.tags[tag]) delete newSet[action.movie.id];          
         return { [tag]: newSet };
@@ -153,7 +153,7 @@ const byTagReducer = (
     case ADD_MOVIE:
         return Object.assign({}, byTag, {
           "To Watch": Object.assign({}, byTag["To Watch"], { 
-            [action.movie.id]: true
+            [action.movie.id]: action.movie.id
           })
         });
     case DELETE_TAG:

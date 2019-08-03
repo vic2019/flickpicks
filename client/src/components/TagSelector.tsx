@@ -30,7 +30,7 @@ const TagSelector = ({
   const init = () => Object.keys(byTag).reduce((acc, tag) => ({
     ...acc, 
     ...{ 
-      [tag]: Boolean(byTag[tag][movie.id]) 
+      [tag]: byTag[tag][movie.id]? movie.id: ''
     } 
   }), {});
 
@@ -38,7 +38,7 @@ const TagSelector = ({
     switch (action.type) {
       case 'toggle':
         return action.tag? 
-          { ...checks, ...{ [action.tag] : !checks[action.tag] } }: checks;
+          { ...checks, ...{ [action.tag]: checks[action.tag]? '': action.tag } }: checks;
       case 'reset':
         return init();
       default:
@@ -90,7 +90,7 @@ const TagSelector = ({
         {Object.keys(byTag).map(tag => (
           <ListItem button onClick={toggleCheckbox(tag)}>
             <ListItemIcon>
-              <Checkbox color='primary' checked={checks[tag]} />
+              <Checkbox color='primary' checked={Boolean(checks[tag])} />
             </ListItemIcon>
             <ListItemText primary={tag} />
           </ListItem> 
