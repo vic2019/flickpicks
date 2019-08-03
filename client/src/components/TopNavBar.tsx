@@ -42,7 +42,7 @@ export default function TopNavBar() {
           />
           <Typography>
             <NavLink to='/mymovies' activeClassName='active-link'>
-              MyMovies
+              My Movies
               </NavLink>
             <span className='breadcrumb-divider'>/</span>
             <NavLink to='/discover' activeClassName='active-link'>

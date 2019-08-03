@@ -49,17 +49,24 @@ const SearchBar = ({ query, updateSearch }: Props) => {
     updateSearch({ query: text.trim() });
   }
 
+  const handleSubmit = (e: any) => {
+    e.preventDefault();
+    handleClick();
+
+    const linkToResults = document.getElementById('searchbar-submit-link');
+    if (linkToResults && linkToResults.click) linkToResults.click();
+  };
+
   return (
+      <form onSubmit={handleSubmit}>
     <Paper className={classes.root}>
       <InputBase
         className={classes.input}
         placeholder='Search Movie Title'
-        inputProps={{ 'aria-label': 'Search Movie Title' }}
         value={text}
         onChange={handleChange}
-        onSubmit={handleClick}
       />
-      <Link to={'/search'} >
+      <Link to={'/search'} id='searchbar-submit-link'>
         <IconButton 
           className={classes.iconButton} 
           aria-label="Search"
@@ -69,6 +76,7 @@ const SearchBar = ({ query, updateSearch }: Props) => {
         </IconButton>
       </Link>
     </Paper>
+      </form>
   );
 }
 
