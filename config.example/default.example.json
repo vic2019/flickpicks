@@ -1,0 +1,11 @@
+{
+  "server": {
+    "apiKey": "",
+    "discoverBaseUrl": "",
+    "searchBaseUrl": "",
+    "movieBaseUrl": "",
+    "host": "localhost",
+    "port": "",
+    "origin": "*"
+  }
+}
