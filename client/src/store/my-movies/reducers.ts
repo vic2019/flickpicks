@@ -14,6 +14,7 @@ import {
   SHOW_ALL,
   ADD_MOVIE,
   DELETE_MOVIE,
+  INIT_MYMOVIES
 } from './types';
 
 
@@ -129,6 +130,8 @@ const byIdReducer = (
       const newById = Object.assign({}, byId);
       delete newById[action.movie.id];
       return newById;
+    case INIT_MYMOVIES:
+      return action.payload.byId;
     default:
       return  byId;
   }
@@ -166,7 +169,9 @@ const byTagReducer = (
         delete newSet[action.movie.id];
         return { [tag]: newSet };
       });
-      return Object.assign({}, ...tagArray_deleteMovie);    
+      return Object.assign({}, ...tagArray_deleteMovie); 
+    case INIT_MYMOVIES:
+        return action.payload.byTag;   
     default:
       return byTag;
   }
@@ -181,6 +186,8 @@ const allIdsReducer = (
         return [...allIds, action.movie.id];
     case DELETE_MOVIE:
       return allIds.filter(id => id !== action.movie.id);
+    case INIT_MYMOVIES:
+        return action.payload.allIds;
     default:
       return allIds;
   }

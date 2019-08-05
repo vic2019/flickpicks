@@ -31,7 +31,7 @@ router.get('/', (req, res) => {
               { totalPages: data.total_pages},
               { movies: data.results.map(movie => {
                   return {
-                    id: movie.id,
+                    id: String(movie.id),
                     title: movie.title,
                     image: (movie.backdrop_path === null)? '':
                       movie.backdrop_path,

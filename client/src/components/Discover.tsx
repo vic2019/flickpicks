@@ -10,15 +10,18 @@ import { AppState } from '../store';
 import { Movie } from '../store/discover/types';
 import { updateDiscover } from '../store/discover/actions';
 
+import { initMyMovies } from '../store/my-movies/actions';
+
 interface Props {
   movies: Movie[]
   page: number
   totalPages: number
   updateDiscover: any
+  initMyMovies: any
 }
 
 const Discover = ({ 
-  movies, page, totalPages, updateDiscover
+  movies, page, totalPages, updateDiscover, initMyMovies
 }: Props) => {
   return (
     <div className='Discover'>
@@ -43,5 +46,5 @@ const mapStateToProps = (state: AppState) => ({
 
 export default connect(
   mapStateToProps,
-  { updateDiscover }
+  { updateDiscover, initMyMovies }
 )(Discover);

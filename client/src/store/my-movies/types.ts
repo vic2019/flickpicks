@@ -7,8 +7,8 @@ export const SET_FILTERS = 'SET_FILTERs';
 export const SHOW_ALL = 'SHOW_ALL';
 export const ADD_MOVIE = 'ADD_MOVIE'
 export const DELETE_MOVIE = 'DELETE_MOVIE';
-export const UNDO_DELETE = 'UNDO_DELETE';
-export const ERROR = 'ERROR';
+// export const UNDO_DELETE = 'UNDO_DELETE';
+export const INIT_MYMOVIES = 'INIT_MYMOVIES';
 
 export interface Movie {
   id: string
@@ -69,9 +69,18 @@ interface DeleteMovieAction {
   movie: Movie
 };
 
-interface UndoDeleteAction {
-  type: typeof UNDO_DELETE
+// interface UndoDeleteAction {
+//   type: typeof UNDO_DELETE
+// }
+
+interface initMyMoviesAction {
+  type: typeof INIT_MYMOVIES,
+  payload: {
+    byId: ById
+    byTag: ByTag
+    allIds: string[]
+  }
 }
 
 export type MyMoviesActionTypes = 
-  SetTagsAction | ModifyTagAction | SetFiltersAction | ShowAllAction | AddMovieAction | DeleteMovieAction | UndoDeleteAction | AppLevelActionTypes;
+  SetTagsAction | ModifyTagAction | SetFiltersAction | ShowAllAction | AddMovieAction | DeleteMovieAction | AppLevelActionTypes | initMyMoviesAction;

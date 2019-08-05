@@ -1,10 +1,14 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { ThemeProvider } from '@material-ui/styles';
 import pink from '@material-ui/core/colors/pink';
 import cyan from '@material-ui/core/colors/cyan';
 import  createMuiTheme, { ThemeOptions } 
   from '@material-ui/core/styles/createMuiTheme'
+
+import { connect } from 'react-redux';
+
+import { initMyMovies } from './store/my-movies/actions'; 
 
 import { BrowserRouter as Router, Route, Redirect, Switch } 
   from 'react-router-dom';
@@ -30,7 +34,11 @@ const themeOptions: ThemeOptions = {
 
 const theme = createMuiTheme(themeOptions);
 
-export default function App() {
+function App(props: any) {
+  useEffect(() => {
+    props.initMyMovies();
+  }, []);
+
   return (
     <Router>
         <ScrollToTop>
@@ -82,3 +90,8 @@ export default function App() {
     </Router>
   );
 }
+
+export default connect(
+  () => ({}),
+  { initMyMovies }
+)(App);

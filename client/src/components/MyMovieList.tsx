@@ -42,5 +42,5 @@ const mapStateToProps = (state: AppState) => ({
 });
 
 export default connect(
-  mapStateToProps,
+  mapStateToProps
 )(MovieList);

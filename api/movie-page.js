@@ -32,7 +32,7 @@ router.get("/", (req, res) => {
             const results = Object.assign({},
               { notFound: false },
               { backdrop: data.backdrop_path? data.backdrop_path: '' },
-              { id: data.id},
+              { id: String(data.id)},
               { overview: data.overview },
               { poster: data.poster_path? data.poster_path: '' },
               { releaseDate: data.release_date },
@@ -59,7 +59,7 @@ router.get("/", (req, res) => {
               { recommendations: data.recommendations.results.slice(0, 8)
                   .map(movie => {
                     return {
-                      id: movie.id,
+                      id: String(movie.id),
                       title: movie.title,
                       image: movie.backdrop_path
                     }
