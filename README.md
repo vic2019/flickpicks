@@ -25,6 +25,8 @@ See a live [demo](http://flickpicks.victorwang.info).
 * Node.js/Epress
 * Docker
 
+This project uses [The Movie DB API](https://www.themoviedb.org/documentation/api). 
+
 ## Installation
 
 Clone to your local machine:
