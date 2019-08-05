@@ -41,6 +41,7 @@ const SearchBar = ({ query, updateSearch }: Props) => {
   const classes = useStyles();
   const [text, set] = useState(query);
 
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     set(e.target.value as string);
   }
@@ -53,30 +54,34 @@ const SearchBar = ({ query, updateSearch }: Props) => {
     e.preventDefault();
     handleClick();
 
+    const inputElem = document.getElementById('searchbar-input-base');
+    if (inputElem) inputElem.blur();
+
     const linkToResults = document.getElementById('searchbar-submit-link');
-    if (linkToResults && linkToResults.click) linkToResults.click();
+    if (linkToResults) linkToResults.click();
   };
 
   return (
-      <form onSubmit={handleSubmit}>
-    <Paper className={classes.root}>
-      <InputBase
-        className={classes.input}
-        placeholder='Search Movie Title'
-        value={text}
-        onChange={handleChange}
-      />
-      <Link to={'/search'} id='searchbar-submit-link'>
-        <IconButton 
-          className={classes.iconButton} 
-          aria-label="Search"
-          onClick={handleClick}
-        >
-          <SearchIcon />
-        </IconButton>
-      </Link>
-    </Paper>
-      </form>
+    <form onSubmit={handleSubmit}>
+      <Paper className={classes.root}>
+        <InputBase
+          className={classes.input}
+          id='searchbar-input-base'
+          placeholder='Search Movie Title'
+          value={text}
+          onChange={handleChange}
+        />
+        <Link to={'/search'} id='searchbar-submit-link'>
+          <IconButton
+            className={classes.iconButton}
+            aria-label="Search"
+            onClick={handleClick}
+          >
+            <SearchIcon />
+          </IconButton>
+        </Link>
+      </Paper>
+    </form>
   );
 }
 

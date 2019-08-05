@@ -41,52 +41,52 @@ function App(props: any) {
 
   return (
     <Router>
-        <ScrollToTop>
-      <ThemeProvider theme={theme} >
+      <ScrollToTop>
+        <ThemeProvider theme={theme} >
         {/* CssBaseLine must be inside ThemeProvider to enable 'dark' theme */}
-        <CssBaseline />
-        <TopNavBar />
-        <Notification />
-        <Switch>
-          <Route
-            key='MyMovies'
-            path='/mymovies'
-            exact={false}
-            component={MyMovies}
-          />
-          <Route
-            key='Discover'
-            path='/discover'
-            exact={false}
-            component={Discover}
-          />
-          <Route
-            key='Search'
-            path='/search'
-            exact={false}
-            component={Search}
-          />
-          <Route
-            key='Friends'
-            path='/friends'
-            exact={false}
-          />
-          <Route
-            key='Movie'
-            path='/movie/*'
-            exact={true}
-            component={MoviePage}
-          />
-          <Redirect exact from="/" to="/discover" />
-          <Route
-            key='NotFound'
-            path='/*'
-            exact={false}
-            component={NotFound}
-          />
-        </Switch>
-      </ThemeProvider>
-        </ScrollToTop>
+          <CssBaseline />
+          <TopNavBar />
+          <Notification />
+          <Switch>
+            <Route
+              key='MyMovies'
+              path='/mymovies'
+              exact={false}
+              component={MyMovies}
+            />
+            <Route
+              key='Discover'
+              path='/discover'
+              exact={false}
+              component={Discover}
+            />
+            <Route
+              key='Search'
+              path='/search'
+              exact={false}
+              component={Search}
+            />
+            <Route
+              key='Friends'
+              path='/friends'
+              exact={false}
+            />
+            <Route
+              key='Movie'
+              path='/movie/*'
+              exact={true}
+              component={MoviePage}
+            />
+            <Redirect exact from="/" to="/discover" />
+            <Route
+              key='NotFound'
+              path='/*'
+              exact={false}
+              component={NotFound}
+            />
+          </Switch>
+        </ThemeProvider>
+      </ScrollToTop>
     </Router>
   );
 }
