@@ -4,6 +4,8 @@ FlickPicks is a responsive web app that allows users to search movies by title, 
 
 Users can save movies, categorize them, and filter saved movies by categories.
 
+<br />
+
 <img
   src='https://victorwang.info/static/media/flickpicks.89afcaa1.png'
   alt=''
@@ -37,4 +39,4 @@ Supply your own config files as `/config/default.json` and `/client/src/config.j
 
 `npm run dev`
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app). Please refer its documentation for more information.
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app). Please refer to its documentation for more information.
