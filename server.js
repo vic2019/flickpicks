@@ -13,7 +13,8 @@ const origin = config.get('server').origin;
 app.use(cors({ origin }));
 
 app.use((req, res, next) => {
-  if (req.header('x-forwarded-proto') !== 'https') {
+  if (req.header('x-forwarded-proto') !== 'https' &&
+    req.headers['user-agent'] !== 'ELB-HealthChecker') {
     res.redirect('https://' + req.headers.host + req.url);
   } else {
     next();
