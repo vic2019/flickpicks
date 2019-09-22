@@ -12,9 +12,11 @@ const origin = config.get('server').origin;
 
 app.use(cors({ origin }));
 
-app.use((req, res) => {
-  if (req.protocol === 'http') {
+app.use((req, res, next) => {
+  if (req.header('x-forwarded-proto') !== 'https') {
     res.redirect('https://' + req.headers.host + req.url);
+  } else {
+    next();
   }
 });
 
