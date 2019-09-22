@@ -12,6 +12,12 @@ const origin = config.get('server').origin;
 
 app.use(cors({ origin }));
 
+app.use((req, res) => {
+  if (req.protocol === 'http') {
+    res.redirect('https://' + req.headers.host + req.url);
+  }
+});
+
 app.use('/api/discover', require('./api/discover'));
 app.use('/api/movie', require('./api/movie-page'));
 app.use('/api/search', require('./api/search'));
