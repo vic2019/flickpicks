@@ -7,14 +7,17 @@ const path = require('path');
 
 const app = express();
 
-const origin = config.get('server').origin;
 // Remember to include the protocal. Pay attention to http vs https.
+const origin = config.get('server').origin;
 
 app.use(cors({ origin }));
 
+app.get('/healthcheck', (req, res) => {
+  res.sendStatus(200);
+});
+
 app.use((req, res, next) => {
-  if (req.header('x-forwarded-proto') !== 'https' &&
-    req.headers['user-agent'] !== 'ELB-HealthChecker') {
+  if (req.header('x-forwarded-proto') !== 'https') {
     res.redirect('https://' + req.headers.host + req.url);
   } else {
     next();

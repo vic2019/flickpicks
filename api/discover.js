@@ -42,8 +42,7 @@ router.get('/', (req, res) => {
               }
             );
       
-            res.set('content-type', 'application/json');
-            res.send(results);
+            res.json(results);
           } catch(err) {
             res.status(500).end();
             console.log(err.message);
