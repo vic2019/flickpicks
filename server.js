@@ -12,9 +12,9 @@ const origin = config.get('server').origin;
 
 app.use(cors({ origin }));
 
-app.use('/1/discover', require('./api/discover'));
-app.use('/1/movie', require('./api/movie-page'));
-app.use('/1/search', require('./api/search'));
+app.use('/api/discover', require('./api/discover'));
+app.use('/api/movie', require('./api/movie-page'));
+app.use('/api/search', require('./api/search'));
 
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, 'client/build')));
