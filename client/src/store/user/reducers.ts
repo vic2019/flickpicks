@@ -1,14 +1,11 @@
 import {
   LOG_IN,
   LOG_OUT,
-  WILL_REDIRECT_TO_AUTH_UI,
   User,
   UserActionTypes
 } from './types';
 
 const initialState: User = {
-  returningFromRedirect: false,
-  isLoggedIn: false,
   token: '',
   email: ''
 }
@@ -22,7 +19,6 @@ export const userReducer = (
       return {
         ...user,
         ...action.payload,
-        isLoggedIn: true
       }
     case LOG_OUT:
       return {

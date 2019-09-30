@@ -20,8 +20,16 @@ const useStyles = makeStyles({
   }
 })
 
-export default function TopNavBar() {
+interface Props {
+  userAction: any,
+  email: string
+}
+
+export default function TopNavBar({ userAction, email }: Props) {
   const classes = useStyles();
+  const handleClick = () => {
+    userAction();
+  };
 
   return (
     <>
@@ -56,7 +64,9 @@ export default function TopNavBar() {
             {/* ^^^ This part will be expanded upon in the future */}
 
           </Typography>
-          <span style={{ width: '40px' }}></span> 
+          <span onClick={handleClick}>
+            {email? `Logout from ${email.slice(0, 5)}..`: 'Login'}
+          </span> 
           {/* ^^^This is to make the flex-box 'space-between' work */}
         </Toolbar>
         <SearchBar />

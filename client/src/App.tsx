@@ -9,6 +9,9 @@ import  createMuiTheme, { ThemeOptions }
 import { connect } from 'react-redux';
 
 import { initMyMovies } from './store/my-movies/actions'; 
+import { getSession, checkLoginStatus, logOut } from './store/user/actions'; 
+import { User } from './store/user/types'; 
+import { AppState } from './store';
 
 import { BrowserRouter as Router, Route, Redirect, Switch } 
   from 'react-router-dom';
@@ -21,8 +24,8 @@ import Search from './components/Search';
 import Notification from './components/Notification';
 import NotFound from './components/NotFound';
 import ScrollToTop from './components/ScrollToTop';
-import './App.scss';
 
+import './App.scss';
 
 const themeOptions: ThemeOptions = {
   palette: {
@@ -34,10 +37,25 @@ const themeOptions: ThemeOptions = {
 
 const theme = createMuiTheme(themeOptions);
 
-function App(props: any) {
+interface Props {
+  user: User
+  initMyMovies: any
+  getSession: any
+  checkLoginStatus: any
+  logOut: any
+}
+
+function App({
+  user, initMyMovies, getSession, checkLoginStatus, logOut
+}: Props) {
   useEffect(() => {
-    props.initMyMovies();
+    checkLoginStatus();
   }, []);
+
+  // useEffect(() => {
+  //   // initMyMovies();
+  //   alert(`isLoggedIn: ${user.isLoggedIn}`);
+  // }, [user.isLoggedIn]);
 
   return (
     <Router>
@@ -45,7 +63,10 @@ function App(props: any) {
         <ThemeProvider theme={theme} >
         {/* CssBaseLine must be inside ThemeProvider to enable 'dark' theme */}
           <CssBaseline />
-          <TopNavBar />
+          <TopNavBar 
+            userAction={user.token? logOut: getSession} 
+            email={user.email}
+          />
           <Notification />
           <Switch>
             <Route
@@ -92,6 +113,6 @@ function App(props: any) {
 }
 
 export default connect(
-  () => ({}),
-  { initMyMovies }
+  (state: AppState) => ({ user: state.user }),
+  { initMyMovies, getSession, checkLoginStatus, logOut }
 )(App);
