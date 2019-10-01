@@ -8,7 +8,7 @@ import  createMuiTheme, { ThemeOptions }
 
 import { connect } from 'react-redux';
 
-import { initMyMovies } from './store/my-movies/actions'; 
+// import { initMyMovies } from './store/my-movies/actions'; 
 import { getSession, checkLoginStatus, logOut } from './store/user/actions'; 
 import { User } from './store/user/types'; 
 import { AppState } from './store';
@@ -39,23 +39,22 @@ const theme = createMuiTheme(themeOptions);
 
 interface Props {
   user: User
-  initMyMovies: any
+  // initMyMovies: any
   getSession: any
   checkLoginStatus: any
   logOut: any
 }
 
 function App({
-  user, initMyMovies, getSession, checkLoginStatus, logOut
+  user, getSession, checkLoginStatus, logOut
 }: Props) {
   useEffect(() => {
     checkLoginStatus();
   }, []);
 
   // useEffect(() => {
-  //   // initMyMovies();
-  //   alert(`isLoggedIn: ${user.isLoggedIn}`);
-  // }, [user.isLoggedIn]);
+  //   initMyMovies();
+  // }, []);
 
   return (
     <Router>
@@ -114,5 +113,5 @@ function App({
 
 export default connect(
   (state: AppState) => ({ user: state.user }),
-  { initMyMovies, getSession, checkLoginStatus, logOut }
+  { getSession, checkLoginStatus, logOut }
 )(App);

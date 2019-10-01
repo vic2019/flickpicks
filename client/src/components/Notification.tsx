@@ -25,7 +25,7 @@ const Notification = ({
         horizontal: 'left',
       }}
       open={error}
-      autoHideDuration={4000}
+      autoHideDuration={3000}
       onClose={handleClose}
       message={<span className='notification-text'>{errorMsg}</span>}
       action={

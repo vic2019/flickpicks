@@ -110,12 +110,10 @@ export default function TopNavBar({ userAction, email }: Props) {
               >
                 {email? 'Log out': 'Log in'}
               </Button>
-            </ListItem>
-            {email? 
-              <ListItem><span style={{ overflow: 'hidden' }}>
-                {email}
-              </span></ListItem>:
-            null}
+            </ListItem> 
+            <ListItem><span style={{ overflow: 'hidden' }}>
+                {email? email: 'Log in to save your changes.'}
+            </span></ListItem>:
           </List>
         </div>
       </SwipeableDrawer>

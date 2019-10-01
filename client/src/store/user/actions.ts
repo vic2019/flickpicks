@@ -1,25 +1,21 @@
 import axios from 'axios';
-import { HOST, authData } from '../../config';
+import { myMoviesEndpoint, authData } from '../../config';
 
 import { ThunkAction } from 'redux-thunk';
 
 import {
   LOG_IN,
   LOG_OUT,
-  User,
   UserActionTypes
 } from './types';
 
 import {
-  SHOW_WAITING,
-  HIDE_WAITING,
   SHOW_ERROR
 } from '../app-level/types';
 
 import {
-  showError,
-  hideError
-} from '../app-level/actions';
+  INIT_MYMOVIES
+} from '../my-movies/types';
 
 import { AppState } from '../index';
 
@@ -27,7 +23,35 @@ import { CognitoAuth } from 'amazon-cognito-auth-js';
 
 const auth = new CognitoAuth(authData);
 
-export const getSession = (): ThunkAction<void, AppState, null, UserActionTypes> => (
+const loadMyMovies = (dispatch: any, token: string) => {
+  axios.get(myMoviesEndpoint, {
+    headers: {
+      Authorization: token
+    }
+  })
+  .then(res => {
+    const { byId, byTag, allIds } = res.data.Item;
+    if (!byId || !byTag || !allIds) throw Error();
+
+    dispatch({
+      type: INIT_MYMOVIES,
+      payload: {
+        byId,
+        byTag,
+        allIds
+      }
+    });
+  })
+  .catch(err => {
+    dispatch({
+      type: SHOW_ERROR,
+      msg: 'Unable to load user data. Please try again later.'
+    });
+  });
+};
+
+export const getSession = (): 
+ThunkAction<void, AppState, null, UserActionTypes> => (
   _, getState
 ) => {
   const appState: AppState  = getState();
@@ -48,8 +72,7 @@ export const checkLoginStatus = (): ThunkAction<void, any, null, UserActionTypes
   console.log(appState);
 
   if (!wasRedirected) {
-    // window.location.hash = '';
-    window.history.replaceState({}, '', 'http://localhost:3000/discover');
+    window.history.replaceState({}, '', 'https://flickpicks.victorwang.info/discover');
     checkTokenInMemory();
     return;
   }
@@ -58,12 +81,20 @@ export const checkLoginStatus = (): ThunkAction<void, any, null, UserActionTypes
   const hash = window.location.hash;
   const matches = hash.match(/id_token=([\w.-]*)&?/);
   const token = matches? matches[1]: '';
-  window.history.replaceState({}, '', 'http://localhost:3000/');
+  window.history.replaceState({}, '', 'https://flickpicks.victorwang.info');
 
   if (!token){
-    // logOut()
-    showError('Unable to log in at this moment. Please try again later.');
-    setTimeout(hideError, 3000);
+    dispatch({
+      type: SHOW_ERROR,
+      msg: 'Unable to log in at this moment. Please try again later.'
+    });
+    setTimeout(() => {
+      localStorage.clear();
+      dispatch({
+        type: LOG_OUT
+      });
+      auth.signOut();
+    }, 2500);
     return;
   }
 
@@ -77,9 +108,9 @@ export const checkLoginStatus = (): ThunkAction<void, any, null, UserActionTypes
       email
     }
   });
-  localStorage.setItem('token', token);
 
-  // loadData
+  localStorage.setItem('token', token);
+  loadMyMovies(dispatch, token);
 
   function checkTokenInMemory() {
     const token: string | null = localStorage.getItem('token');
@@ -95,8 +126,6 @@ export const checkLoginStatus = (): ThunkAction<void, any, null, UserActionTypes
       return;
     }
   
-    // Validate against backend
-  
     dispatch({
       type: LOG_IN,
       payload: {
@@ -104,9 +133,10 @@ export const checkLoginStatus = (): ThunkAction<void, any, null, UserActionTypes
         email: email,
       }
     });
-    localStorage.setItem('token', token);
 
-    // loadData
+    loadMyMovies(dispatch, token);
+
+    return;
   }
 };
 
@@ -119,4 +149,3 @@ export const logOut = (): ThunkAction<void, any, null, UserActionTypes> => (
   });
   auth.signOut();
 };
-
