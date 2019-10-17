@@ -75,7 +75,7 @@ export default function TopNavBar({ userAction, email }: Props) {
             {/* ^ This part will be expanded upon in the future */}
 
           </Typography>
-          <span />
+          <span style={{ width: '42px' }}/>
           {/* ^This is to make the flex-box 'space-between' work */}
         </Toolbar>
         <SearchBar />
@@ -113,7 +113,7 @@ export default function TopNavBar({ userAction, email }: Props) {
             </ListItem> 
             <ListItem><span style={{ overflow: 'hidden' }}>
                 {email? email: 'Log in to save your changes.'}
-            </span></ListItem>:
+            </span></ListItem>
           </List>
         </div>
       </SwipeableDrawer>

@@ -12,14 +12,15 @@ const origin = config.get('server').origin;
 
 app.use(cors({ origin }));
 
+
+app.get('/healthcheck', (req, res) => {
+  res.sendStatus(200);
+});
+
 if (process.env.NODE_ENV === 'production') {
-  app.get('/healthcheck', (req, res) => {
-    res.sendStatus(200);
-  });
-  
   app.use((req, res, next) => {
     if (req.header('x-forwarded-proto') !== 'https') {
-      res.redirect('https://' + req.headers.host + req.url);
+      res.redirect(origin + '/discover');
     } else {
       next();
     }
