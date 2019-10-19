@@ -11,8 +11,6 @@ Users can save movies, categorize them, and filter saved movies by categories.
   alt=''
 />
 
-This project is a work in progress. It currently uses the browser's local storage, so please be aware that saved movies are viewable to anyone who has access to the computer. User authentication and database will be added in the future.
-
 See a live [demo](http://flickpicks.victorwang.info).
 
 ## Tech Stack
@@ -24,6 +22,7 @@ See a live [demo](http://flickpicks.victorwang.info).
 * SCSS
 * Node.js/Epress
 * Docker
+* AWS DynamoDB, Cognito, API Gateway, Lambda
 
 This project uses [The Movie DB API](https://www.themoviedb.org/documentation/api). 
 
