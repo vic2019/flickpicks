@@ -11,7 +11,7 @@ Users can save movies, categorize them, and filter saved movies by categories.
   alt=''
 />
 
-See a live [demo](http://flickpicks.victorwang.info).
+See a live [demo](http://flickpicks.victorwang.info). (NOTE: The demo is currently down for maintenance.)
 
 ## Tech Stack
 
