@@ -37,6 +37,7 @@ interface Props {
   addMovie: any
   deleteMovie: any
   moviePage: MoviePageType
+  match: any
 }
 
 const MoviePage = ({ 
@@ -53,8 +54,10 @@ const MoviePage = ({
     cast,
     recommendations,
     videos 
-  }
+  },
+  match
 }: Props) => {
+  const { movieId } = match.params;
   const smlBaseUrl = img500BaseUrl;
   const respBaseUrl = useMediaQuery('(max-width: 500px)')?
     img500BaseUrl: imgOriginalBaseUrl;
@@ -87,15 +90,9 @@ const MoviePage = ({
     RecommendationCard(id, title, smlBaseUrl + image)
   ));
 
-  useEffect(() => {
-    const regexMatch = window.location.pathname.match(/(\d+)/);
-    if (!regexMatch) {
-      loadMovie();
-      return;
-    }
-    
-    loadMovie(Number(regexMatch[0]));
-  }, [window.location.pathname]); 
+  useEffect(() => {    
+    loadMovie(movieId);
+  }, [movieId, loadMovie]); 
   //^ The dependency cannot be an object 
   // (window.location won't work; has to be a string)
 

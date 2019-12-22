@@ -73,7 +73,7 @@ export const checkLoginStatus = (): ThunkAction<void, any, null, UserActionTypes
 
   if (!wasRedirected) {
     if (process.env.NODE_ENV === 'production') {
-      window.history.replaceState({}, '', 'https://flickpicks.victorwang.info/discover');
+      window.history.replaceState({}, '', 'https://flickpicks.victorwang.info');
     }
     checkTokenInMemory();
     return;
@@ -84,7 +84,7 @@ export const checkLoginStatus = (): ThunkAction<void, any, null, UserActionTypes
   const matches = hash.match(/id_token=([\w.-]*)&?/);
   const token = matches? matches[1]: '';
   if (process.env.NODE_ENV === 'production') {
-    window.history.replaceState({}, '', 'https://flickpicks.victorwang.info');
+    window.history.replaceState({}, '', `https://flickpicks.victorwang.info`);
   }
 
   if (!token){

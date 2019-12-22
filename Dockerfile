@@ -2,11 +2,11 @@ FROM node:10.16.0
 
 WORKDIR /app
 
-COPY package*.json /app/
+COPY package*.json server.js /app/
+COPY api/* /app/api/
+COPY config/* /app/config/
 
 RUN npm install --production
-
-COPY . /app
 
 EXPOSE 3009
 

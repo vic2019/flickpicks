@@ -52,6 +52,7 @@ function App({
     checkLoginStatus();
   }, []);
 
+  // // Disabled because not using localStorage
   // useEffect(() => {
   //   initMyMovies();
   // }, []);
@@ -93,16 +94,15 @@ function App({
             />
             <Route
               key='Movie'
-              path='/movie/*'
+              path='/movie/:movieId'
               exact={true}
               component={MoviePage}
             />
-            <Redirect exact from="/" to="/discover" />
             <Route
               key='NotFound'
               path='/*'
               exact={false}
-              component={NotFound}
+              component={Discover}
             />
           </Switch>
         </ThemeProvider>
