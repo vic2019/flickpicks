@@ -57,7 +57,9 @@ const MoviePage = ({
   },
   match
 }: Props) => {
-  const { movieId } = match.params;
+  let { movieId } = match.params;
+  movieId = movieId !== undefined? movieId.split('-')[0]: '';
+  
   const smlBaseUrl = img500BaseUrl;
   const respBaseUrl = useMediaQuery('(max-width: 500px)')?
     img500BaseUrl: imgOriginalBaseUrl;
