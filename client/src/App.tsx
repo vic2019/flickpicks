@@ -93,7 +93,7 @@ function App({
             />
             <Route
               key='Movie'
-              path='/movie/*'
+              path='/movie/:movieId'
               exact={true}
               component={MoviePage}
             />

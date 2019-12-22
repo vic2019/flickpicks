@@ -37,10 +37,11 @@ interface Props {
   addMovie: any
   deleteMovie: any
   moviePage: MoviePageType
+  match: any
 }
 
 const MoviePage = ({ 
-  byId, waiting, loadMovie, addMovie, deleteMovie, 
+  byId, waiting, loadMovie, addMovie, deleteMovie, match,
   moviePage: {
     notFound,
     id,
@@ -61,6 +62,9 @@ const MoviePage = ({
 
   const iconSize = useMediaQuery('(max-width: 800px)')?
     'small': 'large';
+
+  let { movieId } = match.params;
+  movieId = movieId !== undefined? movieId.split('-')[0]: '';
 
   const toggleAddMovie = () => {
     if(Boolean(byId[id])) {
@@ -88,14 +92,8 @@ const MoviePage = ({
   ));
 
   useEffect(() => {
-    const regexMatch = window.location.pathname.match(/(\d+)/);
-    if (!regexMatch) {
-      loadMovie();
-      return;
-    }
-    
-    loadMovie(Number(regexMatch[0]));
-  }, [window.location.pathname]); 
+    loadMovie(movieId);
+  }, [movieId]); 
   //^ The dependency cannot be an object 
   // (window.location won't work; has to be a string)
 
