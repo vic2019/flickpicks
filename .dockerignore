@@ -3,6 +3,9 @@ npm-debug.log
 .babelrc
 .dockerignore
 .gitignore
+README.md
+config.example
+Dockerfile
 
 client/node_modules
 client/public

@@ -31,28 +31,28 @@ import {
   AppState
 } from '../index';
 
-// import LocalStorage from '../localStorage/localStorage';
+import LocalStorage from '../localStorage/localStorage';
 
-// const localS = new LocalStorage();
+const localS = new LocalStorage();
 
 // Storing MyMovies in local storage
-// export const initMyMovies = ()
-// : ThunkAction<void, null, null, MyMoviesActionTypes> => (
-//   dispatch
-// ) => {
-//   if (!localS.byId || !localS.byTag || !localS.allIds) {
-//     return;
-//   }
+export const initMyMovies = ()
+: ThunkAction<void, null, null, MyMoviesActionTypes> => (
+  dispatch
+) => {
+  if (!localS.byId || !localS.byTag || !localS.allIds) {
+    return;
+  }
 
-//   dispatch({
-//     type: INIT_MYMOVIES,
-//     payload: {
-//       byId: localS.byId,
-//       byTag: localS.byTag,
-//       allIds: localS.allIds
-//     }
-//   });
-// }
+  dispatch({
+    type: INIT_MYMOVIES,
+    payload: {
+      byId: localS.byId,
+      byTag: localS.byTag,
+      allIds: localS.allIds
+    }
+  });
+}
 
 const writeToDB = (dispatch: any, getState: any) => {
   const appState: AppState = getState();
@@ -85,30 +85,30 @@ export const setTags = (
     type: SHOW_WAITING
   });
 
-  // const byTag = getState().myMovies.byTag;
+  const byTag = getState().myMovies.byTag;
 
   const newTags: Set = Object.assign({}, ...Object.keys(tags).map(tag => (
     tags[tag]? { [tag]: tag }: {} 
   )));
 
   new Promise(resolve => {
-    // const updateArray = Object.keys(byTag).map(tag => {
-    //   if (tags[tag]) {
-    //     return {
-    //       [tag]: {
-    //         ...byTag[tag],
-    //         [movie.id]: movie.id
-    //       }
-    //     };
-    //   } else {
-    //     const tagWithoutMovie = { ...byTag[tag] };
-    //     delete tagWithoutMovie[movie.id];
-    //     return {
-    //       [tag]: tagWithoutMovie
-    //     };
-    //   }
-    // });
-    // localS.setByTag(Object.assign({}, ...updateArray));
+    const updateArray = Object.keys(byTag).map(tag => {
+      if (tags[tag]) {
+        return {
+          [tag]: {
+            ...byTag[tag],
+            [movie.id]: movie.id
+          }
+        };
+      } else {
+        const tagWithoutMovie = { ...byTag[tag] };
+        delete tagWithoutMovie[movie.id];
+        return {
+          [tag]: tagWithoutMovie
+        };
+      }
+    });
+    localS.setByTag(Object.assign({}, ...updateArray));
 
     resolve();
   })
@@ -117,9 +117,9 @@ export const setTags = (
       movie,
       tags: newTags
     }))
-    .then(() => {
-      writeToDB(dispatch, getState);
-    })
+    // .then(() => {
+    //   writeToDB(dispatch, getState);
+    // })
     .catch(err => dispatch({
       type: SHOW_ERROR,
       msg: err.message
@@ -140,13 +140,13 @@ export const createTag = (
     type: SHOW_WAITING
   });
 
-  // const byTag = getState().myMovies.byTag;
+  const byTag = getState().myMovies.byTag;
 
   new Promise(resolve => {
-    // localS.setByTag({ 
-    //   ...byTag,
-    //   [tag]: {}
-    // });
+    localS.setByTag({ 
+      ...byTag,
+      [tag]: {}
+    });
 
     resolve();
   })
@@ -154,9 +154,9 @@ export const createTag = (
       type: CREATE_TAG,
       tag
     }))
-    .then(() => {
-      writeToDB(dispatch, getState);
-    })
+    // .then(() => {
+    //   writeToDB(dispatch, getState);
+    // })
     .catch(err => dispatch({
       type: SHOW_ERROR,
       msg: err.message
@@ -177,12 +177,12 @@ export const deleteTag = (
     type: SHOW_WAITING
   });
 
-  // const byTag = getState().myMovies.byTag;
+  const byTag = getState().myMovies.byTag;
 
   new Promise(resolve => {
-    // const byTagWithoutTag = { ...byTag };
-    // delete byTagWithoutTag[tag];
-    // localS.setByTag(byTagWithoutTag);
+    const byTagWithoutTag = { ...byTag };
+    delete byTagWithoutTag[tag];
+    localS.setByTag(byTagWithoutTag);
 
     resolve();
   })
@@ -190,9 +190,9 @@ export const deleteTag = (
       type: DELETE_TAG,
       tag
     }))
-    .then(() => {
-      writeToDB(dispatch, getState);
-    })
+    // .then(() => {
+    //   writeToDB(dispatch, getState);
+    // })
     .catch(err => dispatch({
       type: SHOW_ERROR,
       msg: err.message
@@ -232,22 +232,22 @@ export const deleteMovie = (
   dispatch, getState
 ) => {
   
-  // const byId: ById = getState().myMovies.byId;
-  // const byTag: ByTag = getState().myMovies.byTag;
-  // const allIds: AllIds = getState().myMovies.allIds;
+  const byId: ById = getState().myMovies.byId;
+  const byTag: ByTag = getState().myMovies.byTag;
+  const allIds: AllIds = getState().myMovies.allIds;
   
   new Promise(resolve => {
-    // const byIdWithoutMovie = { ...byId };
-    // delete byIdWithoutMovie[movie.id];
-    // localS.setById(byIdWithoutMovie);
-    // localS.setByTag(Object.assign({}, 
-    //   ...Object.entries(byTag).map(([tag, ids]) => {
-    //     const updatedTag = { ...ids };
-    //     delete updatedTag[movie.id];
-    //     return { [tag]: updatedTag };
-    //   }))
-    // );
-    // localS.setAllIds(allIds.filter(id => id !== movie.id));
+    const byIdWithoutMovie = { ...byId };
+    delete byIdWithoutMovie[movie.id];
+    localS.setById(byIdWithoutMovie);
+    localS.setByTag(Object.assign({}, 
+      ...Object.entries(byTag).map(([tag, ids]) => {
+        const updatedTag = { ...ids };
+        delete updatedTag[movie.id];
+        return { [tag]: updatedTag };
+      }))
+    );
+    localS.setAllIds(allIds.filter(id => id !== movie.id));
 
     resolve();
   })
@@ -255,9 +255,9 @@ export const deleteMovie = (
       type: DELETE_MOVIE,
       movie
     }))
-    .then(() => {
-      writeToDB(dispatch, getState);
-    })
+    // .then(() => {
+    //   writeToDB(dispatch, getState);
+    // })
     .catch(err => dispatch({
       type: SHOW_ERROR,
       msg: err.message
@@ -269,22 +269,22 @@ export const addMovie = (
 ): ThunkAction<void, { myMovies: MyMovies }, null, MyMoviesActionTypes> => (
   dispatch, getState
 ) => { 
-//   const byId: ById = getState().myMovies.byId;
-//   const byTag: ByTag = getState().myMovies.byTag;
-//   const allIds: AllIds = getState().myMovies.allIds;
+  const byId: ById = getState().myMovies.byId;
+  const byTag: ByTag = getState().myMovies.byTag;
+  const allIds: AllIds = getState().myMovies.allIds;
   
   new Promise(resolve => {
-    // localS.setById({
-    //   ...byId,
-    //   [movie.id]: movie
-    // });
+    localS.setById({
+      ...byId,
+      [movie.id]: movie
+    });
 
-    // localS.setByTag({
-    //   ...byTag,
-    //   "To Watch": { ...byTag["To Watch"], [movie.id]: movie.id }
-    // });
+    localS.setByTag({
+      ...byTag,
+      "To Watch": { ...byTag["To Watch"], [movie.id]: movie.id }
+    });
 
-    // localS.setAllIds([...allIds, movie.id]);
+    localS.setAllIds([...allIds, movie.id]);
     
     resolve();
   })
@@ -292,9 +292,9 @@ export const addMovie = (
       type: ADD_MOVIE,
       movie
     }))
-    .then(() => {
-      writeToDB(dispatch, getState);
-    })
+    // .then(() => {
+    //   writeToDB(dispatch, getState);
+    // })
     .catch(err => dispatch({
       type: SHOW_ERROR,
       msg: err.message

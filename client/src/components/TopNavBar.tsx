@@ -107,13 +107,17 @@ export default function TopNavBar({ userAction, email }: Props) {
                 variant='contained'
                 color='primary'
                 size='small'
+                disabled={true}
               >
                 {email? 'Log out': 'Log in'}
               </Button>
             </ListItem> 
-            <ListItem><span style={{ overflow: 'hidden' }}>
+            <ListItem> 
+              <p style={{ color: '#7ff' }}>User login is not available for the demo.</p>
+            </ListItem> 
+            {/* <ListItem><span style={{ overflow: 'hidden' }}>
                 {email? email: 'Log in to save your changes.'}
-            </span></ListItem>
+            </span></ListItem> */}
           </List>
         </div>
       </SwipeableDrawer>

@@ -13,19 +13,19 @@ const origin = config.get('server').origin;
 app.use(cors({ origin }));
 
 
-app.get('/healthcheck', (req, res) => {
-  res.sendStatus(200);
-});
+// app.get('/healthcheck', (req, res) => {
+//   res.sendStatus(200);
+// });
 
-if (process.env.NODE_ENV === 'production') {
-  app.use((req, res, next) => {
-    if (req.header('x-forwarded-proto') !== 'https') {
-      res.redirect(origin + '/discover');
-    } else {
-      next();
-    }
-  });
-}
+// if (process.env.NODE_ENV === 'production') {
+//   app.use((req, res, next) => {
+//     if (req.header('x-forwarded-proto') !== 'https') {
+//       res.redirect(origin + '/discover');
+//     } else {
+//       next();
+//     }
+//   });
+// }
 
 app.use('/api/discover', require('./api/discover'));
 app.use('/api/movie', require('./api/movie-page'));
