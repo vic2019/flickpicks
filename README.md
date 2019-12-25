@@ -2,16 +2,14 @@
 
 FlickPicks is a responsive web app that allows users to search movies by title, release year, and genre. 
 
-Users can save movies, categorize them, and filter saved movies by categories.
-
-<br />
+Users can save movies, categorize them, and filter saved movies by categories.  
 
 <img
-  src='https://victorwang.info/static/media/flickpicks.89afcaa1.png'
-  alt=''
-/>
+  src='./screenshot/flickpicks_screenshot.jpg'
+  alt='project screenshot'
+/>  
 
-See a live [demo](https://flickpicks.victorwang.info).
+See a live <a href="https://flickpicks.victorwang.info" target="_blank">demo</a>.  
 
 ## Tech Stack
 
