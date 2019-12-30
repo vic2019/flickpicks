@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, Suspense, lazy } from 'react';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { ThemeProvider } from '@material-ui/styles';
 import pink from '@material-ui/core/colors/pink';
@@ -17,15 +17,16 @@ import { BrowserRouter as Router, Route, Redirect, Switch }
   from 'react-router-dom';
 
 import TopNavBar from './components/TopNavBar';
-import MyMovies from './components/MyMovies';
-import MoviePage from './components/MoviePage';
-import Discover from './components/Discover';
-import Search from './components/Search';
 import Notification from './components/Notification';
-import NotFound from './components/NotFound';
 import ScrollToTop from './components/ScrollToTop';
+import Discover from './pages/Discover';
 
 import './App.scss';
+
+const MyMovies = lazy(() => import('./pages/MyMovies'));
+const MoviePage = lazy(() => import('./pages/MoviePage'));
+const Search = lazy(() => import('./pages/Search'));
+const NotFound = lazy(() => import('./pages/NotFound'));
 
 const themeOptions: ThemeOptions = {
   palette: {
@@ -59,52 +60,45 @@ function App({
   return (
     <Router>
       <ScrollToTop>
-        <ThemeProvider theme={theme} >
-        {/* CssBaseLine must be inside ThemeProvider to enable 'dark' theme */}
+        <ThemeProvider theme={theme}>
+          {/* CssBaseLine must be inside ThemeProvider to enable 'dark' theme */}
           <CssBaseline />
-          <TopNavBar 
-            userAction={user.token? logOut: getSession} 
+          <TopNavBar
+            userAction={user.token ? logOut : getSession}
             email={user.email}
           />
           <Notification />
-          <Switch>
-            <Route
-              key='MyMovies'
-              path='/mymovies'
-              exact={false}
-              component={MyMovies}
-            />
-            <Route
-              key='Discover'
-              path='/discover'
-              exact={false}
-              component={Discover}
-            />
-            <Route
-              key='Search'
-              path='/search'
-              exact={false}
-              component={Search}
-            />
-            <Route
-              key='Friends'
-              path='/friends'
-              exact={false}
-            />
-            <Route
-              key='Movie'
-              path='/movie/:movieId'
-              exact={true}
-              component={MoviePage}
-            />
-            <Redirect exact from="/" to="/discover" />
-            <Route
-              key='NotFound'
-              path='/*'
-              exact={false}
-              component={NotFound}
-            />
-          </Switch>
+          <Suspense fallback={null}>
+            <Switch>
+              <Route
+                key="MyMovies"
+                path="/mymovies"
+                exact={false}
+                component={MyMovies}
+              />
+              <Route
+                key="Discover"
+                path="/discover"
+                exact={false}
+                component={Discover}
+              />
+              <Route
+                key="Search"
+                path="/search"
+                exact={false}
+                component={Search}
+              />
+              <Route key="Friends" path="/friends" exact={false} />
+              <Route
+                key="Movie"
+                path="/movie/:movieId"
+                exact={false}
+                component={MoviePage}
+              />
+              <Route key="Home" path="/" exact component={Discover} />
+              <Route key="NotFound" path="/*" exact component={NotFound} />
+            </Switch>
+          </Suspense>
         </ThemeProvider>
       </ScrollToTop>
     </Router>

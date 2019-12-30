@@ -1,9 +1,9 @@
 import React from 'react';
 
-import FilterSelector from './FilterSelector';
-import ShowAllButton from './ShowAllButton';
-import CustomTagInput from './CustomTagInput';
-import MyMovieList from './MyMovieList';
+import FilterSelector from '../components/FilterSelector';
+import ShowAllButton from '../components/ShowAllButton';
+import CustomTagInput from '../components/CustomTagInput';
+import MyMovieList from '../components/MyMovieList';
 // import LoadButton from './LoadButton';
 
 const MyMovies = () => {

@@ -1,8 +1,8 @@
 import React from 'react';
 
-import DiscoverInput from './DiscoverInput';
-import MovieList from './MovieList';
-import Pagination from './Pagination';
+import DiscoverInput from '../components/DiscoverInput';
+import MovieList from '../components/MovieList';
+import Pagination from '../components/Pagination';
 
 import { connect } from 'react-redux';
 import { AppState } from '../store';

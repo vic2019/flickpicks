@@ -17,7 +17,7 @@ import { ById } from '../store/my-movies/types';
 
 import shrug from '../images/shrug.png';
 import NotFound from './NotFound';
-import Video from './Video';
+import Video from '../components/Video';
 import { img500BaseUrl, imgOriginalBaseUrl } from '../config';
 
 const onError = (e: any) => {
