@@ -1,4 +1,5 @@
 import React from 'react';
+import { Helmet } from 'react-helmet';
 
 import DiscoverInput from '../components/DiscoverInput';
 import MovieList from '../components/MovieList';
@@ -23,6 +24,9 @@ const Discover = ({
 }: Props) => {
   return (
     <div className='Discover'>
+      <Helmet>
+        <meta name="description" content="A movie discovery app based on the TMDB APIs. Explore movies by genres and years." />
+      </Helmet>
       <DiscoverInput />
       <MovieList movies={movies} />
       <Pagination 

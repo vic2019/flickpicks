@@ -13,7 +13,7 @@ import { getSession, checkLoginStatus, logOut } from './store/user/actions';
 import { User } from './store/user/types'; 
 import { AppState } from './store';
 
-import { BrowserRouter as Router, Route, Redirect, Switch } 
+import { BrowserRouter as Router, Route, Switch } 
   from 'react-router-dom';
 
 import TopNavBar from './components/TopNavBar';
@@ -59,16 +59,16 @@ function App({
 
   return (
     <Router>
-      <ScrollToTop>
-        <ThemeProvider theme={theme}>
-          {/* CssBaseLine must be inside ThemeProvider to enable 'dark' theme */}
-          <CssBaseline />
-          <TopNavBar
-            userAction={user.token ? logOut : getSession}
-            email={user.email}
-          />
-          <Notification />
-          <Suspense fallback={null}>
+      <ThemeProvider theme={theme}>
+        {/* CssBaseLine must be inside ThemeProvider to enable 'dark' theme */}
+        <CssBaseline />
+        <TopNavBar
+          userAction={user.token ? logOut : getSession}
+          email={user.email}
+        />
+        <Notification />
+        <Suspense fallback={null}>
+          <ScrollToTop>
             <Switch>
               <Route
                 key="MyMovies"
@@ -98,9 +98,9 @@ function App({
               <Route key="Home" path="/" exact component={Discover} />
               <Route key="NotFound" path="/*" exact component={NotFound} />
             </Switch>
-          </Suspense>
-        </ThemeProvider>
-      </ScrollToTop>
+          </ScrollToTop>
+        </Suspense>
+      </ThemeProvider>
     </Router>
   );
 }

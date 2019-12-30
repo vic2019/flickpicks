@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { Helmet } from 'react-helmet';
 import Button from '@material-ui/core/Button';
 import Star from '@material-ui/icons/Star';
 import StarBorder from '@material-ui/icons/StarBorder';
@@ -99,6 +100,9 @@ const MoviePage = ({
 
   return waiting? null: notFound? <NotFound />:
     <div className='MoviePage'>
+      <Helmet>
+        <meta name="description" content="Movie details page" />
+      </Helmet>
       <img
         className='movie-page-backdrop'
         src={respBaseUrl + backdrop}

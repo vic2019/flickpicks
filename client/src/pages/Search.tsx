@@ -1,4 +1,5 @@
 import React from 'react';
+import { Helmet } from 'react-helmet';
 
 import MovieList from '../components/MovieList';
 import Pagination from '../components/Pagination';
@@ -21,6 +22,9 @@ const Search = ({
 }: Props) => {
   return (
     <div className='Discover'>
+      <Helmet>
+        <meta name="description" content="Search movies by key word" />
+      </Helmet>
       <MovieList movies={movies} />
       <Pagination
         pathname='/search' 
