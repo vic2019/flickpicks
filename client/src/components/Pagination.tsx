@@ -21,31 +21,32 @@ const Pagination = ({ pathname, page, totalPages, navToPage }: Props) => {
   const largest = totalPages <= 1000? totalPages: 1000;
 
   const firstPage = (
-    <Link to={`${pathname}/page1`}>
-    <span
+    <Link 
+      to={`${pathname}/page1`}
       onClick={() => navToPage({ page: 1 })}
       className={page === 1? 'current-page-number': 'page-number'}
-    >1</span>
-    </Link>
+    >1</Link>
   );
   
   const lastPage = (
-    <Link to={`${pathname}/page${largest}`}>
-    <span
+    <Link 
+      to={`${pathname}/page${largest}`}
       onClick={() => navToPage({ page: largest })}
       className={page === largest? 'current-page-number': 'page-number'}
-    >{largest}</span>
-    </Link>
+    >{largest}</Link>
   );
   
   const pages: Page[] = [];
   for (let pg = page - 2; pg <= page + 2; pg++) {
     pages.push({
       num: pg,
-      elem:  <Link to={`${pathname}/page${pg}`}><span
-        onClick={() => navToPage({ page: pg })}
-        className={pg === page? 'current-page-number': 'page-number'}
-      >{pg}</span></Link>
+      elem: (
+        <Link 
+          to={`${pathname}/page${pg}`}
+          onClick={() => navToPage({ page: pg })}
+          className={pg === page? 'current-page-number': 'page-number'}
+        >{pg}</Link>
+      )
     })
   }
 
