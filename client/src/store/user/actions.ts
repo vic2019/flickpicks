@@ -54,8 +54,8 @@ export const getSession = ():
 ThunkAction<void, AppState, null, UserActionTypes> => (
   _, getState
 ) => {
-  const appState: AppState  = getState();
-  localStorage.setItem('appState', JSON.stringify(appState));
+  // const appState: AppState  = getState();
+  // localStorage.setItem('appState', JSON.stringify(appState));
   localStorage.setItem('wasRedirected', 'YES');
   
   auth.getSession();
@@ -65,16 +65,12 @@ export const checkLoginStatus = (): ThunkAction<void, any, null, UserActionTypes
   dispatch
 ) => {
   const wasRedirected: string | null = localStorage.getItem('wasRedirected');
-  const appStateJSON = localStorage.getItem('appState');
-  const appState = appStateJSON? JSON.parse(appStateJSON): {};
   localStorage.removeItem('wasRedirected');
-  localStorage.removeItem('appState');
-  console.log(appState);
+  // const appStateJSON = localStorage.getItem('appState');
+  // const appState = appStateJSON? JSON.parse(appStateJSON): {};
+  // localStorage.removeItem('appState');
 
   if (!wasRedirected) {
-    if (process.env.NODE_ENV === 'production') {
-      window.history.replaceState({}, '', 'https://flickpicks.victorwang.info/discover');
-    }
     checkTokenInMemory();
     return;
   }
@@ -83,9 +79,6 @@ export const checkLoginStatus = (): ThunkAction<void, any, null, UserActionTypes
   const hash = window.location.hash;
   const matches = hash.match(/id_token=([\w.-]*)&?/);
   const token = matches? matches[1]: '';
-  if (process.env.NODE_ENV === 'production') {
-    window.history.replaceState({}, '', 'https://flickpicks.victorwang.info');
-  }
 
   if (!token){
     dispatch({
@@ -102,6 +95,12 @@ export const checkLoginStatus = (): ThunkAction<void, any, null, UserActionTypes
     return;
   }
 
+  if (process.env.NODE_ENV === 'production') {
+    const href = window.location.href;
+    const hashHidden = 
+      href.slice(0, href.indexOf('#') != -1? href.indexOf('#'): href.length);
+    window.history.replaceState({}, '', hashHidden);
+  }
   const payload = JSON.parse(window.atob(token.split('.')[1]));
   const email = payload['email'];
 
