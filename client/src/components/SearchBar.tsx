@@ -47,7 +47,7 @@ const SearchBar = ({ query, updateSearch }: Props) => {
   }
 
   const handleClick = () => {
-    updateSearch({ query: text.trim() });
+    updateSearch({ query: text.trim(), page: 1 });
   }
 
   const handleSubmit = (e: any) => {
@@ -71,7 +71,7 @@ const SearchBar = ({ query, updateSearch }: Props) => {
           value={text}
           onChange={handleChange}
         />
-        <Link to={'/search'} id='searchbar-submit-link'>
+        <Link to={'/search/1'} id='searchbar-submit-link'>
           <IconButton
             className={classes.iconButton}
             aria-label="Search"

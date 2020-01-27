@@ -31,7 +31,7 @@ const makeReqUrl = (
 
   return BASE_REQ_URL 
     + `?query=${paramObj.query? paramObj.query: ''}`
-    + `&page=${paramObj.page? paramObj.page: ''}`;
+    + `&page=${paramObj.page? paramObj.page: '1'}`;
 };
 
 export const updateSearch = (
@@ -49,7 +49,7 @@ export const updateSearch = (
     });
     return;
   } 
-
+  
   dispatch({
     type: SHOW_WAITING
   });
@@ -63,9 +63,7 @@ export const updateSearch = (
 
       dispatch({
         type: SET_SEARCH_PARAMS,
-        payload: Object.assign({}, params, {
-          page: params.page? params.page: 1
-        })
+        payload: Object.assign({}, params, { page: params.page? params.page: 1 })
       });
     })
     .catch(err => 

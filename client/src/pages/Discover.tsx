@@ -13,15 +13,18 @@ import { updateDiscover } from '../store/discover/actions';
 
 interface Props {
   movies: Movie[]
-  page: number
+  // page: number
   totalPages: number
   updateDiscover: any
   initMyMovies: any
+  match: any
 }
 
 const Discover = ({ 
-  movies, page, totalPages, updateDiscover
+  movies, totalPages, updateDiscover, match
 }: Props) => {
+  const { page } = match.params;
+  
   return (
     <div className='Discover'>
       <Helmet>
@@ -42,7 +45,7 @@ const Discover = ({
 const mapStateToProps = (state: AppState) => ({
   byId: state.myMovies.byId,
   movies: state.discover.movies,
-  page: state.discover.page,
+  // page: state.discover.page,
   totalPages: state.discover.totalPages
 });
 

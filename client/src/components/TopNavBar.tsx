@@ -64,7 +64,7 @@ export default function TopNavBar({ userAction, email }: Props) {
               My Movies
               </NavLink>
             <span className='breadcrumb-divider'>/</span>
-            <NavLink to='/discover' activeClassName='active-link'>
+            <NavLink to='/discover/1' activeClassName='active-link'>
               Discover
               </NavLink>
             {/* <span className='breadcrumb-divider'>/</span>

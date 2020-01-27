@@ -26,7 +26,7 @@ export interface Params {
 interface SetSearchParamsAction {
   type: typeof SET_SEARCH_PARAMS
   payload: {
-
+    query?: string
   }
 }
 

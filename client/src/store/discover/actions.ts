@@ -35,7 +35,7 @@ const makeReqUrl = (
     + `?with_genres=${paramObj.genres.join('%2C')}`
     + `&year=${paramObj.year > 0? paramObj.year: ''}`
     + `&sort_by=${paramObj.sortBy}`
-    + `&page=${paramObj.page? paramObj.page: ''}`;
+    + `&page=${paramObj.page? paramObj.page: '1'}`;
 };
 
 export const updateDiscover = (

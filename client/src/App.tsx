@@ -13,7 +13,7 @@ import { getSession, checkLoginStatus, logOut } from './store/user/actions';
 import { User } from './store/user/types'; 
 import { AppState } from './store';
 
-import { BrowserRouter as Router, Route, Switch } 
+import { BrowserRouter as Router, Route, Switch, Redirect } 
   from 'react-router-dom';
 
 import TopNavBar from './components/TopNavBar';
@@ -78,13 +78,13 @@ function App({
               />
               <Route
                 key="Discover"
-                path="/discover"
+                path="/discover/:page"
                 exact={false}
                 component={Discover}
               />
               <Route
                 key="Search"
-                path="/search"
+                path="/search/:page"
                 exact={false}
                 component={Search}
               />
@@ -95,7 +95,9 @@ function App({
                 exact={false}
                 component={MoviePage}
               />
-              <Route key="Home" path="/" exact component={Discover} />
+              <Route key="Home" path="/" exact >
+                <Redirect to="/discover/1" />
+              </Route>
               <Route key="NotFound" path="/*" exact component={NotFound} />
             </Switch>
           </ScrollToTop>
