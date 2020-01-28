@@ -82,14 +82,26 @@ const MoviePage = ({
     });
   };
 
-  const crewList = crew.map(({ name, job }) => CrewCard(name, job));
+  const crewList = crew.map(({ name, job }) => (
+    <CrewCard name={name} job={job} key={name} />)
+  );
 
   const castList = cast.map(({ name, character, image }) => (
-    CastCard(name, character, smlBaseUrl + image)
+    <CastCard 
+      name={name} 
+      character={character} 
+      image={smlBaseUrl + image} 
+      key={name} 
+    />
   ));
 
   const recommendationList = recommendations.map(({ id, title, image }) => (
-    RecommendationCard(id, title, smlBaseUrl + image)
+    <RecommendationCard 
+      id={id} 
+      title={title} 
+      image={smlBaseUrl + image} 
+      key={id} 
+    />
   ));
 
   useEffect(() => {
@@ -191,7 +203,7 @@ const MoviePage = ({
     </div>
 };
 
-const CrewCard = (name: string, job: string) => {
+const CrewCard = ({ name, job }: { name: string, job: string }) => {
   return (
     <span className='movie-page-crew-card'>
       <span><strong>{name}</strong></span>
@@ -200,7 +212,9 @@ const CrewCard = (name: string, job: string) => {
   );
 };
 
-const CastCard = (name: string, character: string, image: string) => {
+const CastCard = (
+  { name, character, image }: { name: string, character: string, image: string }
+) => {
   const style = { height: '6em', overflow: 'scroll' };
 
   return (
@@ -214,7 +228,9 @@ const CastCard = (name: string, character: string, image: string) => {
   );
 };
 
-const RecommendationCard = (id: number, title: string, image: string) => {
+const RecommendationCard = (
+  { id, title, image }: { id: number, title: string, image: string }
+) => {
   const style = { minHeight: '3em' };
 
   return (

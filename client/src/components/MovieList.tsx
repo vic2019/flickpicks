@@ -51,7 +51,7 @@ const MovieList = ({
   return (
     <>
       {waiting? null: movies.map(movie => (
-        <div className='discover-movie-card'>
+        <div className='discover-movie-card' key={movie.id} >
           <div key={movie.id}>
             <Link to={`/movie/${movie.id}`} >
               {movie.image ?

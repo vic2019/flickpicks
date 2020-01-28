@@ -11,6 +11,9 @@ import MenuIcon from '@material-ui/icons/Menu';
 import Button from '@material-ui/core/Button'
 import { makeStyles } from '@material-ui/core/styles';
 
+import { connect } from 'react-redux';
+import { AppState } from '../store';
+
 import { NavLink } from 'react-router-dom';
 
 import SearchBar from './SearchBar';
@@ -29,10 +32,11 @@ const useStyles = makeStyles({
 
 interface Props {
   userAction: any,
-  email: string
+  email: string,
+  page: number
 }
 
-export default function TopNavBar({ userAction, email }: Props) {
+function TopNavBar({ userAction, email, page }: Props) {
   const classes = useStyles();
   const [drawerOpen, setDrawer] = React.useState(false);
 
@@ -64,9 +68,11 @@ export default function TopNavBar({ userAction, email }: Props) {
               My Movies
               </NavLink>
             <span className='breadcrumb-divider'>/</span>
-            <NavLink to='/discover/1' activeClassName='active-link'>
+            <NavLink 
+              to={`/discover/${page > 0? page: 1}`} activeClassName='active-link'
+            >
               Discover
-              </NavLink>
+            </NavLink>
             {/* <span className='breadcrumb-divider'>/</span>
             <NavLink to='/friends' activeClassName='active-link'>
               Friends
@@ -121,3 +127,8 @@ export default function TopNavBar({ userAction, email }: Props) {
   );
 }
 
+export default connect(
+  (state: AppState) => ({
+    page: state.discover.page
+  })
+)(TopNavBar);

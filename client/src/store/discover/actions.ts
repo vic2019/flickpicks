@@ -26,9 +26,8 @@ const makeReqUrl = (
     { genres: discover.genres },
     { year: discover.year },
     { sortBy: discover.sortBy },
-    // Don't put page here. Either params would contain page, or tMDb's api
-    // would default to page === 1.
-    params
+    params,
+    params.page? {}: { page: 1 }
   );
 
   return BASE_REQ_URL 
@@ -59,9 +58,7 @@ export const updateDiscover = (
 
       dispatch({
         type: SET_DISCOVER_PARAMS,
-        payload: Object.assign({}, params, {
-          page: params.page? params.page: 1
-        })
+        payload: Object.assign({}, params, params.page? {}: { page: 1 })
       });
     })
     .catch(err => dispatch({

@@ -24,9 +24,8 @@ const makeReqUrl = (
 ): string => {
   const paramObj = Object.assign(
     { query: search.query },
-    // Don't put page here. Either params would contain page, or tMDb's api
-    // would default to page === 1.
-    params
+    params,
+    params.page? {}: { page: 1 }
   );
 
   return BASE_REQ_URL 
@@ -40,8 +39,7 @@ export const updateSearch = (
   dispatch, getState
 ) => {   
   const search: Search = getState().search;
-  const reqUrl = makeReqUrl(params, search);
-
+  
   if (!params.query && !search.query) {
     dispatch({
       type: SHOW_ERROR,
@@ -53,7 +51,8 @@ export const updateSearch = (
   dispatch({
     type: SHOW_WAITING
   });
-
+  
+  const reqUrl = makeReqUrl(params, search);
   axios.get(reqUrl)
     .then(res => {
       dispatch({
@@ -63,7 +62,7 @@ export const updateSearch = (
 
       dispatch({
         type: SET_SEARCH_PARAMS,
-        payload: Object.assign({}, params, { page: params.page? params.page: 1 })
+        payload: Object.assign({}, params, params.page? {}: { page: 1 })
       });
     })
     .catch(err => 
